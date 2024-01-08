@@ -1,0 +1,41 @@
+
+{% load crispy_forms_tags %}
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal_nueva_compra">Guardar Venta</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% if venta %}
+          <form id="formVenta" method= "post" action="{% url 'ventas:guardarventa' venta.id %}">
+        {% else %}
+          <form id="formVenta" method= "post" action="{% url 'ventas:guardarventa' %}">
+        {% endif %}
+            {% csrf_token %}
+            <div class="w-75 margin-auto mx-auto">
+                
+              {{form_venta.fecha_venta|as_crispy_field}}
+              {{form_venta.cliente|as_crispy_field}}
+              {{form_venta.vendedor|as_crispy_field}}
+              {{form_venta.preventa|as_crispy_field}}
+              {{form_venta.valor_venta|as_crispy_field}}
+              {{form_venta.forma_pago|as_crispy_field}}
+              {{form_venta.fecha_vence|as_crispy_field}}
+              {{form_venta.nota|as_crispy_field}}
+
+              {% if user.is_authenticated %}
+              <input type="hidden" id="userName" value={{user.id}}>
+              {% endif %}
+            </div>
+          </form>  
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" form= "formVenta" class="btn btn-primary">Guardar Venta</button>
+      </div>
+    </div>
+  </div>
+
+                        

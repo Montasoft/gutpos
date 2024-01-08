@@ -1,0 +1,22 @@
+EN LA VISTA
+    import json 
+
+    def my_view(...):
+        my_string = 'hello'
+        productos = [...]
+        my_dict = {...}
+        
+        context = {'productos': json.dumps(productos), 'my_dict': json.dumps(my_dict)}
+        return ...
+
+
+EN EL HTML
+
+    {{productos|json_script:"productos"}}
+
+EN EL JAVASCRIPT FILE
+
+
+var jsonProductos = JSON.parse(document.getElementById('productos').textContent)
+  console.log("productos" , jsonProductos)
+

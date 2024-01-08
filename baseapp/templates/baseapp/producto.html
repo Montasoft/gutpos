@@ -1,0 +1,214 @@
+{% load static %} <!-- PERMITE CARGAR LOS ARCHIVOS ESTÁTICOS-->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'baseapp/images/favicon.ico' %}" type="image/x-icon">
+    <title>Document</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha3/dist/css/bootstrap.min.css" />   
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" /> 
+  
+  
+</head>
+
+<body>  
+    <div class= "container ">
+    <form action="">
+        <fieldset class="module aligned ">
+
+            <div class="form-row field-nombre">
+                <div>
+                    <label class="required" for="id_nombre">Nombre:</label>
+                    <input type="text" class="form-control" name="nombre" class="vTextField" maxlength="100" required id="id_nombre">
+                </div>
+            </div>
+
+            <div class="form-row field-categoria">
+                <div>
+                    <label class="required" for="id_categoria">Categoria:</label>
+                    <a class=" d-inline-flex related-widget-wrapper-link change-related" id="change_id_categoria"
+                            data-href-template="/admin/POS/categoria/__fk__/change/?_to_field=id&amp;_popup=1"
+                            data-popup="yes" title="Cambiar categoriaProd seleccionados"><img
+                                src="/static/admin/img/icon-changelink.svg" alt="Modificar"></a><a
+                            class="related-widget-wrapper-link add-related" id="add_id_categoria" data-popup="yes"
+                            href="/admin/POS/categoria/add/?_to_field=id&amp;_popup=1"
+                            title="Añadir otro categoriaProd"><img src="/static/admin/img/icon-addlink.svg"
+                                alt="Añadir"></a><a class="related-widget-wrapper-link view-related"
+                            id="view_id_categoria"
+                            data-href-template="/admin/POS/categoria/__fk__/change/?_to_field=id"
+                            title="View selected categoriaProd"><img src="/static/admin/img/icon-viewlink.svg"
+                                alt="Vista"></a>
+                    <div class="related-widget-wrapper" data-model-ref="categoriaProd">
+                        <select class=" d-inline-flex form-control" name="categoria" required id="id_categoria">
+                            <option value="" selected>---------</option>
+                            <option value="1">papeleria</option>
+                        </select>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row field-subcategoria">
+                <div>
+                    <label class="required" for="id_subcategoria">Subcategoria:</label>
+                    <a class="related-widget-wrapper-link change-related" id="change_id_subcategoria"
+                    data-href-template="/admin/POS/subcategoria/__fk__/change/?_to_field=id&amp;_popup=1"
+                    data-popup="yes" title="Cambiar sub categoria seleccionados"><img
+                        src="/static/admin/img/icon-changelink.svg" alt="Modificar"></a><a
+                    class="related-widget-wrapper-link add-related" id="add_id_subcategoria" data-popup="yes"
+                    href="/admin/POS/subcategoria/add/?_to_field=id&amp;_popup=1"
+                    title="Añadir otro sub categoria"><img src="/static/admin/img/icon-addlink.svg"
+                        alt="Añadir"></a><a class="related-widget-wrapper-link view-related"
+                    id="view_id_subcategoria"
+                    data-href-template="/admin/POS/subcategoria/__fk__/change/?_to_field=id"
+                    title="View selected sub categoria"><img src="/static/admin/img/icon-viewlink.svg"
+                        alt="Vista"></a>
+                    <div class="related-widget-wrapper" data-model-ref="sub categoria">
+                        <select name="subcategoria" class="form-control" required id="id_subcategoria">
+                            <option value="" selected>---------</option>
+                            <option value="1">cartulinas</option>
+                        </select>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div>
+                    <label class="required" for="id_costo">Costo:</label>
+                    <input type="number" class="form-control" name="costo" step="any" required id="id_costo">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div>
+                    <label class="required" for="id_precioVenta1">PrecioVenta1:</label>
+                    <input type="number" class="form-control"  name="precioVenta1" step="any" required id="id_precioVenta1">
+                </div>
+            </div>
+
+            <div class="form-row field-precioVenta2">
+                <div>
+                    <label for="id_precioVenta2">PrecioVenta2:</label>
+                    <input type="number" class="form-control" name="precioVenta2" step="any" id="id_precioVenta2">
+                </div>
+            </div>
+
+            <div class="form-row field-existencias">
+                <div>
+                    <label class="required" for="id_existencias">Existencias:</label>
+                    <input type="number" class="form-control" name="existencias" step="any" required id="id_existencias">
+                </div>
+            </div>
+
+            <div class="form-row field-estado">
+                <div>
+                    <label class="required" for="id_estado">Estado:</label>
+                    <input type="text" class="form-control" name="estado" class="vTextField" maxlength="10" required id="id_estado">
+                </div>
+            </div>
+
+            <div class="row">
+            <div class="col-3 field-dim_Alto">
+                <div>
+                    <label for="id_dim_Alto">Dim Alto:</label>
+                    <input type="number" class="form-control" name="dim_Alto" step="any" id="id_dim_Alto">
+                </div>
+            </div>
+
+            <div class="col-3 field-dim_Ancho">
+                <div>
+                    <label for="id_dim_Ancho">Dim Ancho:</label>
+                    <input type="number" class="form-control" name="dim_Ancho" step="any" id="id_dim_Ancho">
+                </div>
+            </div>
+
+            <div class="col-3 field-dim_fondo">
+                <div>
+                    <label for="id_dim_fondo">Dim fondo:</label>
+                    <input type="number" class="form-control" name="dim_fondo" step="any" id="id_dim_fondo">
+                </div> 
+            </div>
+
+            <div class="col-3 field-peso">
+                <div>
+                    <label for="id_peso">Peso:</label>
+                    <input type="number" class="form-control" name="peso" step="any" id="id_peso">
+                </div>
+            </div>
+        </div>
+
+            <div class="form-row field-Nota">
+                <div>
+                    <label for="id_Nota">Nota:</label>
+                    <input type="text" class="form-control" name="Nota" class="vTextField" maxlength="200" id="id_Nota">
+                </div>
+            </div>
+
+            <div class="form-row field-imagen">
+                <div>
+                    <label for="id_imagen">Imagen:</label>
+                    <input type="file" class="form-control" name="imagen" accept="image/*" id="id_imagen">
+                </div>
+            </div>
+
+            <div class="form-row field-state">
+                <div>
+                    <label class="required" for="id_state">State:</label>
+                    <input type="number" class="form-control" name="state" value="0" class="vIntegerField" required id="id_state">
+                </div>
+            </div>
+
+            <div class="form-row field-created">
+                <div>
+                    <label>Created:</label>
+                    <div class="readonly">-</div>
+                </div>
+            </div>
+
+            <div class="form-row field-creater">
+                <div>
+                    <label>Creater:</label>
+                    <div class="readonly"></div>
+                </div>
+            </div>
+
+            <div class="form-row field-updated">
+                <div>
+                    <label>Updated:</label>
+                    <div class="readonly">-</div>
+                </div>
+            </div>
+
+            <div class="form-row field-updater">
+                <div>
+                    <label>Updater:</label>
+                    <div class="readonly"></div>
+                </div>
+            </div>
+
+            <div class="form-row field-deleted">
+                <div>
+                    <label>Deleted:</label>
+                    <div class="readonly">-</div>
+                </div>
+            </div>
+
+            <div class="form-row field-deleter">
+                <div>
+                    <label>Deleter:</label>
+                    <div class="readonly">-</div>
+                </div>
+            </div>
+
+        </fieldset>
+
+        <input type="submit" value="Guardar" class="default" name="_save">
+    </form>
+</div>
+</body>
+
+</html>

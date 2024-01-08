@@ -1,0 +1,37 @@
+  {% load static %} <!-- PERMITE CARGAR LOS ARCHIVOS ESTÁTICOS-->
+{% load crispy_forms_tags %}
+
+<!-- MENÚ DE BOTONES 
+<div class="container-fluid">
+-->
+  <div class="">
+    <div class="CabeceraVentas" >
+      <div class="btnsVentas">  
+        <ul class= "listabotones">
+          
+          <!-- onclick="nuevaVenta()" 
+          <button>F1 <i class="fas fa-question"></i><br><span>Ayuda</span></button>
+          -->
+          <!-- mostrar modal-->
+          
+          <a href="{% url 'ventas:guardarventa' %}" class = "btn btn-primary btn-sm" style= "width=35px;">F1  <i class="fas fa-question" aria-hidden="true"></i><br><span>Ayuda</span></a>  
+          <button type="button"  data-bs-toggle="modal" data-bs-target="#modal_pago" class = "btn btn-primary btn-sm" style= "width=35px;">F2 <i class="far fa-file" aria-hidden="true"></i><br><span>Nuevo</span></button>
+          <a href="{% url 'compras:guardarCompra' %}" class = "btn btn-primary btn-sm" style= "width=35px;">F2  <i class="fas fa-file" aria-hidden="true"></i><br><span>Nuevo</span></a>  
+          <a href="{% url 'ventas:guardarventa' %}" class = "btn btn-primary btn-sm" style= "width=35px;">F3  <i class="fas fa-search" aria-hidden="true"></i><br><span>Buscar</span></a>  
+          <a href="{% url 'ventas:guardarventa' %}" class = "btn btn-primary btn-sm" style= "width=35px;">F4  <i class="fas fa-fast-backward" aria-hidden="true"></i><br><span>Primero</span></a>  
+          <a href="{% url 'ventas:guardarventa' %}" class = "btn btn-primary btn-sm" style= "width=35px;">F5  <i class="fas fa-backward" aria-hidden="true"></i><br><span>Anterior</span></a>  
+          <a href="{% url 'ventas:guardarventa' %}" class = "btn btn-primary btn-sm" style= "width=35px;">F6  <i class="fas fa-forward" aria-hidden="true"></i><br><span>Siguiente</span></a>  
+          <a href="{% url 'ventas:guardarventa' %}" class = "btn btn-primary btn-sm" style= "width=35px;">F7  <i class="fas fa-fast-forward" aria-hidden="true"></i><br><span>Último</span></a>  
+          <a href="{% url 'ventas:guardarventa' %}" class = "btn btn-primary btn-sm" style= "width=35px;">F8  <i class="fas fa-dollar-sign" aria-hidden="true"></i><br><span>Pagar</span></a>  
+          <a href="{% url 'ventas:guardarventa' %}" class = "btn btn-primary btn-sm" style= "width=35px;">F9  <i class="fas fa-print" aria-hidden="true"></i><br><span>Imprimir</span></a>      
+        </ul>
+      </div>
+      <div class="text-center">
+        <h1 class= "" id="titulomenu" >Registro de ventas</h1>
+      </div>
+    </div>
+  </div>
+
+
+  
+  

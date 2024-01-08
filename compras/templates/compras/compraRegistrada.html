@@ -1,0 +1,303 @@
+{% load static %}
+<!-- PERMITE CARGAR LOS ARCHIVOS ESTÁTICOS-->
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compras</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+  <link href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+  <!--
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+  -->
+
+  <!-- local theme -->
+  <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+  <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  
+  <!--  <link rel="stylesheet" href="{% static 'ventas/css/ventas.css' %}">-->
+
+  <link rel="stylesheet" href="{% static 'compras/css/compraRegistrada.css' %}">
+  <link rel="stylesheet" href="{% static 'baseapp/css/gutsoft.css' %}">
+
+  <script src="{% static 'baseapp/js/baseapp.js' %}"></script>
+
+
+</head>
+
+<body>
+  {% include "compras/comprasMenu.html" %}
+
+  <div class="container-fluid ">
+
+    {% if "valido" in request.GET %}
+    <p>información se ha enviado correctamente </p>
+    {% endif %}
+    <form id="formCompra" name="formCompra" action="" method="POST" class="align-items-center1">
+      {% csrf_token %}
+      <div class="container-flex ">
+        <!-- container-flex-->
+        <div class="row">
+          <!--row -->
+          <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+            <!--offset-lg-3 desplaza hacia la derecha -->
+            <div class="content p-3 datoscompra">
+              <!-- PRIMERA COLUMNA-->
+              <div class="row">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-4 ">
+                  <div class="row">
+                    <!--INICIAL LOS CAMPOS -->
+                    <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 mb-3">
+                      <label for="compra"><span>Número de compra</span></label>
+                      <input class="form-control form-control-sm text-center" name="compra" id="compra" placeholder=""
+                        data-datacompra="{{compra.id}}" value="{{compra.id}}" disabled>
+                    </div>
+
+                    <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 mb-3">
+                      <label for=fecha_compra><span>fecha de compra</span></label>
+                      <input class="form-control form-control-sm" name="fecha_compra" id="fecha_compra" placeholder=""
+                        data-datafechacompra="{{compra.fecha_compra}}" value="{{compra.fecha_compra|date:'d-m-Y'}}"
+                        disabled>
+                    </div>
+
+                    <div class="form-group col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
+                      <label for=proveedor><span>proveedor</span></label>
+                      <input class="form-control form-control-sm" name="proveedor" id="proveedor" placeholder=""
+                        data-dataproveedor="{{compra.proveedor.id}}"
+                        value="{{compra.proveedor}} {{compra.proveedor.direccion}} {{compra.proveedor.telefono}}"
+                        disabled>
+                    </div>
+
+                    <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 mb-3">
+                      <label for=vendedor><span>Vendedor</span></label>
+                      <input class="form-control form-control-sm" name="vendedor" id="vendedor" placeholder=""
+                        data-datavendedor={{compra.vendedor}} value="{{compra.vendedor}}" disabled>
+                    </div>
+                    <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 mb-3">
+                      <label for=precompra><span>Precompra</span></label>
+                      {% if compra.precompra is None %}
+                      <input class="form-control form-control-sm" name="precompra" id="precompra" placeholder=""
+                        data-dataprecompra="" disabled>
+                      {% else %}
+                      <input class="form-control form-control-sm" name="precompra" id="precompra" placeholder=""
+                        data-dataprecompra={{compra.precompra}} value="{{compra.precompra}}" disabled>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <!--row -->
+                </div>
+                <!--col-6-->
+                <!-- SEGUNDA COLUMNA-->
+                <div class="col-12 col-sm-6 col-md-4 col-lg-4 ">
+                  <div class="row flex">
+                    <div class="form-group col-12 col-sm-12 mb-3">
+                      <label for=nota><span>Nota</span></label>
+                      {% if compra.nota is None %}
+                      <input class="form-control form-control-sm" name="nota" id="nota" placeholder="" data-datanota=""
+                        disabled>
+                      {% else %}
+                      <input class="form-control form-control-sm" name="nota" id="nota" placeholder=""
+                        data-datanota={{compra.nota}} value="{{compra.nota}}" disabled>
+                      {% endif %}
+                    </div>
+
+                    <div class="form-group col-12 col-sm-6 mb-3">
+                      <label for=forma_pago><span>forma de pago</span></label>
+                      <input class="form-control form-control-sm" name="forma_pago" id="forma_pago" placeholder=""
+                        data-dataformapago={{compra.forma_pago}} value="{{compra.forma_pago}}" disabled>
+                    </div>
+
+                    <div class="form-group col-12 col-sm-6 mb-3">
+                      <label for=fecha_vence><span>fecha vencimiento</span></label>
+                      <input class="form-control form-control-sm" name="fecha_vence" id="fecha_vence" placeholder=""
+                        data-datafechavence={{compra.fecha_vence}} value="{{compra.fecha_vence|date:'d-m-Y'}}" disabled>
+                    </div>
+
+
+                  </div>
+                  <!--row flex -->
+                </div> <!-- col-6-->
+
+                <!-- COLUMNA PARA TOTALES -->
+                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                  <div id="div_total" name="div_total" class="row">
+                    <!--INICIAL LOS CAMPOS -->
+
+                    <label for=compra><span>Total</span></label>
+                    {% if compra.total is None %}
+                    <input class="form-control form-control-lg text-center" name="totalCompra" id="totalCompra"
+                      placeholder="" data-datatotal=0 value="0" disabled>
+                    {% else %}
+                    <input class="form-control form-control-lg text-center" name="totalCompra" id="totalCompra"
+                      placeholder="" data-datatotal="{{compra.total}}" value="$ {{compra.total|floatformat:0|default:0.00}}" disabled>
+                    <!-- compra.total|floatformat:2|default:"0.00" PARA DAR FORMATO DE MONEDA-->
+                    {% endif %}
+                    <div class="form-group text-center d-inline">
+                      <span><br></span>
+                      <a href="{% url 'compras:guardarCompra' compra.id %}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_editar_compra"><i
+                          class="fas fa-pen" aria-hidden="true"></i><span> - Editar (F10)</span>
+                      </a>
+                      <a href="{% url 'compras:registrarpago' compra.id %}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_pago"><i
+                          class="fas fa-pen" aria-hidden="true"></i><span> - pagar (FX)</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <!--fin columna para totales-->
+
+              </div>
+              <!--row-->
+            </div> <!-- container -->
+          </div> <!-- col -->
+        </div>
+        <!--row-->
+      </div> <!-- container -->
+    </form>
+  </div> <!-- container -->
+  <br>
+
+  <div id="datoss" name="datoss" data-productos={{productos}}>
+
+  </div>
+
+  <!-- RECIBO EL JSON DE PRODUCTOS -->
+  {{productos|json_script:"productos"}}
+
+
+  <!-- TABLA INGRESO DE DETALLES DE compra -->
+  <div class=" table">
+    <div class="thead">
+    </div>
+    <div class="form_ingreso1 tbody p-0 m-0">
+      <form class=" tr text-center" id="formCompraDetalle" name="formCompraDetalle" , autocomplete="off"
+        data-post-url="{% url 'compras:ajaxRegistrarCompraDetalle' %}">
+        {% csrf_token %}
+
+
+        <div class="td form-group mb-0 p-0">
+          <label for="codIngresado">Codigo</label>
+          <input class="form-control" type="text" id="codIngresado" name="codIngresado"
+            onchange="traerDAtosDelLocalStorage()">
+        </div>
+
+        {{form_compra_detalles.compra|as_crispy_field}}
+        <div class="col-3 td m-0 p-0 ">{{form_compra_detalles.producto|as_crispy_field }}</div>
+        <div class="col-1 td m-0 p-0 ">{{form_compra_detalles.paquetes|as_crispy_field }}</div>
+        <div class="col-1 td m-0 p-0 ">{{form_compra_detalles.unidades|as_crispy_field }}</div>
+        <div class="col-1 td m-0 p-0 ">{{form_compra_detalles.valor_paquete|as_crispy_field }}</div>
+        <div class="col-1 td m-0 p-0 ">{{form_compra_detalles.descuento_pre_iva|as_crispy_field}}</div>
+        <div class="col-1 td m-0 p-0 ">{{form_compra_detalles.iva|as_crispy_field }}</div>
+        <div class="col-1 td m-0 p-0 ">{{form_compra_detalles.descuento_pos_iva|as_crispy_field }}</div>
+        <div class="col-1 td m-0 p-0 ">{{form_compra_detalles.flete|as_crispy_field }}</div>
+        <div class="col-1 td m-0 p-0 ">{{form_compra_detalles.neto|as_crispy_field }}</div>
+        <div class="col-3 td m-0 p-0 " rows="1">{{form_compra_detalles.observacion|as_crispy_field }}</div>
+        <div class="col-1 td m-0 action align-items-end"><br>
+          <button tabindex="2" type="button" id="btnAdd" onclick="ajaxValidarCompraDetalle()">Add</button>
+        </div>
+      </form>
+    </div>
+  </div> <!-- TABLA INGRESO DE DETALLES DE COMPRAS -->
+
+  <!--- TABLA PARA HISTORIAL DE DETALLES DE COMPRASS -->
+  <div class="table-responsive" id="tCompraDetalles">
+    <table class="table table-bordered border-dark">
+      <thead>
+        <tr>
+          <th scope="col" class="col-1">#</th>
+          <th scope="col" class="col-1">cod</th>
+          <th scope="col" class="col-3">producto</th>
+          <th scope="col" class="col-1">paquetes</th>
+          <th scope="col" class="col-1">unidades</th>
+          <th scope="col" class="col-1">valor_paquete</th>
+          <th scope="col" class="col-1">desc_pre</th>
+          <th scope="col" class="col-1">IVA</th>
+          <th scope="col" class="col-1">desc_pos</th>
+          <th scope="col" class="col-1">flete</th>
+          <th scope="col" class="col-1">neto</th>
+          <th scope="col" class="col-3">observación</th>
+          <th scope="col" class="col-1">acciones</th>
+        </tr>
+      </thead>
+      <tbody id="tb_compraDetalles">
+        {% for detall in compraDetalles %}
+        <tr>
+
+          <th scope='row'>{{detall.id}}</th>
+          <td>{{detall.producto.id }} </td>
+          <td>{{detall.producto}} </td>
+          <td class="text-end">{{detall.paquetes}} </td>
+          <td class="text-end">{{detall.unidades}} </td>
+          <td class="text-end">{{detall.valor_paquete}} </td>
+          <td class="text-end">{{detall.descuento_pre_iva}} </td>
+          <td class="text-end">{{detall.iva}} </td>
+          <td class="text-end">{{detall.descuento_pos_iva}} </td>
+          <td class="text-end">{{detall.flete}} </td>
+          <td class="text-end">{{detall.neto}} </td>
+          {% if detall.observacion == None %}
+          <td></td>
+          {% else %}
+          <td>{{detall.observacion}} </td>
+          {% endif %}
+          <td>
+            <a href="" data-bs-toggle='modal' data-bs-target='#modal_detalle_venta'><i class='fas fa-pen'
+                aria-hidden='true'></i></a>
+            &nbsp;
+            <a href="{% url 'compras:comprasRegistradas' compra.id %}" class=""><i class="fas fa-pen"></i></a>
+            &nbsp;
+            <a href="{% url 'compras:eliminarDetalleCompra' detall.id %}" class="" style="width=35px;"><i
+                class="fas fa-trash-alt"></i></a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <span id="final"></span>
+    </table>
+  </div>
+  <!--- TABLA PARA HISTORIAL DE DETALLES DE COMPRAS -->
+  <!--
+  <div class="modal fade" id="modal" role="dialog" aria-labelledby="modalPagoVenta" aria-hidden="true">
+    -->
+
+    <!-- INICIO MODAL EDITAR COMPRA-->
+<div class="modal fade" id="modal_editar_compra" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+aria-labelledby="modal_nueva_compra_Label" aria-hidden="true">
+{% include "compras/modalGuardarCompra.html" %}
+</div>
+
+
+  <!-- INICIA MODAL PARA PAGO -->
+  <div class="modal fade" id="modal_pago" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modal_pagoLabel" aria-hidden="true">
+    {% include "compras/pagoCompra.html" %}
+  </div>
+  <!-- FINAL MODAL PARA PAGO -->
+
+
+  <!-- INICIA MODAL PARA DETALLE DE COMPRA -->
+  <div class="modal fade" id="modal_detalle_venta" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modal_detalle_pagoLabel" aria-hidden="true">
+    {% include "compras/detalleCompra.html" %}
+  </div>
+  <!-- FINAL MODAL PARA DETALLE DE COMPRA -->
+
+  <script src="https://unpkg.com/bootstrap-table@1.21.2/dist/bootstrap-table.min.js"></script>
+  <!--
+  <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+  -->
+  <script src="{% static 'Compras/js/compraRegistrada.js' %}"></script>
+
+</body>
+
+</html>

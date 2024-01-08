@@ -1,0 +1,79 @@
+{% extends "baseapp/base.html" %}
+{% load static %}
+
+<script type="text/javascript" src="{% static 'tienda/js/tienda.js' %}"></script>
+
+{% block content %}
+
+    <h1>Tienda</h1>
+
+    <div class="float-right">
+
+        {% include "carrito/widget.html"%}
+    </div>
+
+    <div class="container">   
+        <div class="row">
+        {% for producto in productos %}
+            <div class="col-md-3 d-flex align-items-stretch">
+                <div class="card my-3" >
+                    <div class= "h-70"> 
+                        <img src="{{producto.imagen.url}}" alt="" class="card-img-top">
+                    </div>
+                    
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{producto.nombre}}</h3>
+                        <p class="card-text db-0">{{producto.precioVenta1}}</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="{% url 'carrito:agregar' producto.id %}" class="btn btn-success">Agregar al carrito</a>
+                    </div>
+                </div>
+            </div>
+
+
+            {% if request.session.carrito.items %}
+                {% for key, value in request.session.carrito.items%}
+                    
+                    <script>
+                        function mostarYaPedido(){
+                            let a = {{value.producto_id}};
+                            let b = {{producto.id}};
+                            console.log (a);
+                            console.log (b);
+                            if (a = b){
+                                let menos = createA("{% url 'carrito:restar' value.producto_id%}", "-");
+                                let unidades = createA("", value.cantidad);
+                                let mas = createA("{% url 'carrito:agregar' value.producto_id%}", "+");
+    
+                                document.body.appendChild(menos);
+                                document.body.appendChild(unidades);
+                                document.body.appendChild(mas);
+                            };
+                        }
+                        // Function to add event listener to t
+                        function load() {
+                        var el = document.getElementById("producto");
+                        el.addEventListener("click", mostarYaPedido , false);
+                        }
+                        document.addEventListener("DOMContentLoaded", load, false);
+                    // ******
+                        
+                        
+
+
+                    </script>
+                        
+                {% endfor%}
+            {% endif %}
+
+
+        {% endfor %}
+        </div>    
+    </div>    
+
+<script type="text/javascript" src="{% static 'tienda/js/tienda.js' %}"></script>
+
+{% endblock %}
+
+    

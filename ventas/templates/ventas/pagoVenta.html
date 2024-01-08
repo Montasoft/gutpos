@@ -1,0 +1,37 @@
+
+{% load crispy_forms_tags %}
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal_pagoLabel">Registrar Pago</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% if venta %}
+          <form id="formPago" method= "post" action="{% url 'ventas:registrarpago' venta.id %}">
+            {% csrf_token %}
+            <div class="w-50 margin-auto mx-auto">
+                
+                {{form_pago.cliente|as_crispy_field }}
+                {{form_pago.venta|as_crispy_field }}
+                {{form_pago.fecha_pago|as_crispy_field }}
+                {{form_pago.forma_pago|as_crispy_field }}
+                {{venta.total}}
+                {{form_pago.valor_pago|as_crispy_field }}
+                {{form_pago.cajero|as_crispy_field }}
+                {{form_pago.nota|as_crispy_field }}
+
+
+                <button type="submit" class = "btn btn-success">Registrar pago</button>        
+            </div>
+          </form>  
+        {% endif %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" form= "formPago" class="btn btn-primary">Registrar Pago</button>
+      </div>
+    </div>
+  </div>
+

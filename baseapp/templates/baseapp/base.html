@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html class="wide wow-animation" lang="es">
+  <head>
+    {% load static %}
+    <title>
+    {% block title %} {% endblock %}
+    </title>
+    <meta name="viewport" content="width=device-width height=device-height initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="{% static 'baseapp/images/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700,800%7CPoppins:300,400,500,600,700%7CMuli:200,300,400,500">
+    <link rel="stylesheet" href="{% static 'baseapp/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'baseapp/css/fonts.css' %}">
+    <link rel="stylesheet" href="{% static 'baseapp/css/style.css1' %}">
+    <link rel="stylesheet" href="{% static 'baseapp/css/gutsoft.css1' %}">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="{% static 'baseapp/js/popper.js' %}"></script>
+
+    <style>.ie-panel{display: none;background: #212121;padding: 10px 0;box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);clear: both;text-align:center;position: relative;z-index: 1;} html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {display: block;}</style>
+  </head>
+  <body>
+    <div class="ie-panel"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="{% static 'baseapp/images/ie8-panel/warning_bar_0000_us.jpg' %}" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
+    <div class="preloader" id="loading">
+      <div class="preloader-body">
+        <div id="loading-center-object"><!--reloj de arena-->
+          <div class="object" id="object_four"></div>
+          <div class="object" id="object_three"></div>
+          <div class="object" id="object_two"></div>
+          <div class="object" id="object_one"></div>
+        </div>
+      </div>
+    </div>
+    <div class="page">
+      <!-- Page Header--><a class="banner banner-top" href="https://www.templatemonster.com/website-templates/monstroid2.html" target="_blank"><img src="{% static 'baseapp/images/monstroid.jpg' %}" alt="" height="0"/></a>
+      <header class="section page-header">
+        <!-- RD Navbar-->
+
+        {% include "baseapp/navbar.html" %}
+
+      </header>
+
+      <!-- CONTENIDO DINÁMICO -->
+      {% block content %}
+      {% endblock %}
+
+    </div>
+    <div class="snackbars" id="form-output-global"></div>
+    <script src="{% static 'baseapp/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'baseapp/js/main.js' %}"></script>
+    <script src="{% static 'baseapp/js/stylePOS.js' %}"></script>
+
+    <script src="{% static 'baseapp/js/core.min.js' %}"></script>
+    <script src="{% static 'baseapp/js/script.js' %}"></script>
+    <script src="{% static 'baseapp/js/baseapp.js' %}"></script>
+  </body>
+</html>

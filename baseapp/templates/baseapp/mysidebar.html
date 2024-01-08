@@ -1,0 +1,28 @@
+
+<nav>
+    {% load static %}
+    <header>
+        <div class="icon_menu">
+            <i class="fa fa-bars" id="btn_open"></i>
+        </div>
+    </header>
+
+    <!-- RECIBO EL JSON DE MENU -->
+  {{menu|json_script:"opcionesmenu"}}
+
+    <div class="menu__side" id="menu__side">
+        <div class="logo">
+            <a class="" href="{% url 'baseapp:index' %}"> <img src="{% static 'baseapp/images/logo.png' %}" alt=""/></a>
+        </div>
+        <div class="options__menu" id = "menuDinamico"> 
+
+        </div>    
+
+        <div id="footer" class = "footer">
+            <p>
+                Copyright &copy;
+                <script>document.write(new Date().getFullYear());</script> All rights reserved |  <i class="icon-heart" aria-hidden="true"></i> Dev by <a href="#" target="_blank">GutSoft</a>
+            </p>
+        </div>
+    </div>
+</nav>

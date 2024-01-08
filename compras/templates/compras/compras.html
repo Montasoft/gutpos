@@ -1,0 +1,80 @@
+{% extends "baseapp/basePOS.html" %}
+{% load static %}
+<!-- PERMITE CARGAR LOS ARCHIVOS ESTÁTICOS-->
+{% load crispy_forms_tags %}
+
+<title>Compras</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="{% static 'compras/css/compras.css' %}">
+
+{% block content %}
+{% load crispy_forms_tags %}
+<section>
+
+  <!-- TABLA PARA MOSTRAR COMPRAS REGISTRADAS -->
+  <div class="table-responsive">
+    <table id="tabla_items" class="cell-border m-3" style="width:100%">
+      <thead class="m-3">
+        <tr>
+          <th style="width:7%;">ID</th>
+          <th style="width:12%;">Fecha</th>
+          <th style="width:25%;">Cliente</th>
+          <th style="width:15%;">Teléfono</th>
+          <th style="width:10%;">Valor</th>
+          <th style="width:10%;">Vendedor</th>
+          <th style="width:10%;">Estado</th>
+          <th style="width:11%;">Acción</th>
+        </tr>
+      </thead>
+      <tbody id="tbody_items">
+        {% for compra in compra_list %}
+        <tr>
+          <td>{{compra.id}}</td>
+          <td>{{compra.fecha_compra|date:'d-m-Y'}}</td>
+          <td>{{compra.proveedor}}</td>
+          <td>{{compra.proveedor.telefono}}</td>
+          <td>{{compra.valor_compra}}</td>
+          <td>{{compra.vendedor}}</td>
+          <td>{{compra.estado}}</td>
+          <td>
+
+            <a href="{% url 'compras:comprasRegistradas' compra.id %}" class="btn btn-primary btn-sm"
+              style="width=35px;"> <i class="fa fa-pencil" aria-hidden="true"></i> <br><span></span></a>
+            <a href="{% url 'compras:eliminarCompra' compra.id %}" class="btn btn-primary btn-sm" style="width=35px;"><i
+                class="fa fa-trash-o" aria-hidden="true"></i> <br><span></span></a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FINAL TABLA PARA MOSTRAR COMPRAS REGISTRADAS -->
+</section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+
+<!-- INICIO MODAL NUEVA COMPRA-->
+<div class="modal fade" id="modal_nueva_compra" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="modal_nueva_compra_Label" aria-hidden="true">
+  {% include "compras/modalGuardarCompra.html" %}
+</div>
+
+<!--llamar al modal -->
+<p class="text-center pt-5"> <button class="btn btn-primary" type="submit"
+    onclick="abrirModal('modal_nueva_compra', '{% url 'compras:guardarCompra' %}')">Nueva Compra</button> </p>
+
+<!-- FINAL MODAL NUEVA COMPRA-->
+
+
+
+<!--
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    -->
+<script src="{% static 'compras/js/compras.js' %}"></script>
+<script src="{% static 'baseapp/js/baseapp.js' %}"></script>
+
+
+{% endblock %}

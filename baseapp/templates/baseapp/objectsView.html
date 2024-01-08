@@ -1,0 +1,135 @@
+{% extends "baseapp/basePOS.html" %}
+{% load static %}
+
+<script src="{% static 'POS/js/objectsview.js' %}"></script>
+
+
+<title>Ventas</title>
+{% block content %}
+
+<div class="content">
+
+  <!-- Content --> 
+  <div id="content" class="">
+    <h1>{{subtitulo}}</h1>
+    <div id="content-main">
+      <ul class="object-tools">
+        <li>
+          <a href="{{subtitulo}}/add" class="">
+            <i class="fa fa-plus-circle" aria-hidden="true">
+              <span>Añadir {{subtitulo}}</span>
+            </i>
+            
+          </a>
+        </li>
+      </ul>
+    </div>
+
+      <!-- RECIBO EL JSON DE PRODUCTOS -->
+    {{campos|json_script:"campos"}}
+
+      <!-- TABLA PARA MOSTRAR VENTAS REGISTRADAS -->
+      
+      {{campos}}
+
+      <div class="table-responsive">
+        <table id="tabla_items" class="cell-border" style="width:90%">
+          <thead>
+            {% for field.value in campos %}
+            <th >{{field}}</th>
+            {%endfor %}
+          </thead>
+          <tbody id="tbody_items">
+            {% for item in object_list %}
+            <tr>
+              <td>{{item.id}}</td>
+              <td>{{item.field1.value}}</td>
+              <td>{{item.field2}}</td>
+              <td>{{item.field3}}</td>
+              <td>{{item.field4}}</td>
+              <td>{{item.field5}}</td>
+              <td>{{item.field6}}</td>
+              <td>
+                <a href="{{ item.get_absolute_url }}" class="btn btn-primary btn-sm"> <i class="fa fa-pencil"
+                    aria-hidden="true"></i> <br><span></span></a>
+                <a href="{{ item.get_absolute_url }}" class="btn btn-primary btn-sm" style="width=30px;"><i
+                    class="fa fa-trash-o" aria-hidden="true"></i> <br><span></span></a>
+              </td>
+            </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+      </div>
+      *********
+
+
+
+      <!-- TABLA PARA MOSTRAR VENTAS REGISTRADAS -->
+    <div class="table-responsive">
+      <table id="tabla_items" class="cell-border" style="width:90%">
+        <thead>
+          <tr>
+            <th style="width:7%;">ID</th>
+            <th class="text-nowrap" style="width:10%;">categoria</th>
+            <th class="text-nowrap" style="width:10%;">sub categoria</th>
+            <th style="width:25%;">nombre</th>
+            <th style="width:10%;">costo</th>
+            <th style="width:10%;">Precio venta</th>
+            <th style="width:10%;">precio mayor</th>
+            <th style="width:10%;">Estado</th>
+            <th style="width:11%;">Acción</th>
+          </tr>
+        </thead>
+        ***
+        {{object_list}}
+        ***
+        <tbody id="tbody_items">
+          {% for item in object_list %}
+          
+          <tr>
+            <td>{{item.id}}</td>
+            <td class="text-nowrap">{{item.categoria.nombre}}</td>
+            <td class="text-nowrap">{{item.subcategoria}}</td>
+            <td class="text-nowrap">{{item.nombre}}</td>
+            <td>{{item.costo}}</td>
+            <td>{{item.precioVenta}}</td>
+            <td>{{item.precioMayor}}</td>
+            <td>{{item.estado}}</td>
+            <td>
+
+              
+              <a href="{{ item.get_absolute_url }}" class="btn btn-primary btn-sm"> <i class="fa fa-pen"
+                  aria-hidden="true"></i> <br><span>Ver </span></a>
+              <a href="{{ item.get_absolute_url }}" class="btn btn-primary btn-sm" style="width=30px;"><i
+                  class="fas fa-trash-alt" aria-hidden="true"></i> <br><span></span></a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+
+{% block pagination %}
+{% if is_paginated %}
+<div class="pagination">
+  <span class="page-links">
+    {% if page_obj.has_previous %}
+    <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+    {% endif %}
+    <span class="page-current">
+      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+    </span>
+    {% if page_obj.has_next %}
+    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+    {% endif %}
+  </span>
+</div>
+{% endif %}
+{% endblock %}
+
+{% endblock %}

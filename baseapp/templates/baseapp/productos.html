@@ -1,0 +1,51 @@
+{% extends "baseapp/base.html" %}
+{% load static %}
+<script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+<link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{% static 'ventas/css/ventas.css' %}">
+{% block content %}
+
+  <h1>Productos</h1>
+
+      <!-- TABLA PARA MOSTRAR VENTAS REGISTRADAS --> 
+    </div>
+    <div class="table-responsive" >  
+      <table id="tabla_items" class="cell-border" style="width:90%" >
+        <thead>
+          <tr>
+            <th style= "width:7%;">ID</th> 
+            <th class= "text-nowrap" style= "width:10%;">categoria</th> 
+            <th class= "text-nowrap" style= "width:10%;">sub categoria</th>
+            <th style= "width:25%;">nombre</th>
+            <th style= "width:10%;">costo</th>
+            <th style= "width:10%;">Precio venta</th>
+            <th style= "width:10%;">precio mayor</th>
+            <th style= "width:10%;">Estado</th>
+            <th style= "width:11%;">Acción</th>
+          </tr>
+        </thead>
+        <tbody id="tbody_items">      
+          {% for producto in producto_list  %}
+            <tr>  
+              <td>{{producto.id}}</td>
+              <td class= "text-nowrap">{{producto.categoria.nombre}}</td>
+              <td class= "text-nowrap">{{producto.subcategoria.nombre}}</td>
+              <td class= "text-nowrap">{{producto.nombre}}</td>
+              <td>{{producto.costo}}</td>
+              <td>{{producto.precioVenta}}</td>
+              <td>{{producto.precioMayor}}</td>
+              <td>{{producto.estado}}</td>
+              <td>
+                <a href="{% url 'baseapp:producto' producto_id=producto.id %}" class = "btn btn-primary btn-sm" style= "width=35px;">  <i class="fas fa-pen" aria-hidden="true"></i> <br><span></span></a> 
+                <a href="{% url 'baseapp:producto' producto_id=producto.id %}" class = "btn btn-primary btn-sm" style= "width=35px;"><i class="fas fa-trash-alt" aria-hidden="true"></i> <br><span></span></a> 
+              </td>
+            </tr> 
+          {% endfor %}  
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- FINAL TABLA PARA MOSTRAR VENTAS REGISTRADAS --> 
+  
+{% endblock %}
+  

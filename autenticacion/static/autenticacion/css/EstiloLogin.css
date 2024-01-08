@@ -1,0 +1,113 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body{   
+    margin:0;
+    font-family: sans-serif;
+}
+
+section{
+   /* background-color: #DAFFFB;*/
+    background: var(--cuaternario);
+
+}
+
+.formulario{
+    width: 400px;
+    max-width: 100%;
+    margin:auto;
+    margin-top: 20px;
+    padding: 20px;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.3);
+    position: relative;
+    background-color: #fff;
+}
+.Titulo{
+    text-align: center;
+    margin-top: 10;
+    margin-bottom: 40px;
+}
+.nota{
+    margin-top: -30px;
+    margin-bottom: 40px;
+}
+.volver{
+    ruby-align: right;
+    margin-top: -40px;
+}
+
+.Usuario{
+    margin-bottom: 40px;
+}
+.caja, .label_{
+    display: block;
+    width: 100%;
+    font-size: 1.5em;
+ 
+}
+
+.caja{
+    padding: 15px;
+    border: 1 px solid rgba(0, 0, 0, 3);
+    background: rgba(0, 0,0,.1);   
+    margin-top: 40px;
+}
+
+.label_{
+    padding-left: 15px;
+    position: absolute; 
+    margin-top: -40px;
+    z-index: -20;
+    color: rgba(0, 0, 0, 5);
+    transition: all 0.2s;
+}
+
+.caja:focus{
+  /*  border: 2px solid rgb(23, 129, 250);*/
+    border-color: blue;
+    background-color: lightsteelblue;
+    z-index: 0;
+}
+
+.caja:focus +
+.label_{
+    margin-top: -75px;
+    font-size: 0.8em;
+    
+}
+
+.fijar{
+    margin-top: -75px;
+    font-size: 0.8em;
+}
+
+
+form input[type="submit"]{
+	width:100%;
+	padding:8px 16px;
+	margin-top:32px;
+    margin-bottom: 32px;
+	border:1px solid var(--primario);
+	border-radius:5px;
+	display:block;  
+	color:#fff;
+    background-color: var(--primario);
+    cursor: pointer
+    
+} 
+
+form input[type="submit"]:hover{
+    border:1px solid var(--secundario);
+	color:#fff;
+    background-color: var(--secundario);
+}
+
+.flashe{
+    color:rgb(0, 0, 0);
+    background-color: rgb(248, 212, 230);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius:5px;
+}
