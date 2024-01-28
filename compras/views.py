@@ -26,8 +26,8 @@ from .models import Compra, CompraDetalles, EstadoCompra, Producto, PagoCompra, 
 def compras(request):
         
     context = {}
-    form = FormCompra(request.POST or None)
     print("Lleganto a Compras")
+    form = FormCompra(request.POST or None)
     context['form_compras'] = FormCompra    
     context['compra_list'] = Compra.objects.exclude(state=2) #excluyento los 2 que serían los eliminados
 
@@ -183,8 +183,6 @@ def guardarCompra(request, id = None):
             print(id)
             print(request.POST.get('proveedor'))
             
-            print("usuario_____________  " + a)
-
             if formRecibido.is_valid():
                 print("dentro del validd. Id= ", id )
                 formRecibido.save()

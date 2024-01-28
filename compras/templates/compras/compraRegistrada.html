@@ -24,6 +24,7 @@
   -->
 
   <!-- local theme -->
+  <link rel="icon" href="{% static 'baseapp/images/favicon.ico' %}" type="image/x-icon">
   <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
   <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
   
@@ -59,20 +60,20 @@
                 <div class="col-12 col-sm-6 col-md-4 col-lg-4 ">
                   <div class="row">
                     <!--INICIAL LOS CAMPOS -->
-                    <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 mb-3">
+                    <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 ">
                       <label for="compra"><span>Número de compra</span></label>
                       <input class="form-control form-control-sm text-center" name="compra" id="compra" placeholder=""
                         data-datacompra="{{compra.id}}" value="{{compra.id}}" disabled>
                     </div>
 
-                    <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 mb-3">
+                    <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 ">
                       <label for=fecha_compra><span>fecha de compra</span></label>
                       <input class="form-control form-control-sm" name="fecha_compra" id="fecha_compra" placeholder=""
                         data-datafechacompra="{{compra.fecha_compra}}" value="{{compra.fecha_compra|date:'d-m-Y'}}"
                         disabled>
                     </div>
 
-                    <div class="form-group col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
+                    <div class="form-group col-12 col-sm-12 col-md-12 col-lg-12 ">
                       <label for=proveedor><span>proveedor</span></label>
                       <input class="form-control form-control-sm" name="proveedor" id="proveedor" placeholder=""
                         data-dataproveedor="{{compra.proveedor.id}}"
@@ -80,12 +81,12 @@
                         disabled>
                     </div>
 
-                    <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 mb-3">
+                    <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 ">
                       <label for=vendedor><span>Vendedor</span></label>
                       <input class="form-control form-control-sm" name="vendedor" id="vendedor" placeholder=""
                         data-datavendedor={{compra.vendedor}} value="{{compra.vendedor}}" disabled>
                     </div>
-                    <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 mb-3">
+                    <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 ">
                       <label for=precompra><span>Precompra</span></label>
                       {% if compra.precompra is None %}
                       <input class="form-control form-control-sm" name="precompra" id="precompra" placeholder=""
@@ -102,7 +103,7 @@
                 <!-- SEGUNDA COLUMNA-->
                 <div class="col-12 col-sm-6 col-md-4 col-lg-4 ">
                   <div class="row flex">
-                    <div class="form-group col-12 col-sm-12 mb-3">
+                    <div class="form-group col-12 col-sm-12 ">
                       <label for=nota><span>Nota</span></label>
                       {% if compra.nota is None %}
                       <input class="form-control form-control-sm" name="nota" id="nota" placeholder="" data-datanota=""
@@ -113,13 +114,13 @@
                       {% endif %}
                     </div>
 
-                    <div class="form-group col-12 col-sm-6 mb-3">
+                    <div class="form-group col-12 col-sm-6 ">
                       <label for=forma_pago><span>forma de pago</span></label>
                       <input class="form-control form-control-sm" name="forma_pago" id="forma_pago" placeholder=""
                         data-dataformapago={{compra.forma_pago}} value="{{compra.forma_pago}}" disabled>
                     </div>
 
-                    <div class="form-group col-12 col-sm-6 mb-3">
+                    <div class="form-group col-12 col-sm-6 ">
                       <label for=fecha_vence><span>fecha vencimiento</span></label>
                       <input class="form-control form-control-sm" name="fecha_vence" id="fecha_vence" placeholder=""
                         data-datafechavence={{compra.fecha_vence}} value="{{compra.fecha_vence|date:'d-m-Y'}}" disabled>
@@ -296,7 +297,7 @@ aria-labelledby="modal_nueva_compra_Label" aria-hidden="true">
   <!--
   <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
   -->
-  <script src="{% static 'Compras/js/compraRegistrada.js' %}"></script>
+  <script src="{% static 'compras/js/compraRegistrada.js' %}"></script>
 
 </body>
 

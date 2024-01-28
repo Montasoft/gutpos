@@ -1,6 +1,6 @@
 {% load static %} <!-- PERMITE CARGAR LOS ARCHIVOS ESTÁTICOS-->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,14 +15,20 @@
     integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
     crossorigin="anonymous"></script>
     
+    <link rel="icon" href="{% static 'baseapp/images/favicon.ico' %}" type="image/x-icon">
+    
+    
     <link rel="stylesheet" href="{% static 'autenticacion/css/EstiloLogin.css' %}">
     <link rel="stylesheet" href="{% static 'baseapp/css/gutsoft.css' %}">
     
     <title>Login</title>
 </head>
 <body>
-    {% block content %}
-    {% endblock %}    
+
+<section class="d-flex flex-grow-1 justify-content-center align-items-center content vh-100 p-4">
+  {% block content %}
+  {% endblock %}    
+</section>
 </body>
 </html>
 

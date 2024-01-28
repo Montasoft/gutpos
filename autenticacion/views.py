@@ -2,6 +2,8 @@ from django.shortcuts import redirect, render
 from django.views.generic import View
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.conf import settings
@@ -74,6 +76,23 @@ def log_in(request):
     return render(request, "autenticacion/login.html", {"form":form})
 
 
+class miLogoutView(LogoutView):
+    template_name = './registration/logout.html'
+
+
+def loginRecov(request):
+    return "Recovery de password"
+
+class passReset(PasswordResetView):
+    template_name: str = './registration/password_reset.html'
+   
+class PasswResetConfirmView(PasswordResetConfirmView):
+    template_name = './autenticacion/password_reset_confirm.html'
+
+class PasswResetDoneView(PasswordResetDoneView):
+    template_name = './registration/password_reset_done.html'
+
+
 def redirect_after_login(request):
     nxt = request.GET.get("next", None)
     # verifica si hay un next para redirigir despues del login.
@@ -91,5 +110,3 @@ def redirect_after_login(request):
         #enviar a la página recibida en el next
 
 
-def loginRecov(request):
-    return "Recovery de password"

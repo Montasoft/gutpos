@@ -12,6 +12,10 @@ class UserRegistrerForm(UserCreationForm):
     class Meta:
         model = User
         field = '__all__'
+
+
+#class loginRecovForm(loginRecovForm)
+
         
 
 

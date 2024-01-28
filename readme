@@ -9,6 +9,15 @@ Instalar requirements
 
 crear las variables de entorno en el archivo GUTSOFT/.env
 
+    El contenido del .env puede algo como:
+        
+        SECRET_KEY=django-insecure-zq_r(ks0dfgsdfgosdfg!byk6nx2gaizuv^^^^55%7@=0s7ny*q#h^@lzov67
+        DEBUG=True
+        ALLOWED_HOSTS=127.0.0.1,localhost
+        EMAIL_HOST_PASSWORD=Mipass123*
+        DBUSER='root'
+        DBPASS=''
+
 crear las migraciones
     python manage.py makemigrations
     python manage.py migrate
