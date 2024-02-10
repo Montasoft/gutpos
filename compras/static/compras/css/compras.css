@@ -1,0 +1,17 @@
+.btn-flotante{
+    position:absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 999;
+
+}
+.table-responsive{
+    padding: 20px;
+}
+
+#tabla_items{
+    width: 100%;
+}
+td{
+    padding-left: 2px;
+}

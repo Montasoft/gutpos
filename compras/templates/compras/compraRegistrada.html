@@ -46,7 +46,7 @@
     {% if "valido" in request.GET %}
     <p>información se ha enviado correctamente </p>
     {% endif %}
-    <form id="formCompra" name="formCompra" action="" method="POST" class="align-items-center1">
+    <form id="formCompraActual" name="formCompraActual" action="" method="POST" class="align-items-center1">
       {% csrf_token %}
       <div class="container-flex ">
         <!-- container-flex-->
@@ -150,6 +150,12 @@
                       <a href="{% url 'compras:guardarCompra' compra.id %}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_editar_compra"><i
                           class="fas fa-pen" aria-hidden="true"></i><span> - Editar (F10)</span>
                       </a>
+
+                      <!--llamar al modal -->
+              <p class="text-center"> <button class="btn btn-primary btn-flotante" type="submit"
+                onclick="abrirModal('modal_editar_compra', '{% url 'compras:guardarCompra' compra.id %}')">edittar</button> </p>
+
+
                       <a href="{% url 'compras:registrarpago' compra.id %}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_pago"><i
                           class="fas fa-pen" aria-hidden="true"></i><span> - pagar (FX)</span>
                       </a>
@@ -273,8 +279,8 @@
 
     <!-- INICIO MODAL EDITAR COMPRA-->
 <div class="modal fade" id="modal_editar_compra" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-aria-labelledby="modal_nueva_compra_Label" aria-hidden="true">
-{% include "compras/modalGuardarCompra.html" %}
+  aria-labelledby="modal_nueva_compra_Label" aria-hidden="true">
+  {% include "compras/modalGuardarCompra.html" %}
 </div>
 
 

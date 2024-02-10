@@ -1,0 +1,152 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.nav {
+    display: flex;
+    gap: 10px;
+}
+
+.nav a {
+    text-decoration: none;
+    color: #faf4f4;
+    padding: 10px;
+}
+
+.nav a:hover {
+    background-color: #eee;
+}
+
+.login {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+
+/* Estilos generales del menú */
+.nav {
+    display: flex;
+    gap: 10px;
+}
+
+.nav a {
+    text-decoration: none;
+    color: #333;
+    padding: 10px;
+}
+
+.nav a:hover {
+    background-color: #eee;
+}
+
+.login {
+    background-color: rgb(13, 110, 253);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 3px;
+    margin: 3px;
+}
+
+/* Estilos del icono de hamburguesa */
+.hamburger {
+    display: none;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.hamburger span {
+    display: block;
+    width: 100%;
+    height: 4px;
+    background-color: blue;
+    margin-bottom: 4px;
+}
+
+/* Estilos del menú cuando la pantalla es menor a 768px */
+@media (max-width: 768px) {
+    .nav {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background-color: #fff;
+        box-shadow: 0 0 10px blue;
+        z-index: 1;
+    }
+
+    .hamburger {
+        display: block;
+    }
+}
+
+/* Estilos básicos para mejorar la apariencia del menú */
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #eceaea;
+}
+
+li {
+    display: inline-block;
+    position: relative;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li:hover {
+    background-color: #555;
+}
+
+/* Estilos para los submenús */
+ul ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #555;
+}
+
+ul li:hover > ul {
+    display: inherit;
+}
+
+ul ul li {
+    display: block;
+}
+
+ul ul li a {
+    padding: 12px 16px;
+    color: white;
+}
+
+ul ul li:hover {
+    background-color: #777;
+}

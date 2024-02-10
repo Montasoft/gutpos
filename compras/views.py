@@ -164,70 +164,38 @@ def crearCompra(request):
             context['form_compra']=(request.POST) 
             return render(request, "compras/compras.html", context)
 
-def guardarCompra(request, id = None):
-    print("Lleganto a Compra")
-    
+def guardarCompra(request, id=None):
     context = {}
     context['form_compra'] = FormCompra
-    context['compra_list'] = Compra.objects.all()
- 
-    if id != None:
-        # get_object_or_404 para manejo error 404 de manera automtica
-        compra = get_object_or_404(Compra, id = id)
-        
-        if request.method == "POST":
-            print("dentro del post")
-            formRecibido = FormCompra(request.POST, instance= compra)
-            print (request.POST)
-            print(formRecibido.is_valid())
-            print(id)
-            print(request.POST.get('proveedor'))
-            
-            if formRecibido.is_valid():
-                print("dentro del validd. Id= ", id )
-                formRecibido.save()
 
-            else:
-                compra = Compra(
-            proveedor = Proveedor.objects.get(id= int(request.POST.get('proveedor'))),
-            fecha_compra = formRecibido.cleaned_data.get('fecha_compra'),
-            valor_compra = 0,
-            num_factura_proveedor = formRecibido.cleaned_data.get('num_factura_proveedor'),
-            forma_pago = FormaPago.objects.get(pk = request.POST.get('forma_pago')),
-            fecha_vence = dateformat.format(timezone.now(),'Y-m-d'),
-            nota = formRecibido.cleaned_data.get('nota'),
-            fecha_recibido = formRecibido.cleaned_data.get('fecha_recibido'),
-            estado = EstadoCompra.objects.get(id = int(1)),
-            updater = request.user.username
-            )
-            print(compra)
-            print("user___________" + str(compra.updater))
+    if request.method == "POST":
+        formRecibido = FormCompra(request.POST, instance=Compra.objects.get(id=id) if id else None)
+
+        if formRecibido.is_valid():
+            compra = formRecibido.save(commit=False)
+            compra.updater = request.user.username
+
             try:
                 compra.save()
                 id = compra.id
+                return redirect('compras:comprasRegistradas', id_compra=id)
             except Exception as e:
                 print("Error saving compra:", e)
-
-            return redirect ('compras:comprasRegistradas', id_compra = id)
+                context['error_message'] = "Error al guardar la compra."
         else:
-            print("no validado")
-            return "Fuera del valid"
-                
+            context['error_message'] = "Por favor, corrija los errores del formulario."
+
     else:
-        print ("motodo no post")
-        if id == None:
-            print("no post no id")
+        if id:
+            compra = get_object_or_404(Compra, pk=id)
+            context['form_compra'] = FormCompra(instance=compra)
+            context['title'] = f"Editar compra Nº {id}"
+            context['compra_id'] = id
+        else:
             context['form_compra'] = FormCompra()
             context['title'] = "Crear nueva compra"
-        else:
-            print("no post con id")
-            compra = Compra.objects.get(pk= id)
-            print("217 ------  "  & compra)
-            context['form_compra'] = FormCompra(instance=compra)
-            context['title'] = "Editar compra Nº " + str(id)
-            context['compra_id'] = compra.id  
-        return render(request, "compras/modalGuardarCompra.html", context)
 
+    return render(request, "compras/modalGuardarCompra.html", context)
 
 # funcion para eliminar compra.
 # En realidad no se elimina, se marca pero se conserva el registro.

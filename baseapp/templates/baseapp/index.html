@@ -1,5 +1,32 @@
 {% extends "baseapp/base.html" %}
 {% load static %}
+<link rel="stylesheet" href="{% static 'baseapp/css/index.css' %}">
+{% block title %}
+GutSoft - Servicios de desarrollo web
+{% endblock %}
+
 {% block content %}
+
+<div class="container">
+
+    <div class="main">
+        <div class="content">
+            <h1>Servicios de desarrollo web</h1>
+            <br>
+            <p>GutSoft es una empresa de tecnología que ofrece soluciones web a medida para tus necesidades. Creamos
+                páginas web modernas, responsivas y funcionales que se adaptan a tu imagen y objetivos. Contamos con
+                un equipo de profesionales expertos en diseño, programación y marketing que te acompañarán en todo
+                el proceso. Contacta con nosotros y solicita tu presupuesto sin compromiso.</p>
+            <br>
+            <br>
+            <h1>GutPOS:</h1>
+            <br>
+            <p>Por su parte, GutPOS es software desarrollado para ser ejecutado en ambiente web cuyo objetivo el
+                control de inventario, compras y ventas en un Punto de Venta, facil de usar y que tiene justo lo que
+                necesitas para controlar tu negocio.</p>
+        </div>
+    </div>
+
+</div>
 
 {% endblock %}

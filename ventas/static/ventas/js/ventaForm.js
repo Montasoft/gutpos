@@ -71,17 +71,6 @@ function formatearFecha(fecha){
   return agno + "-" + mes + "-" + dia
 }
 
-function abrirModal(url){
-  $('#modal').modal('show');
-  console.log("abrir modal")
-  console.log(url)
-  var url_ = "{% url '" + url + "' %}"
-  console.log(url_)
- // $('#modal').load(url_, function(){
-  //  $(this).modal('show');
-  //});
-}
-
 
 function cerrarModal(){
   alert("cerrarModal")

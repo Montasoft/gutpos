@@ -164,17 +164,6 @@ function scrollTabla(){
   tabla.scrollTop = '9999'; 
 }
 
-function abrirModal(url){
-  console.log(url)
-  //$('#modal_pago').modal('show');
-  var url_ = "{% url '" + url + "' %}"
-  console.log(url_)
-  $('#modal_pago').load(url, function(){
-    $(this).modal('show');
-  });
-}
-
-
 function cerrarModal(){
   alert("cerrarModal")
   $('#modal').modal('hide');

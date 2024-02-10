@@ -1,172 +1,32 @@
-<html>
+{% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GutSoft - Servicios de desarrollo web</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<link rel="stylesheet" href="{% static 'baseapp/css/navbar.css' %}">
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+<div class="container">
+    <div class="header">
+        <div class="logo">GutSoft</div>
 
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px;
-        }
+        <ul class="nav">
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#">Servicios</a></li>
+            <li><a href="#">Portafolio</a></li>
+            <li><a href="#">Contacto</a></li>
 
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-        }
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'compras:compras' %}">Compras</a></li>
+            <li><a href="#">{{ user.username }} </a>
+                <ul>
+                    <li><a href="#">Perfil</a></li>
+                    <li><a href="{% url 'auth:logout' %}">Logout</a></li>
+                </ul>
+            </li>
+            {% else %}
+            <li><a href="{% url 'auth:log_in' %}">log-in</a></li>
+            {% endif %}
 
-        .nav {
-            display: flex;
-            gap: 10px;
-        }
-
-        .nav a {
-            text-decoration: none;
-            color: #333;
-            padding: 10px;
-        }
-
-        .nav a:hover {
-            background-color: #eee;
-        }
-
-        .login {
-            background-color: #333;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-
-        .main {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 80vh;
-        }
-
-        .main h1 {
-            font-size: 48px;
-            text-align: center;
-        }
-
-        .main p {
-            font-size: 18px;
-            text-align: center;
-        }
-
-        /* Estilos generales del menú */
-        .nav {
-            display: flex;
-            gap: 10px;
-        }
-
-        .nav a {
-            text-decoration: none;
-            color: #333;
-            padding: 10px;
-        }
-
-        .nav a:hover {
-            background-color: #eee;
-        }
-
-        .login {
-            background-color: rgb(13, 110, 253);
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            padding: 3px;
-            margin: 3px;
-        }
-
-        /* Estilos del icono de hamburguesa */
-        .hamburger {
-            display: none;
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-        }
-
-        .hamburger span {
-            display: block;
-            width: 100%;
-            height: 4px;
-            background-color: blue;
-            margin-bottom: 4px;
-        }
-
-        /* Estilos del menú cuando la pantalla es menor a 768px */
-        @media (max-width: 768px) {
-            .nav {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 60px;
-                right: 0;
-                background-color: #fff;
-                box-shadow: 0 0 10px blue);
-                z-index: 1;
-            }
-
-            .hamburger {
-                display: block;
-            }
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">GutSoft</div>
-            <div class="nav">
-                <a href="#">Inicio</a>
-                <a href="#">Servicios</a>
-                <a href="#">Portafolio</a>
-                <a href="#">Contacto</a>
-                
-                {% if user.is_authenticated %}
-                    <a href="{% url 'compras:compras' %}">Compras</a>    
-                    <a href="#">{{ user.username }} </a>
-                {% else %}
-                    <a href="{% url 'auth:log_in' %}">log-in</a>
-                {% endif %}
-                
-            </div>
-        </div>
-        <div class="main">
-            <div class="content">
-                <h1>Servicios de desarrollo web</h1>
-                <br>
-                <p>GutSoft es una empresa de tecnología que ofrece soluciones web a medida para tus necesidades. Creamos
-                    páginas web modernas, responsivas y funcionales que se adaptan a tu imagen y objetivos. Contamos con
-                    un equipo de profesionales expertos en diseño, programación y marketing que te acompañarán en todo
-                    el proceso. Contacta con nosotros y solicita tu presupuesto sin compromiso.</p>
-                <br>
-                <br>
-                <h1>GutPOS:</h1>
-                <br>
-                <p>Por su parte, GutPOS es software desarrollado para ser ejecutado en ambiente web cuyo objetivo el
-                    control de inventario, compras y ventas en un Punto de Venta, facil de usar y que tiene justo lo que
-                    necesitas para controlar tu negocio.</p>
-            </div>
-        </div>
+        </ul>
     </div>
-</body>
+</div>
 <script>
     // Seleccionar el icono de hamburguesa y el menú
     const hamburger = document.querySelector(".hamburger");
