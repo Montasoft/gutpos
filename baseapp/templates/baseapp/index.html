@@ -1,6 +1,10 @@
 {% extends "baseapp/base.html" %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'baseapp/css/index.css' %}">
+
+{% block estilos %}
+    <link rel="stylesheet" href="{% static 'baseapp/css/index.css' %}">
+{% endblock %}
+
 {% block title %}
 GutSoft - Servicios de desarrollo web
 {% endblock %}
