@@ -2,6 +2,26 @@ $(document).ready(function() {
     console.log("ready!");
 });
 
+(function($) {
+
+	"use strict";
+
+	var fullHeight = function() {
+
+		$('.js-fullheight').css('height', $(window).height());
+		$(window).resize(function(){
+			$('.js-fullheight').css('height', $(window).height());
+		});
+
+	};
+	fullHeight();
+
+	$('#sidebarCollapse').on('click', function () {
+      $('#sidebar').toggleClass('active');
+  });
+
+})(jQuery);
+
 function abrirModal(modal, url){
   console.log(url)
   console.log('#'+ modal)
@@ -22,6 +42,7 @@ function fechaActual(){
   fecha = agno + "-" + mes + "-" + dia
   return fecha
 }
+
 
 
 function formatoMoneda(numero, decimales){

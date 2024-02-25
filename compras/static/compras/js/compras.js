@@ -1,6 +1,7 @@
 $(document).ready(function() {
     console.log("ready! in compras.js");
 });
+// TRADUCIR EL MARCO DE LA DATATABLE
 $('#tabla_items').DataTable({
   "responsive": true,
   language: {

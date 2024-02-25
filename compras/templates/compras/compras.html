@@ -1,7 +1,7 @@
 {% extends "baseapp/basePOS.html" %}
+
 {% load static %}
 <!-- PERMITE CARGAR LOS ARCHIVOS ESTÁTICOS-->
-{% load crispy_forms_tags %}
 
 {% block title %}
   Compras
@@ -11,6 +11,7 @@
 {% block links %}
   <link rel="stylesheet" href="{% static 'compras/css/compras.css' %}">
 {% endblock %}
+
 {% block content %}
 {% load crispy_forms_tags %}
 <section>
@@ -41,11 +42,8 @@
           <td>{{compra.vendedor}}</td>
           <td>{{compra.estado}}</td>
           <td>
-
-            <a href="{% url 'compras:comprasRegistradas' compra.id %}" class="btn btn-primary btn-sm">
-               <i class="fa fa-pencil" aria-hidden="true"></i> <br><span></span></a>
-            <a href="{% url 'compras:eliminarCompra' compra.id %}" class="btn btn-primary btn-sm">
-              <i class="fa fa-trash-o" aria-hidden="true"></i> <br><span></span></a>
+            <a href="{% url 'compras:comprasRegistradas' compra.id %}" class="btn btn-primary btn-sm"><i class="fa fa-pencil" aria-hidden="true"></i> <br><span></span></a>
+            <a href="{% url 'compras:eliminarCompra' compra.id %}" class="btn btn-primary btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i> <br><span></span></a>
           </td>
         </tr>
         {% endfor %}
@@ -64,7 +62,7 @@ aria-labelledby="modal_nueva_compra_Label" aria-hidden="true">
 
 <!--llamar al modal -->
 <p class="text-center"> <button class="btn btn-primary btn-flotante" type="submit"
-  onclick="abrirModal('modal_nueva_compra', '{% url 'compras:guardarCompra' %}')">Nueva Compra</button> </p>
+  onclick="abrirModal('modal_nueva_compra',  `{% url 'compras:guardarCompra' %}` )">Nueva Compra</button> </p>
   
   <!-- FINAL MODAL NUEVA COMPRA-->
   

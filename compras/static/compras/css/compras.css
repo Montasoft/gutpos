@@ -7,6 +7,7 @@
 }
 .table-responsive{
     padding: 20px;
+    color:black; 
 }
 
 #tabla_items{
@@ -15,3 +16,9 @@
 td{
     padding-left: 2px;
 }
+
+.paginate_button{
+    padding-right: 5px;
+    color:black; 
+}
+

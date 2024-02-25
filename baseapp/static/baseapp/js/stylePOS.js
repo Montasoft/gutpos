@@ -91,8 +91,6 @@ function PintarMenu(){
 }
 
 
-
-
 // ejecutar funci{on en el evento click
 
 document.getElementById("btn_open").addEventListener("click", open_close_menu);
