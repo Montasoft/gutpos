@@ -16,6 +16,11 @@ $(document).ready(function(){
         ajaxPedirMenu()
     }
 
+      // Activar el despliegue del submenú al hacer clic en el botón de toggle
+    $('[data-bs-toggle="collapse"]').on('click', function(){
+        $($(this).data('bs-target')).collapse('toggle');
+    });
+
 })
 
 //######################################################################################
@@ -54,7 +59,6 @@ function ajaxPedirMenu(){
     });
   }
   
-
 //######################################################################################
 function PintarMenu(){
     // recoparar los datos del LocalStorage para la llave 'menu'
@@ -64,20 +68,26 @@ function PintarMenu(){
     //recorrer el json
     for (grupo of jsonMenu){
         // agregar cada grupo de opciones al menu    
-        let txthtml = '<a href="#' + grupo.nombre + '" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">'
+        let txthtml = '<a href="#' + grupo.nombre + '" data-bs-toggle="collapse" data-bs-target="#'+ grupo.nombre + '" aria-expanded="true" class="dropdown-toggle">'
         txthtml += "<i class='"+ grupo.icono +"' aria-hidden='true' title='"+ grupo.nombre +"'></i>"
         txthtml += '<span> ' + grupo.nombre + '</span></a>'
-        txthtml += '<ul class="collapse list-unstyled" id="'+grupo.nombre+ '"></ul>'
+        txthtml += '<ul class="collapse " aria-labelledby="navbarDropdown" id="'+grupo.nombre+ '">'
 
         menuDinamico.insertAdjacentHTML('beforeend', txthtml)
-        let submenu = document.getElementById(grupo.nombre);
+        let submenu = document.getElementById(grupo.nombre);    
         // recorrer la lista de opciones submenu para cada grupo de menu
         for (opc of grupo.submenu){
                 
-            let llaves =  '{% if request.path == "' + opc.enlace  + '" %} active {% endif %}'
+            let llaves 
+            console.log(window.location.href.includes('/compras'))
+            if (window.location.href.includes(opc.enlace))
+                llaves = "<a class= 'active'";
+            else
+                llaves = "<a class = ''";
+
             
-            txthtml = "<a class='" + llaves + "'" 
-            txthtml += "href='" + opc.enlace + "'>"
+            txthtml = llaves
+            txthtml += " href='" + opc.enlace + "'>"
             txthtml += "<div class= 'option'>" 
             txthtml += "<i class='"+ opc.icono +"' aria-hidden='true' title='"+ opc.nombre +"'></i>"
             txthtml += "<h6>"+ opc.nombre +"</h6>"
@@ -87,6 +97,7 @@ function PintarMenu(){
             console.log(txthtml)
             submenu.insertAdjacentHTML('beforeend', txthtml)
         }
+        menuDinamico.insertAdjacentHTML('beforeend', '</ul>')
     }
 }
 
