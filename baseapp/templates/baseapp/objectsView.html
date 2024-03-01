@@ -3,9 +3,36 @@
 
 <script src="{% static 'POS/js/objectsview.js' %}"></script>
 
-
 <title>Ventas</title>
 {% block content %}
+
+<h1>Bancos</h1>
+<h2>{{ subtitulo }}</h2>
+<table>
+    <thead>
+        <tr>
+            {% for campo in campos %}
+                <th>{{ campo }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in object_list %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.nombre }}</td>
+                <td>
+                  <a href="{{ item.get_absolute_url }}" class="btn btn-primary btn-sm"> <i class="fa fa-pencil"
+                      aria-hidden="true"></i> <br><span></span></a>
+                  <a href="{{ item.get_absolute_url }}" class="btn btn-primary btn-sm" style="width=30px;"><i
+                      class="fa fa-trash-o" aria-hidden="true"></i> <br><span></span></a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
 
 <div class="content">
 
