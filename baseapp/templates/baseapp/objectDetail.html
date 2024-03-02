@@ -10,7 +10,7 @@
     <h1>Object Detail</h1>
     <ul>
         {% for field in object_detail.meta.get_fields %}
-            <li>{{ field.verbose_name }}: {{ field.value_from_object(object_detail) }}</li>
+        <li>{{ field.verbose_name }}: {{ object_detail|getattr:field.name }}</li>
         {% endfor %}
     </ul>
 </body>
