@@ -4,12 +4,12 @@
 <!-- PERMITE CARGAR LOS ARCHIVOS ESTÁTICOS-->
 
 {% block title %}
-  Compras
+Compras
 {% endblock %}
 
 
 {% block links %}
-  <link rel="stylesheet" href="{% static 'compras/css/compras.css' %}">
+<link rel="stylesheet" href="{% static 'compras/css/compras.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -42,8 +42,10 @@
           <td>{{compra.vendedor}}</td>
           <td>{{compra.estado}}</td>
           <td>
-            <a href="{% url 'compras:comprasRegistradas' compra.id %}" class="btn btn-primary btn-sm"><i class="fa fa-pencil" aria-hidden="true"></i> <br><span></span></a>
-            <a href="{% url 'compras:eliminarCompra' compra.id %}" class="btn btn-primary btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i> <br><span></span></a>
+            <a href="{% url 'compras:comprasRegistradas' compra.id %}" class="btn btn-primary btn-sm"><i
+                class="fa fa-pencil" aria-hidden="true"></i> <br><span></span></a>
+            <a href="{% url 'compras:eliminarCompra' compra.id %}" class="btn btn-primary btn-sm"><i
+                class="fa fa-trash-o" aria-hidden="true"></i> <br><span></span></a>
           </td>
         </tr>
         {% endfor %}
@@ -56,20 +58,21 @@
 
 <!-- INICIO MODAL NUEVA COMPRA-->
 <div class="modal fade" id="modal_nueva_compra" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-aria-labelledby="modal_nueva_compra_Label" aria-hidden="true">
-{% include "compras/modalGuardarCompra.html" %}
+  aria-labelledby="modal_nueva_compra_Label" aria-hidden="true">
+  {% include "compras/modalGuardarCompra.html" %}
 </div>
+
 
 <!--llamar al modal -->
 <p class="text-center"> <button class="btn btn-primary btn-flotante" type="submit"
-  onclick="abrirModal('modal_nueva_compra',  `{% url 'compras:guardarCompra' %}` )">Nueva Compra</button> </p>
-  
-  <!-- FINAL MODAL NUEVA COMPRA-->
-  
-  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    onclick="abrirModal('modal_nueva_compra',  `{% url 'compras:guardarCompra' %}` )">Nueva Compra</button> </p>
 
-  <script src="{% static 'compras/js/compras.js' %}"></script>
-  <script src="{% static 'baseapp/js/baseapp.js' %}"></script>
+<!-- FINAL MODAL NUEVA COMPRA-->
+
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<script src="{% static 'compras/js/compras.js' %}"></script>
+<script src="{% static 'baseapp/js/baseapp.js' %}"></script>
 
 
 {% endblock %}

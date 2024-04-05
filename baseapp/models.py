@@ -8,9 +8,9 @@ from django.db.models import F, Sum, FloatField     # para calcular el total de 
 
 class BaseModel(models.Model):
     state = models.IntegerField(default=0)
-    created = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True, null=True, blank=True)
     creater = models.CharField(max_length=30, null=True, blank=True)
-    updated = models.DateTimeField(auto_now=    False, auto_now_add=False, null=True, blank=True )
+    updated = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True )
     updater = models.CharField(max_length=30, null=True, blank=True)
     deleted = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
     deleter = models.CharField(max_length=30, null=True, blank=True)
@@ -36,6 +36,20 @@ class BaseModel(models.Model):
     class Meta:
         abstract = True  
 
+    def save(self, *args, **kwargs):
+        ''' Al guardar actualizar fecha y usuario del registro 
+            se recibe el usuario en el campo de updater
+            pero si es registro nuevo se guardará en creater '''
+        
+        if not self.pk: # Si es un nuevo registro
+            self.creater = self.updater
+            self.updater = None
+        else:   # Si es una actualización
+            print( "save - update")
+            self.updated = timezone.now()
+            self.updater = self.updater
+
+        return super(BaseModel, self).save(*args, **kwargs)
 
 #######################################################################################
 class Menu(models.Model):
@@ -76,9 +90,14 @@ class Departamento(models.Model):
     nombre = models.CharField(max_length=50)
     cod_dane = models.CharField(max_length=2, unique=True)
     
+    class Meta:
+        ordering =['nombre']
+        verbose_name = "Departamento"
+        verbose_name_plural = "Departamentos"
+
     def __str__(self):
         return self.nombre
-
+        
     def get_absolute_url(self):
         return reverse('baseapp:departamentodetail', kwargs={'pk' :self.id})
 
@@ -90,29 +109,14 @@ class Ciudad(BaseModel):
 
     class Meta:
         ordering =['nombre']
+        verbose_name = "Ciudad"
+        verbose_name_plural = "Ciudades"
 
     def __str__(self):
         return  self.nombre
     
     def get_absolute_url(self):
         return reverse('baseapp:ciudaddetail', kwargs={'pk' :self.id})
-    
-    def save(self, *args, **kwargs):
-        ''' Al guardar actualizar fecha y usuario del registro 
-            se recibe el usuario en el campo de updater
-            pero si es registro nuevo se guardará en creater '''
-        
-        if not self.id:
-            self.created = timezone.now()
-            self.creater = self.updater
-            self.updater = None
-        else:
-            print( "save - update")
-            self.updated = timezone.now()
-            self.updater = self.updater
-
-        return super(Ciudad, self).save(*args, **kwargs)
-
 
 #######################################################################################
 class TipoDocumento(BaseModel):
@@ -121,28 +125,14 @@ class TipoDocumento(BaseModel):
 
     class Meta:
         ordering =['nombre']
+        verbose_name = "Tipo de Documento"
+        verbose_name_plural = "Tipos de documento"
 
     def __str__(self):
         return  self.nombre
     
     def get_absolute_url(self):
         return reverse('baseapp:tipodocumentodetail', kwargs={'pk' :self.id})
-
-    def save(self, *args, **kwargs):
-        ''' Al guardar actualizar fecha y usuario del registro 
-            se recibe el usuario en el campo de updater
-            pero si es registro nuevo se guardará en creater '''
-        
-        if not self.id:
-            self.created = timezone.now()
-            self.creater = self.updater
-            self.updater = None
-        else:
-            print( "save - update")
-            self.updated = timezone.now()
-            self.updater = self.updater
-
-        return super(TipoDocumento, self).save(*args, **kwargs)
 
 
 #######################################################################################
@@ -152,30 +142,14 @@ class FormaPago(BaseModel):
 
     class Meta:
         ordering =['nombre']
-        verbose_name = "FormaPago"
-        verbose_name_plural = "FormasPago"
+        verbose_name = "Forma de Pago"
+        verbose_name_plural = "Formas de Pago"
 
     def __str__(self):
         return  self.nombre
     
     def get_absolute_url(self):
         return reverse('baseapp:formapagodetail', kwargs={'pk' :self.id})
-
-    def save(self, *args, **kwargs):
-        ''' Al guardar actualizar fecha y usuario del registro 
-            se recibe el usuario en el campo de updater
-            pero si es registro nuevo se guardará en creater '''
-        
-        if not self.id:
-            self.created = timezone.now()
-            self.creater = self.updater
-            self.updater = None
-        else:
-            print( "save - update")
-            self.updated = timezone.now()
-            self.updater = self.updater
-
-        return super(FormaPago, self).save(*args, **kwargs)
 
 
 #######################################################################################
@@ -201,6 +175,8 @@ class TipoCuentaBancaria(models.Model):
 
     class Meta:
         ordering =['nombre']
+        verbose_name = "Tipo de Cuenta Bancaria"
+        verbose_name_plural = "Tipos de cuenta bancaria"
 
     def __str__(self):
         return  self.nombre
@@ -210,7 +186,7 @@ class TipoCuentaBancaria(models.Model):
 
 
 #######################################################################################
-class Banco(models.Model):
+class Banco(BaseModel):
     nombre= models.CharField(max_length=150)
 
     def __str__(self):
@@ -218,4 +194,10 @@ class Banco(models.Model):
     
     def get_absolute_url(self):
         return reverse('baseapp:bancodetail', kwargs={'pk' :self.id})
+    
+    class Meta:
+        ordering =['nombre']
+        verbose_name = "Banco"
+        verbose_name_plural = "Bancos"
+
     

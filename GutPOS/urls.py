@@ -16,9 +16,6 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-
-import baseapp , compras, carrito, contacto, inventario
-
 from django.contrib.auth import views as auth_views
 
 #from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView
@@ -35,6 +32,7 @@ urlpatterns = [
     path('pedidos/', include('pedidos.urls')),
     path('compras/', include('compras.urls')),
     path('ventas/', include('ventas.urls')),
+    path('inventario/', include('inventario.urls')),
     path('', include('baseapp.urls')),
  #   path(r'^password_reset/$', auth_views.password_reset, name='password_reset'),
   #  path(r'^password_reset/done/$', auth_views.password_reset_done, name='password_reset_done'),
@@ -44,7 +42,6 @@ urlpatterns = [
     
     path('password_reset', auth_views.PasswordResetView.as_view(template_name=   './registration/password_reset.html'), name='password_reset'),
     path('password_reset/done', auth_views.PasswordResetDoneView.as_view(template_name='./registration/password_reset_done.html'),  name='password_reset_done'),  
-
     path('password_change', auth_views.PasswordChangeView.as_view(template_name='./registration/login.html'),  name='password_change'),
     path('password_change/done', auth_views.PasswordChangeDoneView.as_view(template_name='./registration/password_reset_done.html'),  name='password_change_done'),
   #  path('password_reset', passReset.as_view(),  name='password_reset'),   

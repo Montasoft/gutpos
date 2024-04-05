@@ -4,9 +4,8 @@ from django.urls import reverse
 from django.utils import timezone, dateformat
 from django.utils.translation import gettext as _
 from django.db.models import F, Sum, FloatField     # para calcular el total de una orden de pedido
-
-
 from baseapp.models import BaseModel
+from django.views import generic
 
 
 #######################################################################################
@@ -23,25 +22,9 @@ class Categoria(BaseModel):
         return  self.nombre
     
     def get_absolute_url(self):
-        return reverse('POS:categoriadetail', kwargs={'pk' :self.id})
+        return reverse('inventario:categoriadetail', kwargs={'pk' :self.id})
         
-    def save(self, *args, **kwargs):
-        ''' Al guardar actualizar fecha y usuario del registro 
-            se recibe el usuario en el campo de updater
-            pero si es registro nuevo se guardará en creater '''
-        
-        if not self.id:
-            self.created = timezone.now()
-            self.creater = self.updater
-            self.updater = None
-        else:
-            print( "save - update")
-            self.updated = timezone.now()
-            self.updater = self.updater
-
-        return super(Categoria, self).save(*args, **kwargs)
-
-
+ 
 ####################################################################################### 
 class SubCategoria(BaseModel):
     nombre = models.CharField(_('nombre'), max_length=50)
@@ -57,23 +40,7 @@ class SubCategoria(BaseModel):
         return f'categoria: {self.categoria.nombre} - Subcategoría  {self.nombre}'
 
     def get_absolute_url(self):
-        return reverse('POS:subcategoriadetail', kwargs={'pk' :self.id})
-
-    def save(self, *args, **kwargs):
-        ''' Al guardar actualizar fecha y usuario del registro 
-            se recibe el usuario en el campo de updater
-            pero si es registro nuevo se guardará en creater '''
-        
-        if not self.id:
-            self.created = timezone.now()
-            self.creater = self.updater
-            self.updater = None
-        else:
-            print( "save - update")
-            self.updated = timezone.now()
-            self.updater = self.updater
-
-        return super(SubCategoria, self).save(*args, **kwargs)
+        return reverse('inventario:subcategoriadetail', kwargs={'pk' :self.id})
 
 
 #######################################################################################
@@ -83,28 +50,16 @@ class EstadoProducto(BaseModel):
 
     class Meta:
         ordering =['nombre']
+        verbose_name = "Estado del producto"
+        verbose_name_plural = "Estados de productos"
+
 
     def __str__(self):
         return  self.nombre
     
     def get_absolute_url(self):
-        return reverse('POS:estadoproductodetail', kwargs={'pk' :self.id})
+        return reverse('inventario:estadoproductodetail', kwargs={'pk' :self.id})
 
-    def save(self, *args, **kwargs):
-        ''' Al guardar actualizar fecha y usuario del registro 
-            se recibe el usuario en el campo de updater
-            pero si es registro nuevo se guardará en creater '''
-        
-        if not self.id:
-            self.created = timezone.now()
-            self.creater = self.updater
-            self.updater = None
-        else:
-            print( "save - update")
-            self.updated = timezone.now()
-            self.updater = self.updater
-
-        return super(EstadoProducto, self).save(*args, **kwargs)
 
 
 #######################################################################################
@@ -137,20 +92,4 @@ class Producto(BaseModel):
         return str(self.nombre)
     
     def get_absolute_url(self): 
-        return reverse('POS:producto', kwargs={'pk' :self.id})
-
-    def save(self, *args, **kwargs):
-        ''' Al guardar actualizar fecha y usuario del registro 
-            se recibe el usuario en el campo de updater
-            pero si es registro nuevo se guardará en creater '''
-        
-        if not self.id:
-            self.created = timezone.now()
-            self.creater = self.updater
-            self.updater = None
-        else:
-            print( "save - update")
-            self.updated = timezone.now()
-            self.updater = self.updater
-
-        return super(Producto, self).save(*args, **kwargs)
+        return reverse('inventario:producto', kwargs={'pk' :self.id})

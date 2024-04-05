@@ -346,7 +346,7 @@ def ajaxValidarVenta(request):
 
 
 ########################################################################################
-########  VISTAS GENÉRICAS #############################################################
+########## VISTAS GENERICAS PARA LISTAR LOS DIFERENTES MODELOS #########################
 ########################################################################################
 
 ##### ESTADO VENTA ##################
@@ -354,7 +354,7 @@ class EstadoVentaListView(ListView):
     
     model = EstadoVenta
     paginate_by = 20  # if pagination is desired
-    template_name = "ventas/objectsView.html"
+    template_name = "baseapp/objectsView.html"
 
     def get_context_data(self, **kwargs):
         context = super(EstadoVentaListView, self).get_context_data(**kwargs)
@@ -369,9 +369,13 @@ class EstadoVentaListView(ListView):
 ########  VISTAS GENÉRICAS PARA DETALLES DE CADA MODELO ################################
 ########################################################################################
 
-
 class EstadoVentaDetailView(generic.DetailView):
     model = EstadoVenta
     context_object_name = "object_detail"
-    template_name = "ventas/objectDetail.html"
+    template_name = "baseapp/objectDetail.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        estadoVenta = self.get_object()
+        context['object_detail'] = {field.verbose_name: getattr(estadoVenta, field.name) for field in estadoVenta._meta.fields}
+        return context

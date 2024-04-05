@@ -14,7 +14,7 @@ class CategoriaListView(ListView):
     
     model = Categoria
     paginate_by = 20  # if pagination is desired
-    template_name = "inventario/objectsView.html"
+    template_name = "baseapp/objectsView.html"
 
     def get_context_data(self, **kwargs):
         context = super(CategoriaListView, self).get_context_data(**kwargs)
@@ -27,7 +27,7 @@ class SubCategoriaListView(ListView):
     
     model = SubCategoria
     paginate_by = 20  # if pagination is desired
-    template_name = "inventario/objectsView.html"
+    template_name = "baseapp/objectsView.html"
 
     def get_context_data(self, **kwargs):
         context = super(SubCategoriaListView, self).get_context_data(**kwargs)
@@ -40,7 +40,7 @@ class EstadoProductoListView(ListView):
     
     model = EstadoProducto
     paginate_by = 20  # if pagination is desired
-    template_name = "inventario/objectsView.html"
+    template_name = "baseapp/objectsView.html"
 
     def get_context_data(self, **kwargs):
         context = super(EstadoProductoListView, self).get_context_data(**kwargs)
@@ -54,7 +54,7 @@ class ProductoListView(ListView):
     
     model = Producto
     paginate_by = 10  # if pagination is desired
-    template_name = "inventario/objectsView.html"
+    template_name = "baseapp/objectsView.html"
 
     def get_context_data(self, **kwargs):
         context = super(ProductoListView, self).get_context_data(**kwargs)
@@ -79,19 +79,19 @@ class ProductoListView(ListView):
 class CategoriaDetailView(generic.DetailView):
     model = Categoria
     context_object_name = "object_detail"
-    template_name = "inventario/objectDetail.html"
+    template_name = "baseapp/objectDetail.html"
 
 class SubCategoriaDetailView(generic.DetailView):
     model = SubCategoria
     context_object_name = "object_detail"
-    template_name = "inventario/objectDetail.html"
+    template_name = "baseapp/objectDetail.html"
 
 class ProductoDetailView(generic.DetailView):
     model = Producto
     context_object_name = "object_detail"
-    template_name = "inventario/objectDetail.html"
+    template_name = "baseapp/objectDetail.html"
 
 class EstadoProductoDetailView(generic.DetailView):
     model = EstadoProducto
     context_object_name = "object_detail"
-    template_name = "inventario/objectDetail.html"
+    template_name = "baseapp/objectDetail.html"

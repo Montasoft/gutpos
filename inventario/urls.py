@@ -1,16 +1,16 @@
 from xml.dom.minidom import Document
 from django.urls import path
 
-from baseapp import views
+from inventario import views
 from django.conf import settings
 from django.conf.urls.static import static
 
-app_name ="invantario"
+app_name ="inventario"
 
 urlpatterns = [
 
     path('productos', views.ProductoListView.as_view(), name='productos'),
-    path('producto/<int:pk>', views.producto, name="producto"),
+    path('producto/<int:pk>', views.ProductoDetailView.as_view, name="producto"),
     
     # Rutas para visualizar lista de los modelos de apoyo
     path('categorias', views.CategoriaListView.as_view(), name='categorias'),

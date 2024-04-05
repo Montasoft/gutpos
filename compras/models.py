@@ -5,7 +5,6 @@ from django.db.models import Sum, FloatField, F
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
 
-
 from baseapp.models import BaseModel, Tercero, FormaPago
 from inventario.models import Producto
 
@@ -70,23 +69,6 @@ class Proveedor(Tercero):
     def get_absolute_url(self):
         return reverse('POS:proveedor', kwargs={'pk' :self.id})
 
-    def save(self, *args, **kwargs):
-        ''' Al guardar actualizar fecha y usuario del registro 
-            se recibe el usuario en el campo de updater
-            pero si es registro nuevo se guardará en creater '''
-        
-        if not self.id:
-            self.created = timezone.now()
-            self.creater = self.updater
-            self.updater = None
-        else:
-            print( "save - update")
-            self.updated = timezone.now()
-            self.updater = self.updater
-
-        return super(Proveedor, self).save(*args, **kwargs)
-
-
 class Compra(BaseModel):
     proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
     fecha_compra = models.DateField()
@@ -116,19 +98,6 @@ class Compra(BaseModel):
            total=Sum(F('paquetes')*F('unidades')* F('neto'), output_field=FloatField())
         )['total']
 
-    def save(self, *args, **kwargs):
-        ''' Al guardar actualizar fecha y usuario del registro 
-            se recibe el usuario en el campo de updater
-            pero si es registro nuevo se guardará en creater '''
-        print(self.id)
-        if not self.id:
-            self.created = timezone.now()
-            self.creater = self.updater
-            self.updater = None
-        else:
-            print( "save - update")
-            self.updated = timezone.now()
-            self.updater = self.updater
 
         return super(Compra, self).save(*args, **kwargs)
 

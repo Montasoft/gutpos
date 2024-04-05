@@ -56,9 +56,6 @@ LOCAL_APPS = [
     'carrito',
     'pedidos',
     'autenticacion',
-    
-    
-    
 ]
 
 THIRD_APPS=[
@@ -94,6 +91,9 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'carrito.context_processor.importeTotalCarro',
             ],
+            'libraries':{
+            'custom_tags': 'baseapp.custom_tags',
+            }
         },
     },
 ]

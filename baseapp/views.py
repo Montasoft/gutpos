@@ -21,8 +21,10 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import *
 from inventario.models import Producto
 from ventas.models import Cliente
+from baseapp.models import Banco
 from carrito.carrito import Carrito
 from .precargar import cargaInicial
+from django.db.models import F, CharField, Case, Value, When
 
 
 def is_cajero(user):
@@ -55,8 +57,12 @@ def POS(request):
 
     print ("items:", meList)
 
-    return render(request, "baseapp/basePOS.html", {'menu': meList})
+    # Precargar Proveedor
+    banco2 = Banco(nombre = "No Determinado3", 
+                    updater = request.user.username,)
+    banco2.save()
 
+    return render(request, "baseapp/basePOS.html", {'menu': meList})
 
 
 @login_required(login_url=settings.LOGIN_URL)
@@ -104,6 +110,7 @@ def AjaxGetOptionSelect(request):
 
     return JsonResponse(response)
 
+
 ########################################################################################
 def pedirMenu(modelo = None, id= None):
     
@@ -122,22 +129,42 @@ def pedirMenu(modelo = None, id= None):
     print ("menu:", menuList)
     return JsonResponse({'success': True,'menu': menuList})
 
+##########################################################################
+########## VISTAS GENERICAS PARA LISTAR LOS DIFERENTES MODELOS ###########
+##########################################################################
 
-##### BANCOS  ##################
+##### BANCOS  ##################        
 class BancoListView(ListView):
     
     model = Banco
     paginate_by = 20  # if pagination is desired
     template_name = "baseapp/objectsView.html"
-    queryset = Banco.objects.all().only('id', 'nombre').annotate(field1=F('nombre'))
+
+    queryset = Banco.objects.all().only('id', 'nombre')
 
     def get_context_data(self, **kwargs):
-        context = super(BancoListView, self).get_context_data(**kwargs)
-        context_object_name = "object_list"
+        context = super().get_context_data(**kwargs)
         context['subtitulo'] = "Bancos"
-        context['campos'] = ['id', 'nombre' ]
-        return context
+        # Definimos los campos que deseamos mostrar en la tabla
+        context['campos'] = ['id', 'nombre', 'Absolute_URL']
 
+        # Obtenemos la página actual
+        page = self.request.GET.get('page')
+        
+        # Obtenemos los datos de la página actual
+        object_data = []
+        for obj in context['object_list']:
+            obj_data = {}
+            for campo in context['campos']:
+                if campo == 'Absolute_URL':
+                    obj_data[campo] = obj.get_absolute_url()
+                else:
+                    obj_data[campo] = getattr(obj, campo)
+            object_data.append(obj_data)
+
+        # Pasamos los datos de la página actual a la plantilla
+        context['object_data'] = object_data
+        return context
 
 ##### DEPARTAMENTO ##################
 class DepartamentoListView(ListView):
@@ -146,12 +173,34 @@ class DepartamentoListView(ListView):
     paginate_by = 20  # if pagination is desired
     template_name = "baseapp/objectsView.html"
 
+    queryset = Departamento.objects.all().only('id', 'nombre', 'cod_dane')
+
     def get_context_data(self, **kwargs):
-        context = super(DepartamentoListView, self).get_context_data(**kwargs)
-        context_object_name = "object_list"
+        context = super().get_context_data(**kwargs)
         context['subtitulo'] = "Departamentos"
+
+        # Definimos los campos que deseamos mostrar en la tabla
+        context['campos'] = ['id', 'nombre', 'cod_dane', 'Absolute_URL']
+
+        # Obtenemos la página actual
+        page = self.request.GET.get('page')
+        
+        # Obtenemos los datos de la página actual
+        object_data = []
+        for obj in context['object_list']:
+            obj_data = {}
+            for campo in context['campos']:
+                if campo == 'Absolute_URL':
+                    obj_data[campo] = obj.get_absolute_url()
+                else:
+                    obj_data[campo] = getattr(obj, campo)
+            object_data.append(obj_data)
+
+        # Pasamos los datos de la página actual a la plantilla
+        context['object_data'] = object_data
         return context
     
+
 ##### CIUDAD ##################
 class CiudadListView(ListView):
     
@@ -159,12 +208,32 @@ class CiudadListView(ListView):
     paginate_by = 20  # if pagination is desired
     template_name = "baseapp/objectsView.html"
 
+    queryset = Ciudad.objects.all().only('id', 'nombre')
+
     def get_context_data(self, **kwargs):
-        context = super(CiudadListView, self).get_context_data(**kwargs)
-        context_object_name = "object_list"
-        context['subtitulo'] = "Ciudades"
+        context = super().get_context_data(**kwargs)
+        context['subtitulo'] = "Listado de Ciudades "
+        # Definimos los campos que deseamos mostrar en la tabla
+        context['campos'] = ['id', 'nombre', 'Absolute_URL']
+
+        # Obtenemos la página actual
+        page = self.request.GET.get('page')
+        
+        # Obtenemos los datos de la página actual
+        object_data = []
+        for obj in context['object_list']:
+            obj_data = {}
+            for campo in context['campos']:
+                if campo == 'Absolute_URL':
+                    obj_data[campo] = obj.get_absolute_url()
+                else:
+                    obj_data[campo] = getattr(obj, campo)
+            object_data.append(obj_data)
+
+        # Pasamos los datos de la página actual a la plantilla
+        context['object_data'] = object_data
         return context
-    
+
 ##### TIPO DE DOCUMENTO  ##################
 class TipoDocumentoListView(ListView):
     
@@ -172,10 +241,30 @@ class TipoDocumentoListView(ListView):
     paginate_by = 20  # if pagination is desired
     template_name = "baseapp/objectsView.html"
 
+    queryset = TipoDocumento.objects.all().only('id', 'cod', 'nombre')
+
     def get_context_data(self, **kwargs):
-        context = super(TipoDocumentoListView, self).get_context_data(**kwargs)
-        context_object_name = "object_list"
-        context['subtitulo'] = "Tipos de documento"
+        context = super().get_context_data(**kwargs)
+        context['subtitulo'] = "Tipo de documento"
+        # Definimos los campos que deseamos mostrar en la tabla
+        context['campos'] = ['id', 'cod', 'nombre', 'Absolute_URL']
+
+        # Obtenemos la página actual
+        page = self.request.GET.get('page')
+        
+        # Obtenemos los datos de la página actual
+        object_data = []
+        for obj in context['object_list']:
+            obj_data = {}
+            for campo in context['campos']:
+                if campo == 'Absolute_URL':
+                    obj_data[campo] = obj.get_absolute_url()
+                else:
+                    obj_data[campo] = getattr(obj, campo)
+            object_data.append(obj_data)
+
+        # Pasamos los datos de la página actual a la plantilla
+        context['object_data'] = object_data
         return context
 
 
@@ -185,13 +274,66 @@ class FormaPagoListView(ListView):
     model = FormaPago
     paginate_by = 20  # if pagination is desired
     template_name = "baseapp/objectsView.html"
+    
+    queryset = FormaPago.objects.all().only('id', 'nombre', 'descripcion')
 
     def get_context_data(self, **kwargs):
-        context = super(FormaPagoListView, self).get_context_data(**kwargs)
-        context_object_name = "object_list"
+        context = super().get_context_data(**kwargs)
         context['subtitulo'] = "Formas de pago"
+        # Definimos los campos que deseamos mostrar en la tabla
+        context['campos'] = ['id', 'nombre', 'descripcion', 'Absolute_URL']
+
+        # Obtenemos la página actual
+        page = self.request.GET.get('page')
+        
+        # Obtenemos los datos de la página actual
+        object_data = []
+        for obj in context['object_list']:
+            obj_data = {}
+            for campo in context['campos']:
+                if campo == 'Absolute_URL':
+                    obj_data[campo] = obj.get_absolute_url()
+                else:
+                    obj_data[campo] = getattr(obj, campo)
+            object_data.append(obj_data)
+
+        # Pasamos los datos de la página actual a la plantilla
+        context['object_data'] = object_data
         return context
 
+
+##### TIPO DE CUENTA BANCARIA  ##################
+class TipoCuentaBancariaListView(ListView):
+    
+    model = TipoCuentaBancaria
+    paginate_by = 20  # if pagination is desired
+    template_name = "baseapp/objectsView.html"
+
+    queryset = TipoCuentaBancaria.objects.all().only('id', 'nombre')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['subtitulo'] = "Tipo de cuenta bancaria"
+        # Definimos los campos que deseamos mostrar en la tabla
+        context['campos'] = ['id', 'nombre', 'Absolute_URL']
+
+        # Obtenemos la página actual
+        page = self.request.GET.get('page')
+        
+        # Obtenemos los datos de la página actual
+        object_data = []
+        for obj in context['object_list']:
+            obj_data = {}
+            for campo in context['campos']:
+                if campo == 'Absolute_URL':
+                    obj_data[campo] = obj.get_absolute_url()
+                else:
+                    obj_data[campo] = getattr(obj, campo)
+            object_data.append(obj_data)
+
+        # Pasamos los datos de la página actual a la plantilla
+        context['object_data'] = object_data
+        return context
 
 
 
@@ -204,24 +346,70 @@ class BancoDetailView(generic.DetailView):
     context_object_name = "object_detail"
     template_name = "baseapp/objectDetail.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        banco = self.get_object()
+        object_detail = {}
+
+        context['object_detail'] = {field.verbose_name: getattr(banco, field.name) for field in banco._meta.fields}
+        return context
+
 class DepartamentoDetailView(generic.DetailView):
     model = Departamento
     context_object_name = "object_detail"
     template_name = "baseapp/objectDetail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        departamento = self.get_object()
+        context['object_detail'] = {field.verbose_name: getattr(departamento, field.name) for field in departamento._meta.fields}
+        return context
 
 class CiudadDetailView(generic.DetailView):
     model = Ciudad
     context_object_name = "object_detail"
     template_name = "baseapp/objectDetail.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        ciudad = self.get_object()
+        context['object_detail'] = {field.verbose_name: getattr(ciudad, field.name) for field in ciudad._meta.fields}
+        return context
+
 class TipoDocumentoDetailView(generic.DetailView):
     model = TipoDocumento
     context_object_name = "object_detail"
     template_name = "baseapp/objectDetail.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tipoDocumento = self.get_object()
+        context['object_detail'] = {field.verbose_name: getattr(tipoDocumento, field.name) for field in tipoDocumento._meta.fields}
+        return context
+
+
 class FormaPagoDetailView(generic.DetailView):
     model = FormaPago
     context_object_name = "object_detail"
     template_name = "baseapp/objectDetail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        formaPago = self.get_object()
+        context['object_detail'] = {field.verbose_name: getattr(formaPago, field.name) for field in formaPago._meta.fields}
+        return context
+
+
+class tipoCuentaBancariaDetailView(generic.DetailView):
+    model = TipoCuentaBancaria
+    context_object_name = "object_detail"
+    template_name = "baseapp/objectDetail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tipoCuentaBancaria = self.get_object()
+        context['object_detail'] = {field.verbose_name: getattr(tipoCuentaBancaria, field.name) for field in tipoCuentaBancaria._meta.fields}
+        return context
+
 
 
