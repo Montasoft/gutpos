@@ -1,25 +1,24 @@
-<!-- baseapp/objectDetail.html -->
-<!DOCTYPE html>
-<html lang="en">
+{% extends "baseapp/basePOS.html" %}
+{% load static %}
+{% load custom_tags %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Object Detail</title>
-</head>
+{% block title %}
+    Detalles del objeto
+{% endblock %}
 
-<body>
-    <h1>Object Detail</h1>
-    {{ object_detail }}
-    {{ object_detail.id }}
-    {{ object_detail.nombre }}
+{% block content %}
 
-    <ul>
+<a class="" href="{% url 'baseapp:bancoCreateView' %}">Crear </a>
+
+<h1>Object Detail</h1>
+{{ object_detail }}
+
+<ul>
         {% for field, value in object_detail.items %}
             <li><strong>{{ field }}:</strong> {{ value }}</li>
         {% endfor %}
     </ul>
-
+    
     <ul>
 
         {% for field in object_detail.meta.get_fields %}
@@ -28,21 +27,19 @@
             {% endif %}
         {% endfor %}
     </ul>
-
     
 <!-- INICIO MODAL NUEVA ENTIDAD -->
 <div class="modal fade" id="modal_nueva_entidad" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
 aria-labelledby="modal_nueva_entidad_Label" aria-hidden="true">
-    {% include "compras/modalGuardarCompra.html" %}
+    {% include "baseapp/objectCreate.html" %}
 </div>
 
 <!--llamar al modal -->
 <p class="text-center"> <button class="btn btn-primary btn-flotante" type="submit"
-  onclick="abrirModal('modal_nueva_entidad',  `{% url 'compras:guardarCompra' %}` )">Nueva Compra</button> </p>
+  onclick="abrirModal('modal_nueva_entidad',  `{% url 'baseapp:bancoCreateView' %}` )">Nueva Compra</button> </p>
 
 <!-- FINAL MODAL NUEVA COMPRA-->
 
+<script src="{% static 'baseapp/js/baseapp.js' %}"></script>
 
-</body>
-
-</html>
+{% endblock %}

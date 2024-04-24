@@ -29,6 +29,18 @@ urlpatterns = [
     path('tipocuentabancaria/<int:pk>', views.tipoCuentaBancariaDetailView.as_view(), name='tipocuentabancariadetail'),
     path('formapago/<int:pk>', views.FormaPagoDetailView.as_view(), name='formapagodetail'),
 
+    # Rutas para adicionar objetos nuevos a los modelos.
+    path('Banco/add', views.BancoCreateView.as_view(), name='BancoCreateView'),
+    path('Departamento/add', views.DepartamentoCreateView.as_view(), name='DepartamentoCreateView'),
+    path('Ciudad/add', views.CiudadCreateView.as_view(), name='CiudadCreateView'),
+    path('TipoDocumento/add', views.TipoDocumentoCreateView.as_view(), name='TipoDocumentoCreateView'),
+    path('FormaPago/add', views.FormaPagoCreateView.as_view(), name='FormaPagoCreateView'),
+    path('TipoCuentaBancaria/add', views.TipoCuentaBancariaCreateView.as_view(), name='TipoCuentaBancariaCreateView'),
+
+    # ruta para mostrar después de una creación exitosa
+    path('objectCreated', views.objectCreated, name='objectCreated'),
+
+
     # Rutas AJAX
     path('pedirMenu', views.pedirMenu, name="pedirMenu"),
     path('AjaxGetOptionSelect', views.AjaxGetOptionSelect, name="AjaxGetOptionSelect"),

@@ -92,4 +92,4 @@ class Producto(BaseModel):
         return str(self.nombre)
     
     def get_absolute_url(self): 
-        return reverse('inventario:producto', kwargs={'pk' :self.id})
+        return reverse('inventario:productodetail', kwargs={'pk' :self.id})

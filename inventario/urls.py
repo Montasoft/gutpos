@@ -8,9 +8,6 @@ from django.conf.urls.static import static
 app_name ="inventario"
 
 urlpatterns = [
-
-    path('productos', views.ProductoListView.as_view(), name='productos'),
-    path('producto/<int:pk>', views.ProductoDetailView.as_view, name="producto"),
     
     # Rutas para visualizar lista de los modelos de apoyo
     path('categorias', views.CategoriaListView.as_view(), name='categorias'),
@@ -24,7 +21,14 @@ urlpatterns = [
     path('estadoproducto/<int:pk>', views.EstadoProductoDetailView.as_view(), name='estadoproductodetail'),
     path('producto/<int:pk>', views.ProductoDetailView.as_view(), name='productodetail'),
     
+    # Rutas para adicionar objetos nuevos a los modelos.
+    path('categoria/add', views.CategoriaCreateView.as_view(), name='categoriaCreateView'),
+    path('subcategoria/add', views.SubCategoriaCreateView.as_view(), name='subcategoriaCreateView'),
+    path('estadoproducto/add', views.EstadoProductoCreateView.as_view(), name='estadoproductoCreateView'),
+    path('producto/add', views.ProductoCreateView.as_view(), name='productoCreateView'),
+
     # Rutas AJAX  
 ]
+
 
 urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

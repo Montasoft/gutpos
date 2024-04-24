@@ -129,6 +129,7 @@ def pedirMenu(modelo = None, id= None):
     print ("menu:", menuList)
     return JsonResponse({'success': True,'menu': menuList})
 
+
 ##########################################################################
 ########## VISTAS GENERICAS PARA LISTAR LOS DIFERENTES MODELOS ###########
 ##########################################################################
@@ -145,6 +146,8 @@ class BancoListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['subtitulo'] = "Bancos"
+        context['modelo'] = "Banco"
+        context['url_crea'] = "baseapp:BancoCreateView"
         # Definimos los campos que deseamos mostrar en la tabla
         context['campos'] = ['id', 'nombre', 'Absolute_URL']
 
@@ -178,6 +181,8 @@ class DepartamentoListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['subtitulo'] = "Departamentos"
+        context['modelo'] = "Departamento" 
+        context['url_crea'] = "baseapp:DepartamentoCreateView"
 
         # Definimos los campos que deseamos mostrar en la tabla
         context['campos'] = ['id', 'nombre', 'cod_dane', 'Absolute_URL']
@@ -213,6 +218,9 @@ class CiudadListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['subtitulo'] = "Listado de Ciudades "
+        context['modelo'] = "Ciudad"
+        context['url_crea'] = "baseapp:CiudadCreateView"
+
         # Definimos los campos que deseamos mostrar en la tabla
         context['campos'] = ['id', 'nombre', 'Absolute_URL']
 
@@ -246,6 +254,9 @@ class TipoDocumentoListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['subtitulo'] = "Tipo de documento"
+        context['modelo'] = "TipoDocumento"
+        context['url_crea'] = "baseapp:TipoDocumentoCreateView"
+
         # Definimos los campos que deseamos mostrar en la tabla
         context['campos'] = ['id', 'cod', 'nombre', 'Absolute_URL']
 
@@ -280,6 +291,10 @@ class FormaPagoListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['subtitulo'] = "Formas de pago"
+        context['modelo'] = "FormaPago"
+        context['url_crea'] = "baseapp:FormaPagoCreateView"
+        
+
         # Definimos los campos que deseamos mostrar en la tabla
         context['campos'] = ['id', 'nombre', 'descripcion', 'Absolute_URL']
 
@@ -314,6 +329,9 @@ class TipoCuentaBancariaListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['subtitulo'] = "Tipo de cuenta bancaria"
+        context['modelo'] = "TipoCuentaBancaria"
+        context['url_crea'] = "baseapp:TipoCuentaBancariaCreateView"
+
         # Definimos los campos que deseamos mostrar en la tabla
         context['campos'] = ['id', 'nombre', 'Absolute_URL']
 
@@ -412,4 +430,125 @@ class tipoCuentaBancariaDetailView(generic.DetailView):
         return context
 
 
+########################################################################################
+########  VISTAS GENÉRICAS PARA CREAR CADA MODELO ################################
+########################################################################################
+ 
+class BancoCreateView(generic.CreateView):
+    model = Banco
+    fields = ['nombre']
+    template_name = "baseapp/objectCreate.html" # Nombre de la plantilla donde se renderizará el formulario
+    success_url = '/objectCreated'
+            
+    def form_valid(self, form):
+        # Antes de guardar el formulario, establece el updater 
+        if self.request.user.is_authenticated:
+            form.instance.updater = self.request.user.username
 
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['modelo'] = "banco"
+        context['url_crea'] = "baseapp:BancoCreateView"
+        return context
+
+class DepartamentoCreateView(generic.CreateView):
+    model = Departamento
+    fields = ['nombre', 'cod_dane']
+    template_name = "baseapp/objectCreate.html" # Nombre de la plantilla donde se renderizará el formulario
+    success_url = '/objectCreated'
+
+    def form_valid(self, form):
+        # Antes de guardar el formulario, establece el updater 
+        if self.request.user.is_authenticated:
+            form.instance.updater = self.request.user.username
+
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['modelo'] = "Departamento"
+        context['url_crea'] = "baseapp:DepartamentoCreateView"
+        return context
+
+class CiudadCreateView(generic.CreateView):
+    model = Ciudad
+    fields = ['nombre']
+    template_name = "baseapp/objectCreate.html" # Nombre de la plantilla donde se renderizará el formulario
+    success_url = '/objectCreated'
+
+    def form_valid(self, form):
+        # Antes de guardar el formulario, establece el updater 
+        if self.request.user.is_authenticated:
+            form.instance.updater = self.request.user.username
+
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['modelo'] = "ciudad"
+        context['url_crea'] = "baseapp:CiudadCreateView"
+        return context
+
+class TipoDocumentoCreateView(generic.CreateView):
+    model = TipoDocumento
+    fields = ['cod', 'nombre']
+    template_name = "baseapp/objectCreate.html" # Nombre de la plantilla donde se renderizará el formulario
+    success_url = '/objectCreated'
+
+    def form_valid(self, form):
+        # Antes de guardar el formulario, establece el updater 
+        if self.request.user.is_authenticated:
+            form.instance.updater = self.request.user.username
+
+        return super().form_valid(form)
+
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['modelo'] = "tipo de documento"
+        context['url_crea'] = "baseapp:TipoDocumentoCreateView"
+        return context
+
+class FormaPagoCreateView(generic.CreateView):
+    model = FormaPago
+    fields = ['nombre', 'descripcion']
+    template_name = "baseapp/objectCreate.html" # Nombre de la plantilla donde se renderizará el formulario
+    success_url = '/objectCreated'
+
+    def form_valid(self, form):
+        # Antes de guardar el formulario, establece el updater 
+        if self.request.user.is_authenticated:
+            form.instance.updater = self.request.user.username
+
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['modelo'] = "forma de pago"
+        context['url_crea'] = "baseapp:FormaPagoCreateView"
+        return context
+
+class TipoCuentaBancariaCreateView(generic.CreateView):
+    model = TipoCuentaBancaria
+    fields = ['nombre']
+    template_name = "baseapp/objectCreate.html" # Nombre de la plantilla donde se renderizará el formulario
+    success_url = '/objectCreated'
+
+    def form_valid(self, form):
+        # Antes de guardar el formulario, establece el updater 
+        if self.request.user.is_authenticated:
+            form.instance.updater = self.request.user.username
+
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['modelo'] = "tipo de cuenta bancaria"
+        context['url_crea'] = "baseapp:TipoCuentaBancariaCreateView"
+        return context
+
+def objectCreated(request):
+    # vista creada para mostrar después de que un objeto ha sido creado exitosamente
+    return render(request, "baseapp/objectCreated.html")

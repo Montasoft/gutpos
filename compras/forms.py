@@ -61,6 +61,23 @@ class FormCompraDetalles(forms.ModelForm):
             'observacion': forms.Textarea (attrs={'class':'form-control', 'row':'1'})
         }
 
+class FormCompraDetallesFast(forms.ModelForm):
+    class Meta:
+        model = CompraDetalles
+        field = ('compra', 'producto', 'unidades', 'valor_paquete', 'neto','observacion')
+        exclude = ('paquetes', 'descuento_pre_iva', 'descuento_pos_iva', 'iva', 'flete','state','created','creater','updated', 'updater','deleted','deleter', 'tarifa_aplicada', 'costo')
+
+        widgets = {
+            'compra': forms.NumberInput(attrs={'type':'hidden'}),
+            'producto': forms.Select (attrs={'class':'form-control'}),
+            'paquetes': forms.NumberInput(attrs={'class':'form-control text-end'}),
+            'unidades': forms.NumberInput(attrs={'class':'form-control text-end'}),
+            'valor_paquete': forms.NumberInput (attrs={'class':'form-control text-end'}),
+            'neto': forms.NumberInput(attrs={'class':'form-control text-end'}),
+            'observacion': forms.Textarea (attrs={'class':'form-control', 'row':'1'})
+        }
+
+
 class FormPagoCompra(forms.ModelForm):
      class Meta:
         model = PagoCompra

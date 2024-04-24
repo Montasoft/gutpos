@@ -3,101 +3,116 @@
 {% load custom_tags %}
 
 {% block links %}
-  <script src="{% static 'baseapp/js/objectsview.js' %}"></script>
+<script src="{% static 'baseapp/js/objectsview.js' %}"></script>
 {%endblock %}
 
 {% block title %}
-  {{subtitulo}}
+{{subtitulo}}
 {% endblock %}
 
 {% block content %}
 
-  <div id="content" class="">
-    <h1>{{subtitulo}}</h1>
+<div id="content" class="">
+  <h1>{{subtitulo}}</h1>
 
-    <!-- BOTÓN PARA AGREGAR NUEVO -->
-    <div id="content-main">
-      <ul class="object-tools">
-        <li>
-          <a href="{{subtitulo}}/add" class="">
-            <i class="fa fa-plus-circle" aria-hidden="true">
-              <span>Añadir {{subtitulo}}</span>
-            </i>
+  <!-- BOTÓN PARA AGREGAR NUEVO -->
+  <div id="content-main">
+    <ul class="object-tools">
+      <li>
+        <a href="{{modelo}}/add" class="">
+          <i class="fa fa-plus-circle" aria-hidden="true">
+            <span>Añadir {{subtitulo}}</span>
+          </i>
 
-          </a>
-        </li>
-      </ul>
-    </div>
-
-
-    <table>
-      <thead>
-        <tr>
-          {% for campo in campos %}
-          <th>{{ campo }}</th>
-          {% endfor %}
-        </tr>
-      </thead>
-      <tbody>
-        {% for obj in object_data %}
-        <tr>
-          {% for campo in campos %}
-          {% with valor=obj|get_item:campo %}
-          {% if campo == 'Absolute_URL' %}
-          <td>
-            <a href="{{ valor }}" class="btn btn-primary btn-sm"> <i class="fa fa-pencil" aria-hidden="true"></i>
-              <br><span></span></a>
-            <a href="{{ obj.get_absolute_url }}" class="btn btn-primary btn-sm" style="width=30px;"><i
-                class="fa fa-trash-o" aria-hidden="true"></i> <br><span></span></a>
-          </td>
-          {% else %}
-          <td>{{ valor }}</td>
-          {% endif %}
-          {% endwith %}
-          {% endfor %}
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-
-    <div class="content">
-      <!-- Content -->
-
-
-      <!-- RECIBO EL JSON DE campos -->
-      {{object_data|json_script:"object_data"}}
-
-      <!-- TABLA PARA MOSTRAR VENTAS REGISTRADAS -->
-
-      <div class="table-responsive">
-        <table id="tabla_items" class="cell-border" style="width:90%">
-
-        </table>
-      </div>
-
-    </div>
+        </a>
+      </li>
+    </ul>
   </div>
 
+  <table>
+    <thead>
+      <tr>
+        {% for campo in campos %}
+        <th>{{ campo }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for obj in object_data %}
+      <tr>
+        {% for campo in campos %}
+        {% with valor=obj|get_item:campo %}
+        {% if campo == 'Absolute_URL' %}
+        <td>
+          <a href="{{ valor }}" class="btn btn-primary btn-sm"> <i class="fa fa-pencil" aria-hidden="true"></i>
+            <br><span></span></a>
+          <a href="{{ obj.get_absolute_url }}" class="btn btn-primary btn-sm" style="width=30px;"><i
+              class="fa fa-trash-o" aria-hidden="true"></i> <br><span></span></a>
+        </td>
+        {% else %}
+        <td>{{ valor }}</td>
+        {% endif %}
+        {% endwith %}
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="content">
+    <!-- Content -->
+
+    <!-- RECIBO EL JSON DE campos -->
+    {{object_data|json_script:"object_data"}}
+
+    <!-- TABLA PARA MOSTRAR VENTAS REGISTRADAS -->
+
+
+
+  </div>
+
+  
 
   {% block pagination %}
-    <!-- Agregar navegación de paginación -->
-    <div class="pagination">
-      <span class="step-links">
-        {% if page_obj.has_previous %}
-        <a href="?page=1">&laquo; Primera</a>
-        <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
-        {% endif %}
+  <!-- Agregar navegación de paginación -->
+  <div class="pagination">
+    <span class="step-links">
+      {% if page_obj.has_previous %}
+      <a href="?page=1">&laquo; Primera</a>
+      <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+      {% endif %}
 
-        <span class="current">
-          Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
-        </span>
-
-        {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
-        <a href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a>
-        {% endif %}
+      <span class="current">
+        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
       </span>
-    </div>
+
+      {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a>
+      {% endif %}
+    </span>
+  </div>
   {% endblock %}
+
+  
+<!-- INICIO MODAL NUEVA ENTIDAD -->
+<div class="modal fade" id="modal_nueva_entidad" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+aria-labelledby="modal_nueva_entidad_Label" aria-hidden="true">
+  {% include "baseapp/objectCreate.html" %}
+</div>
+
+<!--llamar al modal -->
+
+  <p id="contenedorBoton" class="text-center" data-url_crea = {{url_crea}}  data-subtitulo = {{subtitulo}}> 
+    <button class="btn btn-primary btn-flotante" type="submit" onclick="abrirModal('modal_nueva_entidad',  `{% url url_crea  %}` )">Agregar  {{ subtitulo }}</button> 
+  </p>
+
+
+
+<!-- FINAL MODAL NUEVA COMPRA-->
+
+<script src="{% static 'baseapp/js/baseapp.js' %}"></script>
+
+<script src="{% static 'baseapp/js/baseapp.js' %}"></script>
 
 {% endblock %}

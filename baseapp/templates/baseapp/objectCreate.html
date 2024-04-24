@@ -1,0 +1,42 @@
+{% extends "baseapp/basePOS.html" %}
+{% load static %}
+{% load custom_tags %}
+
+{% block links %}
+<script src="{% static 'baseapp/js/objectsview.js' %}"></script>
+{%endblock %}
+
+{% block title %}
+{{modelo}}
+{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal_nueva_compra">Guardar {{modelo}}</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      {% if compra %}
+      <form id="formNuevo" method="post" action="{% url 'compras:guardarCompra' compra.id %}">
+        {% else %}
+        <form id="formNuevo" method="post" action=" {% url url_crea  %}">
+          {% endif %}
+          {% csrf_token %}
+          {{ form.as_p }}
+        </form>
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      <button type="submit" form="formNuevo" class="btn btn-primary">Guardar {{modelo}}</button>
+    </div>
+  </div>
+</div>
+{% endblock %}

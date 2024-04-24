@@ -13,6 +13,7 @@ from inventario.models import Producto
 '''
 Se definen las clases:
     EstadoCompra
+    Proveedor
     Compra
     CompraDetalles
     PagoCompra
@@ -28,7 +29,7 @@ class EstadoCompra(BaseModel):
 
     '''
     nombre = models.CharField(max_length=25)
-    descipcion = models.CharField(max_length=150, null=True, blank=True)
+    descripcion = models.CharField(max_length=150, null=True, blank=True)
 
     def __str__(self):
         return self.nombre
@@ -67,7 +68,8 @@ class Proveedor(Tercero):
         return  self.nombre
 
     def get_absolute_url(self):
-        return reverse('POS:proveedor', kwargs={'pk' :self.id})
+        return reverse('compras:proveedordetail', kwargs={'pk' :self.id})
+        
 
 class Compra(BaseModel):
     proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)

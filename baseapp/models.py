@@ -86,6 +86,22 @@ class SubMenu(models.Model):
 
 
 #######################################################################################
+class Banco(BaseModel):
+    nombre= models.CharField(max_length=150)
+
+    def __str__(self):
+        return  self.nombre
+    
+    def get_absolute_url(self):
+        return reverse('baseapp:bancodetail', kwargs={'pk' :self.id})
+    
+    class Meta:
+        ordering =['nombre']
+        verbose_name = "Banco"
+        verbose_name_plural = "Bancos"
+
+
+#######################################################################################
 class Departamento(models.Model):
     nombre = models.CharField(max_length=50)
     cod_dane = models.CharField(max_length=2, unique=True)
@@ -184,20 +200,5 @@ class TipoCuentaBancaria(models.Model):
     def get_absolute_url(self):
         return reverse('baseapp:tipocuentabancaria', kwargs={'pk' :self.id})
 
-
-#######################################################################################
-class Banco(BaseModel):
-    nombre= models.CharField(max_length=150)
-
-    def __str__(self):
-        return  self.nombre
-    
-    def get_absolute_url(self):
-        return reverse('baseapp:bancodetail', kwargs={'pk' :self.id})
-    
-    class Meta:
-        ordering =['nombre']
-        verbose_name = "Banco"
-        verbose_name_plural = "Bancos"
 
     

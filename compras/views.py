@@ -11,7 +11,7 @@ from django.views import generic
 
 from compras.models import Proveedor 
 from baseapp.views import  is_cajero
-from .forms import FormCompra, FormCompraDetalles, FormPagoCompra
+from .forms import FormCompra, FormCompraDetalles, FormCompraDetallesFast, FormPagoCompra
 from .models import Compra, CompraDetalles, EstadoCompra, Producto, PagoCompra, FormaPago
 
 # Create your views here.
@@ -129,6 +129,69 @@ def comprasRegistradas(request, id_compra):
     return render(request, "compras/compraRegistrada.html", context= context)
 
 
+@login_required() # requiere estar logueado
+@user_passes_test(is_cajero ) # requiere ser cajero 
+def comprasFast(request, id_compra):
+    '''Consulta los datos de la compra y los detalles de compra
+    registrados para este id de compra.'''
+    
+    # get_object_or_404 para manejo error 404 de manera automtica
+    compra = get_object_or_404(Compra, id = id_compra)
+        
+    
+    print("compra registrada ss", compra)
+    print("compra registrada sssss", compra.total)
+
+    print(compra.proveedor)
+#    ventaDetalles = VentaDetalles.objects.filter(venta=id_compra, state = 0).values_list('id', 'compra', 'producto', 'paquetes', 'valor_paquete', 'descuento', 'observacion', )
+    compraDetalles = CompraDetalles.objects.filter(compra=id_compra, state = 0).select_related('producto').only('compra', 'producto', 'paquetes', 'valor_paquete', 'observacion', 'producto__nombre') # ideal para relaciones de uno a uno
+    compra2 = CompraDetalles.objects.filter(compra =id_compra).prefetch_related('producto').only('compra', 'producto', 'paquetes', 'valor_paquete', 'descuento_pre_iva', 'descuento_pos_iva',  'observacion', 'producto__nombre') # ideal para relaciones de uno a varios
+
+    print(compraDetalles)
+    # LISTAR PRODUCTOS
+    productosArray =[]
+    productos = Producto.objects.filter(estado = 1).prefetch_related('categoria').only('id', 'nombre', 'precio_venta', 'precio_mayor', 'cantidad_x_empaque', 'existencias', 'categoria_id__nombre', 'subcategoria__nombre')
+    for prod in productos:
+        pr={
+            'id' : prod.id,
+            'nombre': prod.nombre,
+            'precioVenta' : prod.precio_venta,
+            'costo' : prod.costo,
+            'existencias' : prod.existencias,
+            'categoria' : prod.categoria.nombre,
+            'subcategoria' : prod.subcategoria.nombre,
+            'cantidad_x_empaque': prod.cantidad_x_empaque,
+        }
+        productosArray.append(pr)
+    print(productosArray)
+    
+    compra3 = CompraDetalles.objects.filter(compra =id_compra).select_related('producto').only('compra', 'producto', 'paquetes', 'valor_unitario', 'descuento_pre_iva', 'descuento_pos_iva',  'observacion', 'producto__nombre') # ideal para relaciones de uno a uno
+
+    pago = PagoCompra(
+        proveedor = compra.proveedor,
+        compra = compra,
+        fecha_pago = dateformat.format(timezone.now(),'Y-m-d'),
+        forma_pago = FormaPago(id=1),
+        updater = request.user.username,
+        cajero = request.user
+    )
+
+    context = {}
+    context['compra'] = compra
+    context['form_compra'] = FormCompra(instance=compra)
+    context['form_compra_detalles'] = FormCompraDetallesFast
+    context['form_pago'] = FormPagoCompra(instance=pago)
+#    context['ven3'] = ven3
+    #context['ventaDetalles'] = dict_detalles
+    context['compraDetalles'] = compraDetalles
+
+#    context['productos'] = json.dumps(pr) # convertir a json
+#    context['productos'] = json.dumps(productosArray, cls=DjangoJSONEncoder) # convertir a json
+    context['productos'] = productosArray
+
+
+    return render(request, "compras/compraFast.html", context= context)
+
 ########################################################################################
 # funcion para crear compra. funcionando ?????
 def crearCompra(request):
@@ -209,7 +272,6 @@ def eliminarCompra(request, pk):
     compra.save()
 
     return redirect('compras:compras')
-
 
 
 def registrarpago(request, id_compra = None):
@@ -361,14 +423,70 @@ class ProveedorListView(ListView):
     
     model = Proveedor
     paginate_by = 20  # if pagination is desired
-    template_name = "compras/objectsView.html"
+    template_name = "baseapp/objectsView.html"
+
+    queryset = Proveedor.objects.all().only('id', 'nombre', 'telefono')
 
     def get_context_data(self, **kwargs):
-        context = super(ProveedorListView, self).get_context_data(**kwargs)
-        context_object_name = "object_list"
+        context = super().get_context_data(**kwargs)
         context['subtitulo'] = "Proveedores"
+        context['modelo'] = "proveedor"
+        
+        # Definimos los campos que deseamos mostrar en la tabla
+        context['campos'] = ['id', 'nombre', 'telefono', 'Absolute_URL']
+
+        # Obtenemos la página actual
+        page = self.request.GET.get('page')
+        
+        # Obtenemos los datos de la página actual
+        object_data = []
+        for obj in context['object_list']:
+            obj_data = {}
+            for campo in context['campos']:
+                if campo == 'Absolute_URL':
+                    obj_data[campo] = obj.get_absolute_url()
+                else:
+                    obj_data[campo] = getattr(obj, campo)
+            object_data.append(obj_data)
+
+        # Pasamos los datos de la página actual a la plantilla
+        context['object_data'] = object_data
         return context
 
+##### PROVEEDOR ##################
+class EstadoCompraListView(ListView):
+    
+    model = EstadoCompra
+    paginate_by = 20  # if pagination is desired
+    template_name = "baseapp/objectsView.html"
+
+    queryset = EstadoCompra.objects.all().only('id', 'nombre', 'descripcion')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['subtitulo'] = "Estados de Compraes"
+        context['modelo'] = "estadocompra"
+        
+        # Definimos los campos que deseamos mostrar en la tabla
+        context['campos'] = ['id', 'nombre', 'descripcion', 'Absolute_URL']
+
+        # Obtenemos la página actual
+        page = self.request.GET.get('page')
+        
+        # Obtenemos los datos de la página actual
+        object_data = []
+        for obj in context['object_list']:
+            obj_data = {}
+            for campo in context['campos']:
+                if campo == 'Absolute_URL':
+                    obj_data[campo] = obj.get_absolute_url()
+                else:
+                    obj_data[campo] = getattr(obj, campo)
+            object_data.append(obj_data)
+
+        # Pasamos los datos de la página actual a la plantilla
+        context['object_data'] = object_data
+        return context
 
 
 
@@ -380,5 +498,27 @@ class ProveedorListView(ListView):
 class ProveedorDetailView(generic.DetailView):
     model = Proveedor
     context_object_name = "object_detail"
-    template_name = "compras/objectDetail.html"
+    template_name = "baseapp/objectDetail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        proveedor = self.get_object()
+        object_detail = {}
+
+        context['object_detail'] = {field.verbose_name: getattr(proveedor, field.name) for field in proveedor._meta.fields}
+        return context
+
+
+class EstadoCompraDetailView(generic.DetailView):
+    model = EstadoCompra
+    context_object_name = "object_detail"
+    template_name = "baseapp/objectDetail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        estadoCompra = self.get_object()
+        object_detail = {}
+
+        context['object_detail'] = {field.verbose_name: getattr(estadoCompra, field.name) for field in estadoCompra._meta.fields}
+        return context
 

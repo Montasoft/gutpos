@@ -1,0 +1,35 @@
+
+{% load crispy_forms_tags %}
+
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal_pagoLabel">Detalle de compra</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% if compra %}
+        <form class="tr text-center" id="formCompraDetalle" name="formCompraDetalle", autocomplete="off"
+        data-post-url="{% url 'compras:ajaxRegistrarCompraDetalle' %}">
+        {% csrf_token %}
+        
+        <label for="codIngresado">Codigo</label>
+        <input class = "form-control" type="text" id="codIngresado" name="codIngresado" onchange="leerLocalStorage()">
+        {{form_compra_detalles.compra|as_crispy_field}}
+        <div class="" >{{form_compra_detalles.producto|as_crispy_field }}</div>
+        <div class="" >{{form_compra_detalles.unidades|as_crispy_field }}</div>
+        <div class="" >{{form_compra_detalles.valor_paquete|as_crispy_field }}</div>
+        <div class="" >{{form_compra_detalles.neto|as_crispy_field }}</div>
+        <div class="" rows="1">{{form_compra_detalles.observacion|as_crispy_field }}</div>
+        <button tabindex="2" type="button" id="btnAdd" onclick="ajaxValidarCompraDetalle()">Add</button>
+      </form>
+        {% endif %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
+  </div>
+

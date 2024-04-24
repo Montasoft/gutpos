@@ -1,15 +1,48 @@
 var codIngresadoInput = document.getElementById('codIngresado');
-var productoSelect = document.getElementById('id_produto');
-let paquetes = document.getElementById('id_paquetes')
-let unidades = document.getElementById('id_unidades')
-let valPaq = document.getElementById('id_valor_paquete')
-var neto = document.getElementById('id_neto')
+var productoSelect_field = document.getElementById('id_produto');
+let paquetes_field = document.getElementById('id_paquetes');
+let unidades_field = document.getElementById('id_unidades');
+let valPaq_field = document.getElementById('id_valor_paquete');
+var neto_field = document.getElementById('id_neto');
+var des_pre_iva_field = document.getElementById('id_descuento_pre_iva');
+var iva_field = document.getElementById('id_iva');
+var des_pos_iva_field = document.getElementById('id_descuento_pos_iva');
+var flete_field = document.getElementById('id_flete');
+
+function calcularNeto(){
+
+  let paquetes = Number(paquetes_field.value ?? 1);
+  let unidades = Number(unidades_field.value ?? 1);
+  let valPaq = Number(valPaq_field.value ?? 0);
+  let neto = neto_field.value ?? 0;
+  let des_pre_iva = Number(des_pre_iva_field.value ?? 0);
+  let iva = Number(iva_field.value ?? 0);
+  let des_pos_iva = Number(des_pos_iva_field.value ?? 0);
+  let flete = Number(flete_field.value ?? 0);
+
+  console.log(paquetes.value * unidades.value )
+
+  let val_des_ant_iva = (valPaq*(des_pre_iva)/100);
+  let descontado1 = [valPaq]-[val_des_ant_iva]
+  let val_iva = ([descontado1]*([iva])/100)
+  let val_des_pos_iva = ([descontado1]*([des_pos_iva])/100)
+  let descontado2 = [descontado1]-[val_des_pos_iva]
+  let val_flete =  ((descontado2+val_iva)*flete/100)  
+  let val_neto_emp = [descontado2]+[val_iva]+[val_flete]
+  let val_neto_unid = [val_neto_emp]/[unidades]
+    
+  
+
+  let Totaldelinea =  ((Number(descontado1) + Number(val_iva) - Number(val_des_pos_iva) + Number(val_flete)) * Number(paquetes))
+
+  //neto_field.value = (((([valPaq.value ?? 1]-([valPaq.value ?? 1]*([des_pre_iva.value ?? 0])/100))+([valPaq.value ?? 1]*[iva.value ?? 0]/100))+([valPaq.value ?? 1]*[flete.value ?? 0]/100))/[unidades.value ?? 1])
+  neto_field.value = Totaldelinea;
+};
   
 //TODO configurar el modal para editar el detalle de la venta
 //TODO Configurar la tabla para mostrar los detales de la venta
 $(document).ready(function() {
   console.log("ready!");
-  
   
   $(document.getElementsByName('observacion')).attr('rows', '1');               
   document.getElementById('final').scrollIntoView(true)
@@ -23,23 +56,39 @@ $(document).ready(function() {
   })
 
 
-
-  paquetes.addEventListener('input', function(){
-    //al digitar la cantida de paquetes llamar calcular valor neto
-    console.log('calcular neto paquete')
-
+  unidades_field.addEventListener('input', function(){
+    //al digitar las unidades llamar calcular valor neto
     calcularNeto()
   })
 
-  unidades.addEventListener('input', function(){
+  paquetes_field.addEventListener('input', function(){
     //al digitar la cantida de paquetes llamar calcular valor neto
-    console.log('calcular neto uniades')
     calcularNeto()
   })
 
-  valPaq.addEventListener('input', function(){
+  valPaq_field.addEventListener('input', function(){
+    //al digitarel valor del paquetes llamar calcular valor neto
       calcularNeto()
   })
+  
+  des_pre_iva_field.addEventListener('input', function(){
+    //al digitarel valor del paquetes llamar calcular valor neto
+      calcularNeto()
+  })
+  iva_field.addEventListener('input', function(){
+    //al digitarel valor del paquetes llamar calcular valor neto
+      calcularNeto()
+  })
+  des_pos_iva_field.addEventListener('input', function(){
+    //al digitarel valor del paquetes llamar calcular valor neto
+      calcularNeto()
+  })
+  
+  flete_field.addEventListener('input', function(){
+    //al digitarel valor del paquetes llamar calcular valor neto
+      calcularNeto()
+  })
+  
   
 
 
@@ -107,12 +156,7 @@ function traerDAtosDelLocalStorage(){
   document.getElementById("btnAdd").focus();
 }
 
-function calcularNeto(){
-  console.log(paquetes.value * unidades.value )
-  //=(((([Val_Uni_compra]-([Val_Uni_compra]*Nz([des_ant_iva])/100))+([Val_Uni_compra]*[IVA]/100))+([Val_Uni_compra]*[flete]/100))/[uni_emp])
 
-  neto.value = ((valPaq.value ?? 1) * (paquetes.value ?? 1))
-};
 
 function ajaxValidarCompraDetalle(){
   let formCompraDetalle = '#formCompraDetalle';
@@ -363,4 +407,5 @@ function crearVenta(){
   });
 }
 */
+
 

@@ -54,7 +54,14 @@
     white-space: nowrap;
 
   }
-  
+  .accordion-body{
+    background: var(--cuaternario);
+  }
+
+  .totales input{
+    max-width: 120px;
+    text-align: end;
+  }
 
 #totalcompra{
     padding: 0;
