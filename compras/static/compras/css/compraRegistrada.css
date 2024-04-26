@@ -4,6 +4,20 @@
   
 
   
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 1; 
+  padding: 1;
+}
+
+input[type=number] {
+    padding: 1px;
+    margin: 1px;
+   -moz-appearance:textfield; 
+  }
+
+
   body {
     background: var(--cuaternario);
     font-family: 'Open Sans', sans-serif;

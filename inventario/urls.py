@@ -22,10 +22,10 @@ urlpatterns = [
     path('producto/<int:pk>', views.ProductoDetailView.as_view(), name='productodetail'),
     
     # Rutas para adicionar objetos nuevos a los modelos.
-    path('categoria/add', views.CategoriaCreateView.as_view(), name='categoriaCreateView'),
-    path('subcategoria/add', views.SubCategoriaCreateView.as_view(), name='subcategoriaCreateView'),
-    path('estadoproducto/add', views.EstadoProductoCreateView.as_view(), name='estadoproductoCreateView'),
-    path('producto/add', views.ProductoCreateView.as_view(), name='productoCreateView'),
+    path('Categoria/add', views.CategoriaCreateView.as_view(), name='CategoriaCreateView'),
+    path('SubCategoria/add', views.SubCategoriaCreateView.as_view(), name='SubCategoriaCreateView'),
+    path('EstadoProducto/add', views.EstadoProductoCreateView.as_view(), name='EstadoProductoCreateView'),
+    path('Producto/add', views.ProductoCreateView.as_view(), name='P j43roductoCreateView'),
 
     # Rutas AJAX  
 ]

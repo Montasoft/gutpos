@@ -9,6 +9,8 @@ var iva_field = document.getElementById('id_iva');
 var des_pos_iva_field = document.getElementById('id_descuento_pos_iva');
 var flete_field = document.getElementById('id_flete');
 
+
+
 function calcularNeto(){
 
   let paquetes = Number(paquetes_field.value ?? 1);
@@ -89,7 +91,7 @@ $(document).ready(function() {
       calcularNeto()
   })
   
-  
+  $('.select').select2();
 
 
 

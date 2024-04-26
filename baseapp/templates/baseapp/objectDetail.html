@@ -3,40 +3,43 @@
 {% load custom_tags %}
 
 {% block title %}
-    Detalles del objeto
+Detalles del objeto
 {% endblock %}
 
 {% block content %}
 
-<a class="" href="{% url 'baseapp:bancoCreateView' %}">Crear </a>
+<a class="" href="{% url url_crea %}">Crear </a>
 
 <h1>Object Detail</h1>
-{{ object_detail }}
 
 <ul>
-        {% for field, value in object_detail.items %}
+    {% for field, value in object_detail.items %}
+        {% if field != "updater" and field != "creater" and field != "deleter" and field != "updated" and field != "created" and field != "deleted" %}
             <li><strong>{{ field }}:</strong> {{ value }}</li>
-        {% endfor %}
-    </ul>
-    
-    <ul>
+        {% endif %}
+    {% endfor %}
+</ul>
 
-        {% for field in object_detail.meta.get_fields %}
-        <li><strong>{{ field.verbose_name }}:</strong> {{ field.value_from_object }}</li>
-            {% if field.concrete %}
+<div>
+    <ul>
+        {% for field, value in object_detail.items %}
+            {% if field == "updater" or field == "creater" or field == "deleter" or field == "updated" or field == "created" or field == "deleted" %}
+                <li><strong>{{ field }}:</strong> {{ value }}</li>
             {% endif %}
         {% endfor %}
     </ul>
     
+</div>
+
 <!-- INICIO MODAL NUEVA ENTIDAD -->
 <div class="modal fade" id="modal_nueva_entidad" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-aria-labelledby="modal_nueva_entidad_Label" aria-hidden="true">
+    aria-labelledby="modal_nueva_entidad_Label" aria-hidden="true">
     {% include "baseapp/objectCreate.html" %}
 </div>
 
 <!--llamar al modal -->
 <p class="text-center"> <button class="btn btn-primary btn-flotante" type="submit"
-  onclick="abrirModal('modal_nueva_entidad',  `{% url 'baseapp:bancoCreateView' %}` )">Nueva Compra</button> </p>
+        onclick="abrirModal('modal_nueva_entidad',  `{% url url_crea %}` )">Nueva Compra</button> </p>
 
 <!-- FINAL MODAL NUEVA COMPRA-->
 

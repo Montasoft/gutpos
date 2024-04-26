@@ -22,6 +22,7 @@ class CategoriaListView(ListView):
         context = super().get_context_data(**kwargs)
         context['subtitulo'] = "Categorías de productos"
         context['modelo'] = "categoria"
+        context['url_crea'] = "inventario:CategoriaCreateView"
 
         # Definimos los campos que deseamos mostrar en la tabla
         context['campos'] = ['id', 'nombre', 'Absolute_URL']
@@ -58,6 +59,7 @@ class SubCategoriaListView(ListView):
         context = super().get_context_data(**kwargs)
         context['subtitulo'] = "Sub-categorías de productos"
         context['modelo'] = "SubCategoria"
+        context['url_crea'] = "inventario:SubCategoriaCreateView"
 
         # Definimos los campos que deseamos mostrar en la tabla
         context['campos'] = ['id', 'nombre', 'Absolute_URL']
@@ -94,6 +96,7 @@ class EstadoProductoListView(ListView):
         context = super().get_context_data(**kwargs)
         context['subtitulo'] = "Estados del producto"
         context['modelo'] = "estadoproducto"
+        context['url_crea'] = "inventario:EstadoProductoCreateView"
 
         # Definimos los campos que deseamos mostrar en la tabla
         context['campos'] = ['id', 'nombre', 'Absolute_URL']
@@ -130,6 +133,7 @@ class ProductoListView(ListView):
         context = super().get_context_data(**kwargs)
         context['subtitulo'] = "Productos"
         context['modelo'] = "producto"
+        context['url_crea'] = "inventario:ProductoCreateView"
 
         # Definimos los campos que deseamos mostrar en la tabla
         context['campos'] = ['id', 'nombre', 'costo', 'precio_venta', 'existencias', 'Absolute_URL']
@@ -168,6 +172,7 @@ class CategoriaDetailView(generic.DetailView):
         object_detail = {}
 
         context['object_detail'] = {field.verbose_name: getattr(categoria, field.name) for field in categoria._meta.fields}
+        context['url_crea'] = "inventario:CategoriaCreateView"
         return context
 
 class SubCategoriaDetailView(generic.DetailView):
@@ -181,6 +186,7 @@ class SubCategoriaDetailView(generic.DetailView):
         object_detail = {}
 
         context['object_detail'] = {field.verbose_name: getattr(subCategoria, field.name) for field in subCategoria._meta.fields}
+        context['url_crea'] = "inventario:SubCategiaCreateView"
         return context
 
 class ProductoDetailView(generic.DetailView):
@@ -194,6 +200,7 @@ class ProductoDetailView(generic.DetailView):
         object_detail = {}
 
         context['object_detail'] = {field.verbose_name: getattr(producto, field.name) for field in producto._meta.fields}
+        context['url_crea'] = "invantario:ProductoCreateView"
         return context
 
 class EstadoProductoDetailView(generic.DetailView):
@@ -207,6 +214,7 @@ class EstadoProductoDetailView(generic.DetailView):
         object_detail = {}
 
         context['object_detail'] = {field.verbose_name: getattr(estadoProducto, field.name) for field in estadoProducto._meta.fields}
+        context['url_crea'] = "inventario:EstadoProductoCreateView"
         return context
 
 
@@ -219,6 +227,20 @@ class CategoriaCreateView(generic.CreateView):
     fields = ['nombre']
     template_name = "baseapp/objectCreate.html" # Nombre de la plantilla donde se renderizará el formulario
     success_url = '/objectCreated'
+
+    def form_valid(self, form):
+        # Antes de guardar el formulario, establece el updater 
+        if self.request.user.is_authenticated:
+            form.instance.updater = self.request.user.username
+
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['modelo'] = "Categoria"
+        context['url_crea'] = "inventario:CategoriaCreateView"
+        return context
+    
 
 class SubCategoriaCreateView(generic.CreateView):
     model = SubCategoria

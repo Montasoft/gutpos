@@ -370,6 +370,7 @@ class BancoDetailView(generic.DetailView):
         object_detail = {}
 
         context['object_detail'] = {field.verbose_name: getattr(banco, field.name) for field in banco._meta.fields}
+        context['url_crea'] = "baseapp:BancoCreateView"
         return context
 
 class DepartamentoDetailView(generic.DetailView):
@@ -381,6 +382,7 @@ class DepartamentoDetailView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         departamento = self.get_object()
         context['object_detail'] = {field.verbose_name: getattr(departamento, field.name) for field in departamento._meta.fields}
+        context['url_crea'] = "baseapp:DepartamentoCreateView"
         return context
 
 class CiudadDetailView(generic.DetailView):
@@ -392,6 +394,7 @@ class CiudadDetailView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         ciudad = self.get_object()
         context['object_detail'] = {field.verbose_name: getattr(ciudad, field.name) for field in ciudad._meta.fields}
+        context['url_crea'] = "baseapp:CiudadCreateView"
         return context
 
 class TipoDocumentoDetailView(generic.DetailView):
@@ -403,6 +406,7 @@ class TipoDocumentoDetailView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         tipoDocumento = self.get_object()
         context['object_detail'] = {field.verbose_name: getattr(tipoDocumento, field.name) for field in tipoDocumento._meta.fields}
+        context['url_crea'] = "baseapp:TipoDocumentoCreateView"
         return context
 
 
@@ -415,6 +419,7 @@ class FormaPagoDetailView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         formaPago = self.get_object()
         context['object_detail'] = {field.verbose_name: getattr(formaPago, field.name) for field in formaPago._meta.fields}
+        context['url_crea'] = "baseapp:FormaPagoCreateView"
         return context
 
 
@@ -427,6 +432,7 @@ class tipoCuentaBancariaDetailView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         tipoCuentaBancaria = self.get_object()
         context['object_detail'] = {field.verbose_name: getattr(tipoCuentaBancaria, field.name) for field in tipoCuentaBancaria._meta.fields}
+        context['url_crea'] = "baseapp:TipoCuentaBancariaCreateView"
         return context
 
 
