@@ -19,13 +19,13 @@ class EstadoVenta(BaseModel):
 
     '''
     nombre = models.CharField(max_length=25)
-    descipcion = models.CharField(max_length=150, null=True, blank=True)
+    descripcion = models.CharField(max_length=150, null=True, blank=True)
 
     def __str__(self):
         return self.nombre
     
     def get_absolute_url(self):
-        return reverse('ventas:estadoventadetail', kwargs={'pk' :self.id})
+        return reverse('ventas:EstadoVentaDetail', kwargs={'pk' :self.id})
     
 
 
@@ -45,7 +45,7 @@ class Cliente(Tercero):
         return  self.nombre
 
     def get_absolute_url(self):
-        return reverse('POS:cliente', kwargs={'pk' :self.id})
+        return reverse('POS:Cliente', kwargs={'pk' :self.id})
 
     def save(self, *args, **kwargs):
         ''' Al guardar actualizar fecha y usuario del registro 

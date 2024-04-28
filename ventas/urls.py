@@ -25,9 +25,17 @@ urlpatterns = [
     
     # Rutas para visualizar lista de los modelos de apoyo
     path('estadosventa', views.EstadoVentaListView.as_view(), name='estadosventa'),
+    path('clientes', views.ClienteListView.as_view(), name='clientes'),
 
     # Rutas para visualizar detalles de cada modelos de apoyo
-    path('estadoventa/<int:pk>', views.EstadoVentaDetailView.as_view(), name='estadoventadetail'),
+    path('estadoventa/<int:pk>', views.EstadoVentaDetailView.as_view(), name='EstadoVentaDetail'),
+    path('cliente/<int:pk>', views.ClienteDetailView.as_view(), name='ClienteDetailView'),
+
+    # Rutas para adicionar objetos nuevos a los modelos.
+    path('estadoventa/add', views.EstadoVentaCreateView.as_view(), name='EstadoVentaCreateView'),
+    path('cliente/add', views.ClienteCreateView.as_view(), name='ClienteCreateView'),
+
+
 
     # Rutas AJAX
     

@@ -356,13 +356,71 @@ class EstadoVentaListView(ListView):
     paginate_by = 20  # if pagination is desired
     template_name = "baseapp/objectsView.html"
 
+    queryset = EstadoVenta.objects.all().only('id', 'nombre', 'descripcion')
+
     def get_context_data(self, **kwargs):
-        context = super(EstadoVentaListView, self).get_context_data(**kwargs)
-        context_object_name = "object_list"
-        context['subtitulo'] = "Estados de Venta"
+        context = super().get_context_data(**kwargs)
+        context['subtitulo'] = "Estados de la venta"
+        context['modelo'] = "estadoVenta"
+        context['url_crea'] = "ventas:EstadoVentaCreateView"
+
+        # Definimos los campos que deseamos mostrar en la tabla
+        context['campos'] = ['id', 'nombre', 'descripcion', 'Absolute_URL']
+
+        # Obtenemos la página actual
+        page = self.request.GET.get('page')
+        
+        # Obtenemos los datos de la página actual
+        object_data = []
+        for obj in context['object_list']:
+            obj_data = {}
+            for campo in context['campos']:
+                if campo == 'Absolute_URL':
+                    obj_data[campo] = obj.get_absolute_url()
+                else:
+                    obj_data[campo] = getattr(obj, campo)
+            object_data.append(obj_data)
+
+        # Pasamos los datos de la página actual a la plantilla
+        context['object_data'] = object_data
         return context
 
 
+
+##### BANCOS  ##################        
+class ClienteListView(ListView):
+    
+    model = Cliente
+    paginate_by = 20  # if pagination is desired
+    template_name = "baseapp/objectsView.html"
+
+    queryset = Cliente.objects.all().only('id', 'nombre')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['subtitulo'] = "Clientes"
+        context['modelo'] = "Cliente"
+        context['url_crea'] = "ventas:ClienteCreateView"
+        # Definimos los campos que deseamos mostrar en la tabla
+        context['campos'] = ['id', 'nombre', 'Absolute_URL']
+
+        # Obtenemos la página actual
+        page = self.request.GET.get('page')
+        
+        # Obtenemos los datos de la página actual
+        object_data = []
+        for obj in context['object_list']:
+            obj_data = {}
+            for campo in context['campos']:
+                if campo == 'Absolute_URL':
+                    obj_data[campo] = obj.get_absolute_url()
+                else:
+                    obj_data[campo] = getattr(obj, campo)
+            object_data.append(obj_data)
+
+        # Pasamos los datos de la página actual a la plantilla
+        context['object_data'] = object_data
+        return context
 
 
 ########################################################################################
@@ -377,5 +435,66 @@ class EstadoVentaDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         estadoVenta = self.get_object()
+        object_detail = {}
+
         context['object_detail'] = {field.verbose_name: getattr(estadoVenta, field.name) for field in estadoVenta._meta.fields}
+        context['url_crea'] = "ventas:EstadoVentaCreateView"
         return context
+
+
+class ClienteDetailView(generic.DetailView):
+    model = Cliente
+    context_object_name = "object_detail"
+    template_name = "baseapp/objectDetail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cliente = self.get_object()
+        object_detail = {}
+
+        context['object_detail'] = {field.verbose_name: getattr(cliente, field.name) for field in cliente._meta.fields}
+        context['url_crea'] = "ventas:ClienteCreateView"
+        return context
+
+
+
+########################################################################################
+########  VISTAS GENÉRICAS PARA CREAR CADA MODELO ################################
+########################################################################################
+
+####### ESTADO DE VENTA ###########################################
+
+class EstadoVentaCreateView(generic.CreateView):
+    model = EstadoVenta
+    fields = ['nombre', 'descripcion']
+    template_name = "baseapp/objectCreate.html" # Nombre de la plantilla donde se renderizará el formulario
+    success_url = '/objectCreated'
+            
+    def form_valid(self, form):
+        # Antes de guardar el formulario, establece el updater 
+        if self.request.user.is_authenticated:
+            form.instance.updater = self.request.user.username
+
+        return super().form_valid(form)
+
+
+
+####### CLIENTE ###########################################
+
+class ClienteCreateView(generic.CreateView):
+    model = Cliente
+    fields = ['nombre', 'tipo_documento', 'numero_documento','ciudad','direccion','barrio','ubicacion_GPS','telefono','whatsapp','email']
+    template_name = "baseapp/objectCreate.html" # Nombre de la plantilla donde se renderizará el formulario
+    success_url = '/objectCreated'
+            
+
+    def form_valid(self, form):
+        # Antes de guardar el formulario, establece el updater 
+        if self.request.user.is_authenticated:
+            form.instance.updater = self.request.user.username
+
+        return super().form_valid(form)
+
+
+
+

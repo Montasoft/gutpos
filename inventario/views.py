@@ -186,7 +186,7 @@ class SubCategoriaDetailView(generic.DetailView):
         object_detail = {}
 
         context['object_detail'] = {field.verbose_name: getattr(subCategoria, field.name) for field in subCategoria._meta.fields}
-        context['url_crea'] = "inventario:SubCategiaCreateView"
+        context['url_crea'] = "inventario:SubCategoriaCreateView"
         return context
 
 class ProductoDetailView(generic.DetailView):
