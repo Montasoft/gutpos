@@ -8,13 +8,14 @@ from django.shortcuts import get_object_or_404, render, redirect, HttpResponse
 from django.template.context_processors import csrf
 from crispy_forms.utils import render_crispy_form
 from django.views import generic
+from django.core.serializers import serialize
 
 from compras.models import Proveedor 
 from baseapp.views import  is_cajero
 from .forms import FormCompra, FormCompraDetalles, FormCompraDetallesFast, FormPagoCompra
 from .models import Compra, CompraDetalles, EstadoCompra, Producto, PagoCompra, FormaPago
 
-# Create your views here.
+
 
 ############################################################################################
 ## FUNCIONES PARA COMPRAS
@@ -319,75 +320,33 @@ def registrarpago(request, id_compra = None):
     return render(request, 'compras/pagoCompra.html', context)
 
 
+
+
 def ajaxRegistrarCompraDetalle(request):
-    # PARA GUARDAR DETALLES DE LA COMPRA 
-
-    print("llegando a la vista ajaxRegistrarCompraDetalle")
-    print(request.POST)
-    fdetalles= FormCompraDetalles(request.POST or None)
-    print ("form valido", fdetalles.is_valid())
-    if fdetalles.is_valid():
-
-        detalleCompra= CompraDetalles(fdetalles)
-        '''
-        compra = fdetalles.cleaned_data['compra']
-        producto = fdetalles.cleaned_data.get('producto'),
-        paquetes = fdetalles.cleaned_data.get('paquetes')
-        unidades = fdetalles.cleaned_data.get('unidades')
-        '''
-        # crear un objeto detalle de compra con los datos enviados desde el form
-        detalleCompra= CompraDetalles(
-            compra = fdetalles.cleaned_data.get('compra'),
-            producto = fdetalles.cleaned_data.get('producto'),
-            paquetes = fdetalles.cleaned_data.get('paquetes'),
-            unidades = fdetalles.cleaned_data.get('unidades'),
-            valor_paquete = fdetalles.cleaned_data.get('valor_paquete'),
-            descuento_pre_iva = fdetalles.cleaned_data.get('descuento_pre_iva'),
-            descuento_pos_iva = fdetalles.cleaned_data.get('descuento_pos_iva'),
-            iva = fdetalles.cleaned_data.get('iva'),
-            flete = fdetalles.cleaned_data.get('flete'),
-            neto = fdetalles.cleaned_data.get('neto'),
-            observacion = fdetalles.cleaned_data.get('observacion')
-            )
-
-        print("antes de guardar")
+    # Verificar si la solicitud es POST
+    if request.method == 'POST':
+        # Crear el formulario con los datos de la solicitud
+        fdetalles = FormCompraDetalles(request.POST)
         
-        detalleCompra.save()
-        
-        print("despues de guardar")
-        
-        # recuperar el objeto creado
+        # Verificar si el formulario es válido
+        if fdetalles.is_valid():
+            # Guardar el detalle de la compra
+            detalleCompra = fdetalles.save(commit=False)
+            detalleCompra.save()
 
-        detalleCreado = {
-            'id': detalleCompra.pk,
-            'compra' : detalleCompra.compra.id,
-            'productoId' : detalleCompra.producto.id, 
-            'codBar' : detalleCompra.producto.codigo_barras, 
-            'productoNombre' : detalleCompra.producto.nombre,
-            'paquetes' : detalleCompra.paquetes,
-            'unidades' : detalleCompra.unidades,
-            'valorPaquete' : detalleCompra.valor_paquete,
-            'descuentoPreIva' : detalleCompra.descuento_pre_iva,
-            'descuentoPosIva' : detalleCompra.descuento_pos_iva,
-            'iva' : detalleCompra.iva,
-            'flete' : detalleCompra.flete,
-            'neto' : detalleCompra.neto,
-            'observacion' : detalleCompra.observacion
-            }
-        print("detalleCompra" , detalleCompra)
-        print("detalleCreado" , detalleCreado)
-            
-        response = {"success": True, "detalleCreado": detalleCreado}
-        print (response)
-        return JsonResponse(response)
+            # Serializar el detalle creado para enviar como respuesta
+            detalle_serializado = serialize('json', [detalleCompra,])
 
-    print("formulario invalido")
-    ctx = {}
-    ctx.update(csrf(request))
-    fDetalle2 = render_crispy_form(fdetalles, context=ctx)
-    response = {'success': False, 'detalle': fDetalle2}
-    print (response)
-    return JsonResponse(response)
+            # Devolver una respuesta JSON con el detalle creado
+            return JsonResponse({"success": True, "detalleCreado": detalle_serializado})
+        else:
+            # Si el formulario no es válido, devolver errores
+            errors = fdetalles.errors.as_json()
+            return JsonResponse({"success": False, "errors": errors})
+    
+    # Si la solicitud no es POST, devolver un error
+    return JsonResponse({"success": False, "errors": "Esta vista solo acepta solicitudes POST."})
+
 
 
 # funcion para eliminar detalle de compra.

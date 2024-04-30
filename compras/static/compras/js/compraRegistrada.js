@@ -183,6 +183,7 @@ function ajaxValidarCompraDetalle(){
               //tomo los datos para mostrarlo en la tabla
               let datos = []
               datos.push(data['detalleCreado'])
+              console.log(datos)
               addRowTable(datos)
 
               total.value =(data['detalleCreado'].total_compra)
@@ -195,7 +196,21 @@ function ajaxValidarCompraDetalle(){
           else {
               // Here you can show the user a success message or do whatever you need
               console.log("error")
+
               $(formCompra).find('.success-message').show();
+              
+
+              // Mostrar los errores en pantalla
+              var errores = JSON.parse(data.errors);
+              for (var campo in errores) {
+                  // Mostrar los errores de cada campo en tu formulario
+                  var mensajeError = errores[campo][0].message;
+                  console.log(mensajeError)
+                  // Muestra mensajeError en el campo correspondiente o en algún otro lugar de tu página
+              }
+
+
+
           }
       },
       error: function () {

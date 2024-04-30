@@ -207,9 +207,9 @@
           <label for="codIngresado">Codigo</label>
           <input class="form-control" type="text" id="codIngresado" name="codIngresado"
             onchange="traerDAtosDelLocalStorage()">
-        </div>
+        </div>  
 
-        
+          {{form_compra_detalles.compra|as_crispy_field}}
           <div class="col-3 td m-0 p-0 ">{{form_compra_detalles.producto|as_crispy_field }}</div>
           <div class="col-1 td m-0 p-0 ">{{form_compra_detalles.paquetes|as_crispy_field }}</div>
           <div class="col-1 td m-0 p-0 ">{{form_compra_detalles.unidades|as_crispy_field }}</div>

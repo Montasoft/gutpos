@@ -199,7 +199,9 @@ a.active{
     width: 230px;
 }
 
-
+.errorlist{
+    color: red;
+}
 
 
 @media screen and (max-width: 760px) {
