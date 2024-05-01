@@ -184,7 +184,11 @@ function ajaxValidarCompraDetalle(){
               let datos = []
               datos.push(data['detalleCreado'])
               console.log(datos)
-              addRowTable(datos)
+  //            addRowTable(datos)
+              datos1 = (data['detalleCreado'])
+              alert(datos1)
+              console.log(datos1)
+              addRowTable(datos1) 
 
               total.value =(data['detalleCreado'].total_compra)
 
@@ -288,12 +292,31 @@ function addRowTable(data){
   //mostrar la lista de los productos ya incluidos en la compra
   console.log(data)
   
+// Objeto principal que contiene otros objetos como valores
+var mainObject = JSON.parse(data)
+
+// Recorrer el objeto principal
+for (var key in mainObject) {
+  // Verificar si la clave es propia del objeto y no heredada
+  if (mainObject.hasOwnProperty(key)) {
+      console.log("Key:", key);
+      // Acceder al objeto interno a través de la clave y recorrerlo
+      var innerObject = mainObject[key];
+      for (var innerKey in innerObject) {
+          if (innerObject.hasOwnProperty(innerKey)) {
+              console.log("Inner Key:", innerKey, "Value:", innerObject[innerKey]);
+          }
+      }
+  }
+}
+
+
   for (x in data){
     id = (data[x].id);
     compra = (data[x].compra);
-    codBar = (data[x].codBar);
+    codBar = (data[x].fields.codBar);
     nombre = (data[x].productoNombre);
-    paquetes = Number.parseFloat(data[x].paquetes).toFixed(2) ;
+    paquetes = Number.parseFloat(data[x].fields.paquetes).toFixed(2) ;
     unidades = Number.parseFloat(data[x].unidades).toFixed(2);
     valorPaquete = Number.parseFloat(data[x].valorPaquete).toFixed(2);
     descPreIva = Number.parseFloat(data[x].descuentoPreIva).toFixed(2);
