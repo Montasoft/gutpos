@@ -7,8 +7,8 @@ from .models import Compra, CompraDetalles, FormaPago, PagoCompra
 class FormCompra(forms.ModelForm):
     class Meta:
         model = Compra
-        field = ('proveedor', 'fecha_compra', 'num_factura_proveedor', 'valor_compra', 'forma_pago', 'fecha_vence', 'fecha_recibido', 'nota')
-        exclude = ('state','created','creater','updated', 'updater','deleted','deleter', 'estado')
+        field = ('proveedor', 'fecha_compra', 'num_factura_proveedor', 'forma_pago', 'fecha_vence', 'fecha_recibido', 'nota')
+        exclude = ('valor_compra', 'state','created','creater','updated', 'updater','deleted','deleter', 'estado')
 
         widgets = {
             'proveedor': forms.Select (attrs={'class':'form-control'}),
@@ -53,6 +53,7 @@ class FormCompraDetalles(forms.ModelForm):
             'producto': forms.Select (attrs={'class':'form-control'}),
             'paquetes': forms.NumberInput(attrs={'class':'form-control text-end'}),
             'unidades': forms.NumberInput(attrs={'class':'form-control text-end'}),
+            'valor_unidad': forms.NumberInput (attrs={'class':'form-control text-end'}),
             'valor_paquete': forms.NumberInput (attrs={'class':'form-control text-end'}),
             'descuento_pre_iva': forms.NumberInput (attrs={'class':'form-control text-end', 'label': 'desc_pre'}),
             'iva': forms.NumberInput(attrs={'class':'form-control text-end'}),

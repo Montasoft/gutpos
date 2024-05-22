@@ -132,7 +132,7 @@ class ProductoListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['subtitulo'] = "Productos"
-        context['modelo'] = "producto"
+        context['modelo'] = "Producto"
         context['url_crea'] = "inventario:ProductoCreateView"
 
         # Definimos los campos que deseamos mostrar en la tabla
@@ -199,8 +199,11 @@ class ProductoDetailView(generic.DetailView):
         producto = self.get_object()
         object_detail = {}
 
+        # Convertir los campos del modelo en un diccionario con verbose_name como clave
         context['object_detail'] = {field.verbose_name: getattr(producto, field.name) for field in producto._meta.fields}
-        context['url_crea'] = "invantario:ProductoCreateView"
+        
+        # Añadir la URL de creación al contexto
+        context['url_crea'] = "inventario:ProductoCreateView"
         return context
 
 class EstadoProductoDetailView(generic.DetailView):
@@ -248,14 +251,53 @@ class SubCategoriaCreateView(generic.CreateView):
     template_name = "baseapp/objectCreate.html" # Nombre de la plantilla donde se renderizará el formulario
     success_url = '/objectCreated'
 
+    def form_valid(self, form):
+        # Antes de guardar el formulario, establece el updater 
+        if self.request.user.is_authenticated:
+            form.instance.updater = self.request.user.username
+
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['modelo'] = "SubCategoria"
+        context['url_crea'] = "inventario:SubCategoriaCreateView"
+        return context
+
 class ProductoCreateView(generic.CreateView):
     model = Producto
-    fields = ['nombre']
+    fields = ['nombre', 'nombre', 'codigo_barras', 'categoria', 'subcategoria', 'costo', 'precio_venta', 'precio_mayor', 'iva', 'existencias', 'estado', 'dim_Alto', 'dim_Ancho', 'dim_fondo', 'peso', 'Nota', 'descripcion', 'cantidad_x_empaque', 'imagen']
     template_name = "baseapp/objectCreate.html" # Nombre de la plantilla donde se renderizará el formulario
     success_url = '/objectCreated'
+
+    def form_valid(self, form):
+        # Antes de guardar el formulario, establece el updater 
+        if self.request.user.is_authenticated:
+            form.instance.updater = self.request.user.username
+
+        return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['modelo'] = "Producto"
+        context['url_crea'] = "inventario:ProductoCreateView"
+        return context
 
 class EstadoProductoCreateView(generic.CreateView):
     model = EstadoProducto
     fields = ['nombre']
     template_name = "baseapp/objectCreate.html" # Nombre de la plantilla donde se renderizará el formulario
     success_url = '/objectCreated'
+
+    def form_valid(self, form):
+        # Antes de guardar el formulario, establece el updater 
+        if self.request.user.is_authenticated:
+            form.instance.updater = self.request.user.username
+
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['modelo'] = "EstadoProducto"
+        context['url_crea'] = "inventario:EstadoProductoCreateView"
+        return context

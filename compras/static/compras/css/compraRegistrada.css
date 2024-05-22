@@ -7,17 +7,20 @@
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 
-  margin: 1; 
-  padding: 1;
 }
 
 input[type=number] {
-    padding: 1px;
-    margin: 1px;
    -moz-appearance:textfield; 
   }
 
-
+#formCompraDetalle .form-control{
+  padding: 1px;
+  margin: 1px;
+}
+  
+#formCompraDetalle  label {
+  line-height: 1.2; /* Ajusta el espacio entre lineas del texto del label */
+}
   body {
     background: var(--cuaternario);
     font-family: 'Open Sans', sans-serif;
@@ -346,3 +349,34 @@ input[type=number] {
     }
   }
 
+ñ
+
+
+
+.form_ingreso1 {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  flex: 1 1 100%;
+  margin: 0;
+  padding: 0.5rem;
+}
+
+@media (min-width: 1080px) {
+  .form-group {
+    flex: 1;
+  }
+}
+
+@media (min-width: 1400px) {
+  .form-group {
+    flex: 0 0 calc(33.333% - 1rem); /* Ajusta esto según el diseño deseado para pantallas grandes */
+  }
+}

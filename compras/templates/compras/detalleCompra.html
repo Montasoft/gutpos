@@ -1,7 +1,6 @@
 
 {% load crispy_forms_tags %}
 
-
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -10,30 +9,34 @@
       </div>
       <div class="modal-body">
         {% if compra %}
-        <form class="tr text-center" id="formCompraDetalle" name="formCompraDetalle", autocomplete="off"
-        data-post-url="{% url 'compras:ajaxRegistrarCompraDetalle' %}">
-        {% csrf_token %}
-        
-        <label for="codIngresado">Codigo</label>
-        <input class = "form-control" type="text" id="codIngresado" name="codIngresado" onchange="leerLocalStorage()">
-        {{form_compra_detalles.compra|as_crispy_field}}
-        <div class="" >{{form_compra_detalles.producto|as_crispy_field }}</div>
-        <div class="" >{{form_compra_detalles.paquetes|as_crispy_field }}</div>
-        <div class="" >{{form_compra_detalles.unidades|as_crispy_field }}</div>
-        <div class="" >{{form_compra_detalles.valor_paquete|as_crispy_field }}</div>
-        <div class="" >{{form_compra_detalles.descuento_pre_iva|as_crispy_field}}</div>
-        <div class="" >{{form_compra_detalles.iva|as_crispy_field }}</div>
-        <div class="" >{{form_compra_detalles.descuento_pos_iva|as_crispy_field }}</div>
-        <div class="" >{{form_compra_detalles.flete|as_crispy_field }}</div>
-        <div class="" >{{form_compra_detalles.neto|as_crispy_field }}</div>
-        <div class="" rows="1">{{form_compra_detalles.observacion|as_crispy_field }}</div>
-        <button tabindex="2" type="button" id="btnAdd" onclick="ajaxValidarCompraDetalle()">Add</button>
-      </form>
+        <form id="formCompra" method="post" action="{% url 'compras:guardarCompra' compra.id %}">
+        {% else %}
+        <form id="formCompra" method="post" action="{% url 'compras:guardarCompra' %}">
         {% endif %}
+          {% csrf_token %}
+          <div class="w-75 margin-auto mx-auto">
+            <label for="codIngresado">Codigo</label>
+            <input class = "form-control" type="text" id="codIngresado" name="codIngresado" onchange="leerLocalStorage()">
+            {{form_compra_detalles.compra|as_crispy_field}}
+            <div class="" >{{form_compra_detalles.producto|as_crispy_field }}</div>
+            <div class="" >{{form_compra_detalles.paquetes|as_crispy_field }}</div>
+            <div class="" >{{form_compra_detalles.unidades|as_crispy_field }}</div>
+            <div class="" >{{form_compra_detalles.valor_paquete|as_crispy_field }}</div>
+            <div class="" >{{form_compra_detalles.descuento_pre_iva|as_crispy_field}}</div>
+            <div class="" >{{form_compra_detalles.iva|as_crispy_field }}</div>
+            <div class="" >{{form_compra_detalles.descuento_pos_iva|as_crispy_field }}</div>
+            <div class="" >{{form_compra_detalles.flete|as_crispy_field }}</div>
+            <div class="" >{{form_compra_detalles.neto|as_crispy_field }}</div>
+            <div class="" rows="1">{{form_compra_detalles.observacion|as_crispy_field }}</div>
+            <button tabindex="2" type="button" id="btnAdd" onclick="ajaxValidarCompraDetalle()">Add</button>
+          </div>
+        </form>        
+
+      </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Understood</button>
+        <button type="button" class="btn btn-primary">Guardar</button>
       </div>
     </div>
   </div>

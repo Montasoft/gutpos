@@ -22,9 +22,9 @@
       </div>
       <div class="modal-body">
         {% if compra %}
-        <form id="formNuevo" method="post" action="{% url 'compras:guardarCompra' compra.id %}">
+        <form id="formNuevo" method="post" enctype="multipart/form-data" action="{% url 'compras:guardarCompra' compra.id %}">
           {% else %}
-          <form id="formNuevo" method="post" action=" {% url url_crea  %}">
+          <form id="formNuevo" method="post" enctype="multipart/form-data" action=" {% url url_crea  %}">
             {% endif %}
             {% csrf_token %}
             {{ form.as_p }}

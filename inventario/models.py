@@ -82,7 +82,7 @@ class Producto(BaseModel):
     descripcion = models.CharField(max_length=528, null = True, blank = True)
     cantidad_x_empaque = models.FloatField(default=1, null = True, blank = True)
     imagen = models.ImageField(upload_to='productos', null = True, blank = True)
-
+    
     class Meta:
         ordering =['nombre']
         verbose_name = "producto"

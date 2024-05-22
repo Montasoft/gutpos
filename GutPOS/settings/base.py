@@ -31,6 +31,8 @@ DEBUG = env.bool('DEBUG', default=False)
 
 ALLOWED_HOSTS = tuple(env.list('ALLOWED_HOSTS', default=[]))
 
+# PARA MOSTRAR CON MENSAJES CON SWEET ALERT
+MESSAGE_STORAGE= "django.contrib.messages.storage.cookie.CookieStorage"
 
 # Application definition
 

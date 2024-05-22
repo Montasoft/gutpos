@@ -131,25 +131,6 @@ class CompraDetalles(BaseModel):
         cantidad =self.paquetes*self.unidades
         return f'({cantidad}) unidades de {self.producto.nombre}'
 
-         
-
-    def save(self, *args, **kwargs):
-        ''' Al guardar actualizar fecha y usuario del registro 
-            se recibe el usuario en el campo de updater
-            pero si es registro nuevo se guardará en creater '''
-        
-        if not self.id:
-            self.created = timezone.now()
-            self.creater = self.updater
-            self.updater = None
-        else:
-            print( "save - update id:::: ", self.id)
-            self.updated = timezone.now()
-            self.updater = self.updater
-
-        return super(CompraDetalles, self).save(*args, **kwargs)
-
-
  #######################################################################################
 class PagoCompra(BaseModel):
     proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)

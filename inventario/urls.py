@@ -25,7 +25,7 @@ urlpatterns = [
     path('Categoria/add', views.CategoriaCreateView.as_view(), name='CategoriaCreateView'),
     path('SubCategoria/add', views.SubCategoriaCreateView.as_view(), name='SubCategoriaCreateView'),
     path('EstadoProducto/add', views.EstadoProductoCreateView.as_view(), name='EstadoProductoCreateView'),
-    path('Producto/add', views.ProductoCreateView.as_view(), name='P j43roductoCreateView'),
+    path('Producto/add', views.ProductoCreateView.as_view(), name='ProductoCreateView'),
 
     # Rutas AJAX  
 ]

@@ -1,3 +1,4 @@
+
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -74,7 +75,6 @@ def comprasRegistradas(request, id_compra):
     
     # get_object_or_404 para manejo error 404 de manera automtica
     compra = get_object_or_404(Compra, id = id_compra)
-        
     
     print("compra registrada ss", compra)
     print("compra registrada sssss", compra.total)
@@ -320,25 +320,31 @@ def registrarpago(request, id_compra = None):
     return render(request, 'compras/pagoCompra.html', context)
 
 
-
-
-def ajaxRegistrarCompraDetalle(request):
+def ajaxRegistrarCompraDetalle(request, id = None):
     # Verificar si la solicitud es POST
     if request.method == 'POST':
         # Crear el formulario con los datos de la solicitud
-        fdetalles = FormCompraDetalles(request.POST)
+        fdetalles = FormCompraDetalles(request.POST, instance=CompraDetalles.objects.get(id=id)if id else None )
         
         # Verificar si el formulario es válido
         if fdetalles.is_valid():
             # Guardar el detalle de la compra
             detalleCompra = fdetalles.save(commit=False)
-            detalleCompra.save()
+            
+            detalleCompra.updater = request.user.username
+            try:    
+                detalleCompra.save()
+                id = detalleCompra.id
+                # Serializar el detalle creado para enviar como respuesta
+                detalle_serializado = serialize('json', [detalleCompra,])
 
-            # Serializar el detalle creado para enviar como respuesta
-            detalle_serializado = serialize('json', [detalleCompra,])
+                # Devolver una respuesta JSON con el detalle creado
+                return JsonResponse({"success": True, "detalleCreado": detalle_serializado})
 
-            # Devolver una respuesta JSON con el detalle creado
-            return JsonResponse({"success": True, "detalleCreado": detalle_serializado})
+            except Exception as e:
+                print("Error saving Detalle de compra:", e)
+                return JsonResponse({"success": False, "errors": e})
+
         else:
             # Si el formulario no es válido, devolver errores
             errors = fdetalles.errors.as_json()
@@ -349,17 +355,35 @@ def ajaxRegistrarCompraDetalle(request):
 
 
 
-# funcion para eliminar detalle de compra.
-def eliminarDetalleCompra(request, pk):
-    detalle = get_object_or_404(CompraDetalles, id=pk)
-    id_compra = detalle.compra.id
-    #detalle.delete() no se eliminará. será marcado como elimindo.
-    detalle.state = 2
-    detalle.deleted = timezone.now()
-    detalle.deleter = request.user.id
-    detalle.save()
 
-    return redirect('compras:comprasRegistradas', id_compra = id_compra)
+
+# funcion para eliminar detalle de compra.
+def eliminarDetalleCompra(request):
+    
+    if request.method == 'POST': 
+        print(request)
+        # obtener el id a eliminar desde la solicitud post
+        id = request.POST.get('id')
+        try:
+            print("solicita eliminar el id ", id )
+            detalle = get_object_or_404(CompraDetalles, id=id)
+            id_compra = detalle.compra.id
+            #detalle.delete() no se eliminará. será marcado como elimindo.
+            detalle.state = 2
+            detalle.deleted = timezone.now()
+            detalle.deleter = request.user.username
+            detalle.save()  
+
+            messages.success(request, "Eliminado Correctamente")
+            return JsonResponse({'success': True})
+            #return redirect('compras:comprasRegistradas', id_compra = id_compra)
+        except:
+            # Manejar el caso en el que el registro no existe
+            return JsonResponse({'success': False})
+    else:
+        # Manejar el caso en el que la solicitud no sea AJAX o no sea POST
+        return JsonResponse({'success': False})
+
 
 
 def compras_por_producto(request, producto_id):

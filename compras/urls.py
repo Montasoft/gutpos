@@ -17,12 +17,14 @@ urlpatterns = [
    # path('editarcompra/<int:id_compra>/', views.editarcompra, name="editarcompra"),
     path('comprasRegistradas/<int:id_compra>', views.comprasRegistradas, name="comprasRegistradas"),
     path('comprasFast/<int:id_compra>', views.comprasFast, name="comprasFast"),
+    path('eliminarDetalleCompra/', views.eliminarDetalleCompra, name="eliminarDetalleCompra"),
     path('eliminarDetalleCompra/<int:pk>/', views.eliminarDetalleCompra, name="eliminarDetalleCompra"),
     
     path('registrarpago', views.registrarpago, name="registrarpago"),
     path('registrarpago/<int:id_compra>', views.registrarpago, name="registrarpago"),
  #   path('ajaxValidarcompra', views.ajaxValidarcompra, name="ajaxValidarcompra"),
     path('ajaxRegistrarCompraDetalle', views.ajaxRegistrarCompraDetalle, name="ajaxRegistrarCompraDetalle"),
+    path('ajaxRegistrarCompraDetalle/<int:id>/', views.ajaxRegistrarCompraDetalle, name="ajaxRegistrarCompraDetalle"),
 
     
    # path('AjaxGetOptionSelect', views.AjaxGetOptionSelect, name="AjaxGetOptionSelect"),
