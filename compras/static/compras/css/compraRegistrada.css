@@ -1,382 +1,244 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+@import url('https://fonts.googleapis.com/css?family=Pacifico');
 
-  @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
-  @import url('https://fonts.googleapis.com/css?family=Pacifico');
-  
-
-  
+/* Ocultar botones de incremento/decremento en campos de número */
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 
 }
 
 input[type=number] {
-   -moz-appearance:textfield; 
-  }
+  -moz-appearance: textfield; 
+}
 
-#formCompraDetalle .form-control{
+/* Estilos generales del formulario */
+#formCompraDetalle .form-control {
   padding: 1px;
   margin: 1px;
 }
-  
-#formCompraDetalle  label {
-  line-height: 1.2; /* Ajusta el espacio entre lineas del texto del label */
+
+#formCompraDetalle label {
+  line-height: 1.2; /* Ajusta el espacio entre líneas del texto del label */
 }
-  body {
-    background: var(--cuaternario);
-    font-family: 'Open Sans', sans-serif;
-    font-size: 14px;
-    line-height: 21px;
-    padding: 15px;
-    
-  }
 
-  .btn-primary{
-    background-color: var(--primario);
-    border-color: var(--primario);
+body {
+  background: var(--cuaternario);
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  line-height: 21px;
+  padding: 15px;
+}
+
+.btn-primary {
+  background-color: var(--primario);
+  border-color: var(--primario);
+}
+
+.btn-primary:hover {
+  background-color: var(--terciario);
+  color: var(--primario);
+}
+
+#tituloMenu {
+  display: block;
+  text-align: center;
+}
+
+.input-group-addon {
+  cursor: pointer;
+}
+
+.input-group.date {
+  text-transform: uppercase;
+}
+
+td {
+  text-overflow: ellipsis; /* Completa con ... */
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.accordion-body {
+  background: var(--cuaternario);
+}
+
+.totales {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.totales input {
+  max-width: 100px;
+  text-align: end;
+}
+.totales span {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+.totales input[type="text"] {
+  max-width: 100%;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+#totalCompra {
+  padding: 0;
+  font-size: 2rem;
+}
+
+.modal-content {
+  background: var(--cuaternario);
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+}
+
+/* Ajuste de pantalla completa */
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  color: var(--primario);
+  font-family: 'Pacifico', cursive;
+  font-size: 28px;
+  line-height: 42px;
+  margin: 0 0 15px;
+  text-align: center;
+}
+
+.content {
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075), 0 2px 4px rgba(0, 0, 0, 0.0375);
+  padding: 30px 30px 20px;
+}
+
+/*** TABLA DETALLES DE VENTAS ***/
+.table {
+  flex-direction: column;
+  border-collapse: collapse;
+}
+
+.thead {
+  display: table-header-group;
+  color: white;
+  font-weight: bold;
+}
+
+.tbody {
+  display: table-row-group;
+}
+
+.tr {
+  display: table-row;
+}
+
+.td {
+  display: table-cell;
+  border: 1px solid var(--secundario);
+  padding: 1px;
+}
+
+
+.table tr th, .table tr td {
+  padding: 0 5px;
+  height: 80%;
+}
+
+.input-group-append {
+  cursor: pointer;
+}
+
+tbody tr, tbody th, tbody td {
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
+  margin-top: 0.1rem;
+  margin-bottom: 0.1rem;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #d8dada;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #e9ecef;
+}
+
+table {
+  background-color: #878a8a;
+}
+
+.form_ingreso {
+  display: grid;
+  grid-template-columns: 100px 150px 100px 150px 50px 50px;
+}
+
+label span {
+  white-space: nowrap;
+}
+
+/* Ajuste de tablas para pantallas pequeñas */
+@media screen and (max-width: 767px) {
+  table.display {
+    width: 100%;
   }
-  
-  .CabeceraVentas{
-    display: flex;
+  table.display thead {
+    display: none;
   }
-  .datoscompra,
-  .content{
-    /*background-color: var(--secundario);*/
-    border: var(--secundario);
-  }
-  
-  .btn-primary:hover{
-    background-color: var(--terciario);
-    color: var(--primario);
-  }
-  
-  #tituloMenu{
+  table.display tbody tr {
+    margin-bottom: 10px;
     display: block;
-    text-align: center;
   }
-  
-  .input-group-addon {
-    cursor: pointer;
+  table.display tbody td {
+    padding: 5px;
+    display: block;
+    text-align: left;
   }
-  
-  .input-group.date {
-    text-transform: uppercase;
+  table.display tbody td:before {
+    content: attr(data-th) ": ";
+    font-weight: bold;
+    display: inline-block;
+    width: 6em;
   }
-  
-  td{
-    /* TODO: Limitar el ancho para que la tabla no crezca sin fin width: 230px;*/
-    /* para que expanda la celda hacia abajo (vertical)*/
-      
-    text-overflow: ellipsis; /* complete con ... */
-    overflow: hidden;
-    white-space: nowrap;
+}
 
-  }
-  .accordion-body{
-    background: var(--cuaternario);
-  }
-
-  .totales input{
-    max-width: 120px;
-    text-align: end;
-  }
-
-#totalcompra{
-    padding: 0;
-    font-size:4rem;
-  }
-  
-  /*
-  .form-control {
-    border: 1px solid #ccc;
-    box-shadow: none;
-    &:hover, &:focus, &:active {
-      box-shadow: none;
-    }
-    &:focus {
-      border: 1px solid #34495e;
-    }
-  }
-  */
-  
-  .modal-content{
-    background: var(--cuaternario);
-    font-family: 'Open Sans', sans-serif;
-    font-size: 14px;
-  }
-
-  /* para hacer que la pantalla quede quieta al 100%*/  
-  /* TODO ajustar para pantallas pequeñas*/
-  html, body{
-    height:100%;
-    margin:0;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  h1 {
-    color: var(--primario);
-    font-family: 'Pacifico', cursive;
-    font-size: 28px;
-    line-height: 42px;
-    margin: 0 0 15px;
-    text-align: center;
-  }
-  
-  .content {
-  /*  background: #fff;*/
-    border-radius: 3px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075), 0 2px 4px rgba(0, 0, 0, 0.0375);
-    padding: 30px 30px 20px;
-  }
-  
-  
-  /*
-    table tbody td,
-    table tbody th {
-      border-radius: 0;
-    }
-    table td.old, table td.new {
-      color: #bbb;
-    }
-    table td.today:before {
-      border-bottom-color: #0095ff;
-    }*/
-    table tbody td.active,
-    table tbody td.active:hover,
-    table tbody td span.active {
-      background-color: #0095ff;
-      text-shadow: none;
-      
-    }
-    /*
-    table th {
-      height: 40px;
-      padding: 0;
-      width: 40px;
-      &.picker-switch {
-        width: auto;
-      }
-    }
-    table tr:first-of-type th {
-      border-bottom: 1px solid #34495e;
-    }
-    table td.day {
-      height: 32px;
-      line-height: 32px;
-      padding: 0;
-      width: auto;
-    }
-    table td span {
-      border-radius: 0;
-      height: 77px;
-      line-height: 77px;
-      margin: 0;
-      width: 25%;
-    }
-    .datepicker-months tbody tr td,
-    .datepicker-years tbody tr td,
-    .datepicker-decades tbody tr td {
-      padding: 0;
-    }
-  
-    .datepicker-decades tbody tr td {
-      height: 27px;
-      line-height: 27px;
-  
-      span {
-        display: block;
-        float: left;
-        width: 50%;
-        height: 46px;
-        line-height: 46px !important;
-        padding: 0;
-        &:not(.decade) {
-          display: none;
-        }
-      }
-    }
-    .timepicker-picker table td {
-      padding: 0;
-      width: 30%;
-      height: 20px;
-      line-height: 20px;
-      &:nth-child(2) {
-        width: 10%;
-      }
-      a,
-      span,
-      button {
-        border: none;
-        border-radius: 0;
-        height: 56px;
-        line-height: 56px;
-        padding: 0;
-        width: 100%;
-      }
-      span {
-        color: #333;
-        margin-top: -1px;
-      }
-      button {
-        background-color: #fff;
-        color: #333;
-        font-weight: bold;
-        font-size: 1.2em;
-        &:hover {
-          background-color: #eee;
-        }
-      }
-    }
-  }
-  .bootstrap-datetimepicker-widget.dropdown-menu .picker-switch table td {
-    border-top: 1px solid #34495e;
-    a, span {
-      display: block;
-      height: 40px;
-      line-height: 40px;
-      padding: 0;
-      width: 100%;
-    }
-  }
-  .todayText:before {
-    content: "Today's Date"
-  }
-  */
-  /*** TABLA DETALLES DE VENTAS ***/
-  
-  .table
-  {
-      display:table;
-      border-collapse:collapse;
-  }
-  .thead
-  {
-      display:table-header-group;
-      color:white;
-      font-weight:bold;
-      /*background-color:grey;*/
-  }
-  .tbody
-  {
-      display:table-row-group;
-  }
-  .tr
-  {
-      display:table-row;
-  }
-  .td
-  {
-      display:table-cell;
-      border:1px solid var(--secundario);
-      padding:1px;
-  }
-  .tr.editing .td INPUT
-  {
-      width:100px;
-  }
-  
-  .table tr th {
-    padding: 0px 5px 0px 5px;
-    margin: 0px;
-    /* Alto de las celdas */
-    height: 80%;
-  }
-  
-  .table tr td{
-    padding: 0px 5px 0px 5px;
-    margin: 0px;
-    
-  }
-  
-  .input-group-append {
-    cursor: pointer;
-  }
-  
-  tbody tr, 
-  tbody th,
-  tbody td{
-    padding-top: 0.1rem ;
-    padding-bottom: 0.1rem;
-    margin-top: 0.1rem;
-    margin-bottom: 0.1rem;
-  }
-  
-  tbody tr:nth-child(odd) {
-    background-color: #d8dada;
-  }
-  
-  tbody tr:nth-child(even) {
-    background-color: #e9ecef;
-  }
-  
-  table {
-    background-color: #878a8a;
-  }
-  
-  .form_ingreso{
-    display: grid;
-    grid-template-columns: 100px 150px 100px 150px 50px 50px;
-  }
-
-  label span{
-    white-space: nowrap;
-  }
-
-  @media screen and (max-width: 767px) {
-    table.display {
-        width: 100%;
-    }
-    table.display thead {
-        display: none;
-    }
-    table.display tbody tr {
-        margin-bottom: 10px;
-        display: block;
-    }
-    table.display tbody td {
-        padding: 5px;
-        display: block;
-        text-align: left;
-    }
-    table.display tbody td:before {
-        content: attr(data-th) ": ";
-        font-weight: bold;
-        display: inline-block;
-        width: 6em;
-    }
-    .w-75 {
-      width: 95%;
-    }
-  }
-
-ñ
-
-
-
+/* Estilo de formulario adaptativo */
 .form_ingreso1 {
   display: flex;
   flex-direction: column;
 }
 
 .form-row {
-  display: flex;
   flex-wrap: wrap;
 }
 
-.form-group {
-  flex: 1 1 100%;
-  margin: 0;
-  padding: 0.5rem;
-}
 
-@media (min-width: 1080px) {
+/* Estilos específicos para pantallas en modo retrato (vertical) */
+@media (orientation: portrait) {
   .form-group {
-    flex: 1;
+    flex: 1 1 100%;
+  }
+  .form-row{
+    display: flex; /* para dejarlo en una sola columna*/
+  }
+  .dynamic-font {
+    font-size: 5vw; /* Ajusta este valor según sea necesario */
+    text-align: center;
   }
 }
 
-@media (min-width: 1400px) {
-  .form-group {
-    flex: 0 0 calc(33.333% - 1rem); /* Ajusta esto según el diseño deseado para pantallas grandes */
+/* Estilos específicos para pantallas en modo paisaje (horizontal) */
+@media (orientation: landscape) {
+  
+  .dynamic-font {
+    font-size: 2vw; /* Ajusta este valor según sea necesario */
+    text-align: center;
   }
 }

@@ -1,5 +1,4 @@
 
-
 let codIngresado = document.getElementById("codIngresado");
 let id_produto = document.getElementById("id_produto");
 let id_paquetes = document.getElementById("id_paquetes");
@@ -172,8 +171,7 @@ function calcularNeto() {
 }
 
 function hallarValorPaquete() {
-  id_valor_paquete.value =
-    Number(id_valorUnitario.value) * Number(id_unidades.value);
+  id_valor_paquete.value =  Number(id_valorUnitario.value) * Number(id_unidades.value);
   calcularNeto();
 }
 // Función para ajustar el tamaño del texto del input
