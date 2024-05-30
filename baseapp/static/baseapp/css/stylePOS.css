@@ -202,8 +202,16 @@ a.active{
 .errorlist{
     color: red;
 }
-
-
+form[name="formNuevo"] div p select {
+    width: 80%;
+}
+#id_subcategoria{
+    width: 80%;
+}
+select {
+    width: 200px; /* Puedes ajustar el valor según tus necesidades */
+  }
+  
 @media screen and (max-width: 760px) {
     .body_move{
         margin-left: 0px;

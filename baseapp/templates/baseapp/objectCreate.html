@@ -27,7 +27,10 @@
           <form id="formNuevo" method="post" enctype="multipart/form-data" action=" {% url url_crea  %}">
             {% endif %}
             {% csrf_token %}
-            {{ form.as_p }}
+            
+            <div class="d-flex align-items-end flex-column bd-highlight mb-3">
+              {{ form.as_p }}
+            </div>
           </form>
 
       </div>

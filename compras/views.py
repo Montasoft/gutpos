@@ -10,6 +10,7 @@ from django.template.context_processors import csrf
 from crispy_forms.utils import render_crispy_form
 from django.views import generic
 from django.core.serializers import serialize
+import json
 
 from compras.models import Proveedor 
 from baseapp.views import  is_cajero
@@ -81,7 +82,7 @@ def comprasRegistradas(request, id_compra):
 
     print(compra.proveedor)
 #    ventaDetalles = VentaDetalles.objects.filter(venta=id_compra, state = 0).values_list('id', 'compra', 'producto', 'paquetes', 'valor_paquete', 'descuento', 'observacion', )
-    compraDetalles = CompraDetalles.objects.filter(compra=id_compra, state = 0).select_related('producto').only('compra', 'producto', 'paquetes', 'valor_paquete', 'descuento_pre_iva', 'descuento_pos_iva',  'observacion', 'producto__nombre') # ideal para relaciones de uno a uno
+    compraDetalles = list(CompraDetalles.objects.filter(compra=id_compra, state = 0).select_related('producto').only('compra', 'producto', 'paquetes', 'valor_paquete', 'descuento_pre_iva', 'descuento_pos_iva',  'observacion', 'producto__nombre')) # ideal para relaciones de uno a uno
     compra2 = CompraDetalles.objects.filter(compra =id_compra).prefetch_related('producto').only('compra', 'producto', 'paquetes', 'valor_paquete', 'descuento_pre_iva', 'descuento_pos_iva',  'observacion', 'producto__nombre') # ideal para relaciones de uno a varios
 
     print(compraDetalles)
@@ -121,6 +122,13 @@ def comprasRegistradas(request, id_compra):
 #    context['ven3'] = ven3
     #context['ventaDetalles'] = dict_detalles
     context['compraDetalles'] = compraDetalles
+    
+    #Serializar los objetos CompraDetalles a formato JSON/
+    json_compraDetalles = serialize('json', compraDetalles)
+
+    # Convertir a un formato serializable
+    context['detalles'] = json_compraDetalles
+
 
 #    context['productos'] = json.dumps(pr) # convertir a json
 #    context['productos'] = json.dumps(productosArray, cls=DjangoJSONEncoder) # convertir a json
@@ -337,6 +345,7 @@ def ajaxRegistrarCompraDetalle(request, id = None):
                 id = detalleCompra.id
                 # Serializar el detalle creado para enviar como respuesta
                 detalle_serializado = serialize('json', [detalleCompra,])
+                print(detalle_serializado)
 
                 # Devolver una respuesta JSON con el detalle creado
                 return JsonResponse({"success": True, "detalleCreado": detalle_serializado})

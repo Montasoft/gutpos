@@ -10,6 +10,7 @@ let id_descuento_pre_iva = document.getElementById("id_descuento_pre_iva");
 let id_iva = document.getElementById("id_iva");
 let id_descuento_pos_iva = document.getElementById("id_descuento_pos_iva");
 let id_flete = document.getElementById("id_flete");
+let tablaCompraDetalles = document.getElementById('tablaCompraDetalles');
 
 // funcion a ejecutar cuando la pagina haya sido cargada.
 $(document).ready(function () {
@@ -27,6 +28,10 @@ $(document).ready(function () {
   document.getElementById("codIngresado").onchange = traerDAtosDelLocalStorage;
   $(document.getElementsByName("observacion")).attr("rows", "1");
 
+  // ajustar la configuración de los números para mostrar el formato deseado.
+  //Number.prototype.toLocaleString = function() {
+    //return this.toLocaleString('es-CO', { style: 'decimal', maximumFractionDigits: 2 });
+  //};
 
   //FUCCION PARA AGREGAR EVENTON A LOS BOTONES DE ELIMINAR DETALLES DE COMPRA
   var botonEliminar = document.getElementsByClassName("eliminar");
@@ -44,7 +49,7 @@ $(document).ready(function () {
       }
     });
   });
-}
+  }
 
   // document.getElementById('codIngresado').onblur = traerDAtosDelLocalStorage
   codIngresado.addEventListener("blur", function () {
@@ -62,6 +67,9 @@ $(document).ready(function () {
   $("#id_observacion").blur(function () {
     document.getElementById("btnAdd").focus(); //pasar el foco a btnAdd
   });
+  
+  const Detalledeventa = JSON.parse(document.getElementById('divCompraDetalle').textContent);
+    console.log(Detalledeventa);
 
   // Llamar a la función al cargar la página y cuando cambie el tamaño de la ventana
   ajustarTamanioTexto();
@@ -193,6 +201,7 @@ function cargarDatosALocalStorage() {
   //cargar lista de productos al local storage
   var jsonProductos = JSON.parse(
     document.getElementById("productos").textContent
+    
   );
   console.log(jsonProductos);
   for (let producto of jsonProductos) {
@@ -247,8 +256,9 @@ function ajaxValidarCompraDetalle() {
 
         //tomo los datos para mostrarlo en la tabla
         addRowTable(data["detalleCreado"]);
+        
 
-        total.value = data["detalleCreado"].total_compra;
+        total.value = sumarTablaHTML(tablaCompraDetalles,10);
 
         //desplazo el scroll para mostra el ultimo registro
         scrollTabla();
@@ -276,8 +286,32 @@ function ajaxValidarCompraDetalle() {
   });
 }
 
+function sumarTablaHTML(tabla, columna){
+ // var tabla = document.getElementById('tablaCompraDetalles');
+  var total = 0; //inicializar en 0 el valor de la variable total
+  // Iterar sobre las filas de la tabla, empezando desde la segunda fila (índice 1)
+  for (var i = 1; i < tabla.rows.length; i++){
+  
+    // Obtener el valor de la celda de la columna pedida y convertirlo a número
+    let valItem = (tabla.rows[i].cells[columna].innerHTML);
+    console.log(valItem)
+    // Remover caracteres no numéricos y reemplazar comas por puntos
+    valItem = valItem.replace(/[^\d.,]/g, '').replace('.', '');
+    console.log(valItem)
+    // Convertir el valor a número
+    let valorNumerico = parseFloat(valItem);
+    // Verificar si valorNumerico es un número válido
+    if (!isNaN(valorNumerico)) {
+      total += valorNumerico; // Acumularlo
+   }
+  }
+    console.log(total)
+    return total
+
+}
+
 function scrollTabla() {
-  var tabla = document.getElementById("tCompraDetalles");
+  var tabla = document.getElementById("tablaCompraDetalles");
   // TODO Medir el scroll y dar la medida excacta
   tabla.scrollTop = "9999";
 }
@@ -365,7 +399,13 @@ function addRowTable(data) {
             descPosIva = Number.parseFloat(innerObject["fields"]["descuento_pos_iva"]).toFixed(2);
             iva = Number.parseFloat(innerObject["fields"]["iva"]).toFixed(2);
             flete = Number.parseFloat(innerObject["fields"]["flete"]).toFixed(2);
-            neto = Number.parseFloat(innerObject["fields"]["neto"]).toFixed(2);
+            
+            neto = Number.parseFloat(innerObject["fields"]["neto"]);
+            // Formatear sin redondear
+            neto = neto.toLocaleString('es-CO', { style: 'decimal', maximumFractionDigits: 2 });
+            // Aplicar toFixed después del formateo
+            
+
             if (innerObject["fields"]["observacion"] == null) {
               obse = "";
             } else {

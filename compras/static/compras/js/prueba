@@ -1,0 +1,67 @@
+mainObject = [{"model": "compras.compradetalles", "pk": 81, "fields": {"state": 0, "created": "2024-05-01T19:25:10.014Z", "creater": null, "updated": null, "updater": null, "deleted": null, "deleter": null, "compra": 2, "producto": 3, "paquetes": "1", "unidades": 10, "valor_paquete": 5000.0, "descuento_pre_iva": 0.0, "descuento_pos_iva": 0.0, "iva": 0, "flete": "0", "neto": "500", "observacion": null}}]
+data = mainObject
+// Recorrer el objeto principal
+for (var key in mainObject) {
+  // Verificar si la clave es propia del objeto y no heredada
+  if (mainObject.hasOwnProperty(key)) {
+      console.log("5. Key:", key);
+      // Acceder al objeto interno a través de la clave y recorrerlo
+      var innerObject = mainObject[key];
+      for (var innerKey in innerObject) {
+              console.log("11. Key:", innerKey);
+          if (innerObject.hasOwnProperty(innerKey)) {
+            if (innerKey === "fields"){ //encontrando el diccionario de fields
+              for (var field in innerObject[innerKey]){
+                console.log("field: ", field, "Value: " , innerObject[innerKey][field]) 
+
+
+              }
+            }  
+
+     //       innerObject[innerKey]("Inner Key:", innerKey, "Value:", innerObject[innerKey]);
+          }
+      }
+  }
+}
+for (x in data){
+    id = (data[x]['fields'].neto);
+    console.log(id)
+    compra = (data[x].compra);
+    codBar = (data[x].fields.codBar);
+    nombre = (data[x].productoNombre);
+    paquetes = Number.parseFloat(data[x].fields.paquetes).toFixed(2) ;
+    unidades = Number.parseFloat(data[x].unidades).toFixed(2);
+    valorPaquete = Number.parseFloat(data[x].valorPaquete).toFixed(2);
+    descPreIva = Number.parseFloat(data[x].descuentoPreIva).toFixed(2);
+    descPosIva = Number.parseFloat(data[x].descuentoPosIva).toFixed(2);
+    iva = Number.parseFloat(data[x].iva).toFixed(2);
+    flete = Number.parseFloat(data[x].flete).toFixed(2);
+    neto = Number.parseFloat(data[x].neto).toFixed(2);    
+    if ((data[x].observacion)== null){  
+      obse = "";
+    }
+    else{
+      obse = (data[x].observacion);
+    }
+  //  btnEditar  = "<a href='''{% url 'compras:eliminarDetalleCompra' x.id %}''' class = '' ><i class='fas fa-pen'></i>"
+    btnEditar  = "<button type='button'  data-bs-toggle='modal' data-bs-target='#modal_pago'><i class='fas fa-pen' aria-hidden='true'></i></button>"
+    btnEditar  = "<button type='button'  data-bs-toggle='modal' data-bs-target='#modal_pago' class = 'btn btn-primary btn-sm' style= 'width=35px;'><i class='fas fa-pen' aria-hidden='true'></i></button>"
+    btnElimiar = "<a href='''{% url 'compras:eliminarDetalleCompra' x.id %}''' class = '' ><i class='fas fa-trash-alt'></i>"
+
+    btns = btnEditar + "&nbsp;&nbsp;" + btnElimiar
+    
+    tdtd =  "</td><td>"
+    tdtd_r =  "</td><td class='text-end'>"
+
+    //TODO Mostrar datos resumen
+    
+    var fila="<tr><th scope='row'> " +  id + "</th><td>"+ codBar + tdtd + nombre + tdtd + paquetes  + tdtd + unidades + tdtd + valorPaquete + tdtd_r + descPreIva +  tdtd_r + iva + tdtd_r +  descPosIva + tdtd_r + flete + tdtd_r + neto + tdtd_r + obse + tdtd + btns + "</td></tr>";
+    
+    console.log(fila)
+    let ntr = document.createElement("TR")
+    ntr.innerHTML = fila
+    //let tabla = document.getElementById('tb_compraDetalles')   
+    document.getElementById('tb_compraDetalles').appendChild(ntr);
+    //tabla.appendChild(ntr);
+  }
+    
